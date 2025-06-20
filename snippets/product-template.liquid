@@ -5,6 +5,19 @@
 {% endcomment %}
 
 {{ 'chums-swatches.css' | asset_url | stylesheet_tag }}
+{% comment %}
+style overrides below are for minimum size and spacing rules
+for WCAG 2.2 AA compliance.
+{% endcomment %}
+{% style %}
+  .js-qty__wrapper {
+    max-width: 90px;
+    min-width: 70px;
+  }
+  .jdgm-histogram__star .jdgm-star {
+    padding: 5px 10px 0 0 !important;
+  }
+{% endstyle %}
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
 

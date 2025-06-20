@@ -2808,14 +2808,12 @@ theme.recentlyViewed = {
   
         status.loading = true;
   
-        var data = theme.utils.serialize(this.form);
+        var data = new FormData(this.form);
   
         fetch(theme.routes.cartAdd, {
           method: 'POST',
           body: data,
-          credentials: 'same-origin',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
           }
         })
@@ -2823,6 +2821,7 @@ theme.recentlyViewed = {
         .then(function(data) {
           if (data.status === 422) {
             this.error(data);
+            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
           } else {
             var product = data;
             this.success(product);
@@ -4729,7 +4728,8 @@ theme.recentlyViewed = {
         <div class="grid__item grid-product ${gridWidth} aos-animate" data-aos="row-of-${rowOf}">
           <div class="grid-product__content">
             <a href="${product.url}" class="grid-product__link">
-              <div class="grid-product__image-mask">
+                <!-- aria-hidden="true" due to image alt text just includes product title, duplicated below // SM:2025.06.20, rule: image-redundant-alt -->
+              <div class="grid-product__image-mask" aria-hidden="true">
                 ${image}
               </div>
               <div class="grid-product__meta">

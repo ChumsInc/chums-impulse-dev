@@ -54,7 +54,7 @@
 <div class="page-width page-width--narrow page-content">
   <article class="article">
     {%- unless section.settings.image_hero and article.image -%}
-      {%- render 'breadcrumbs', article:article -%}
+      {%- render 'breadcrumbs' -%}
 
       <header class="section-header">
         {%- if section.settings.blog_show_date or article.tags.size > 0 or articles.comments_count > 0 -%}

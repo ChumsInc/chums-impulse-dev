@@ -1,7 +1,6 @@
 {%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
 
 <div class="page-width page-width--narrow">
-
   {%- if section.settings.title != blank -%}
     <header class="section-header">
       <h2 class="section-header__title">
@@ -16,27 +15,24 @@
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-          {% for block in section.blocks %}
-            {% case block.type %}
-              {% when 'question' %}
-                {
-                  "@type": "Question",
-                  "name": {{ block.settings.title | json }},
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ block.settings.text | json }}
-                  }
-                }{% unless forloop.last %},{% endunless %}
-            {% endcase %}
-          {% endfor %}
+          {%- assign faq_items = section.blocks | where: "type", "question" -%}
+          {%- for block in faq_items -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.title | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.text | json }}
+              }
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
         ]
       }
     </script>
-
     {%- for block in section.blocks -%}
       <div {{ block.shopify_attributes }}>
         {% case block.type %}
-          {% when 'rich-text'%}
+          {% when 'rich-text' %}
             <div class="index-section index-section--faq">
               <div class="text-{{ block.settings.align_text }}">
                 {%- if block.settings.title != blank -%}
@@ -47,16 +43,20 @@
                 {%- if block.settings.text != blank -%}
                   <div class="rte">
                     {%- if block.settings.enlarge_text %}<div class="enlarge-text">{% endif -%}
-                      {{ block.settings.text }}
+                    {{ block.settings.text }}
                     {%- if block.settings.enlarge_text %}</div>{% endif -%}
                   </div>
                 {%- endif -%}
               </div>
             </div>
 
-          {% when 'question'%}
+          {% when 'question' %}
             <div>
-              <button type="button" class="collapsible-trigger collapsible-trigger--inline collapsible--auto-height text-left" aria-controls="FAQ-content-{{ block.id }}">
+              <button
+                type="button"
+                class="collapsible-trigger collapsible-trigger--inline collapsible--auto-height text-left"
+                aria-controls="FAQ-content-{{ block.id }}"
+              >
                 {%- render 'collapsible-icons-alt', no_circle: true -%}
                 <span>{{ block.settings.title }}</span>
               </button>

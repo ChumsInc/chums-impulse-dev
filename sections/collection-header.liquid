@@ -35,46 +35,44 @@
 
       <div class="collection-hero">
 
-      {%- if section.settings.parallax -%}
-        <parallax-image class="parallax-container">
-          <div class="parallax-image" data-movement="15%" data-parallax-image
-               data-angle="{{ section.settings.parallax_direction }}">
-            {%- endif -%}
+        {%- if section.settings.parallax -%}
+          <parallax-image class="parallax-container">
+            <div class="parallax-image" data-movement="15%" data-parallax-image data-angle="{{ section.settings.parallax_direction }}">
+        {%- endif -%}
 
-            {%- render 'image-element',
+          {%- render 'image-element',
               img: collection.image,
               img_width: 2400,
-              classes: desktop_classes,
+              classes: 'collection-hero__image image-fit',
               preload: true,
               loading: 'eager',
-            -%}
-            {%- if has_mobile_image -%}
+          -%}
+              {%- if has_mobile_image -%}
               {%- render 'image-element',
                 img: mobile_image,
                 classes: 'medium-up--hide collection-hero__image',
                 preload: true,
                 loading: 'eager',
               -%}
-            {%- endif %}
-
-            {%- if section.settings.parallax -%}
-          </div>
-        </parallax-image>
+              {%- endif -%}
+        {%- if section.settings.parallax -%}
+            </div>
+          </parallax-image>
         {%- endif -%}
 
         {% if section.settings.collection_title_below == false %}
-          <div class="collection-hero__content">
-            <div class="page-width">
-              <header class="section-header section-header--hero">
-                <div class="section-header__shadow">
-                  {%- render 'breadcrumbs' -%}
-                  <h1 class="section-header__title">
-                    {{ collection.title }}
-                  </h1>
-                </div>
-              </header>
-            </div>
+        <div class="collection-hero__content">
+          <div class="page-width">
+            <header class="section-header section-header--hero">
+              <div class="section-header__shadow">
+                {%- render 'breadcrumbs' -%}
+                <h1 class="section-header__title">
+                  {{ collection.title }}
+                </h1>
+              </div>
+            </header>
           </div>
+        </div>
         {% endif %}
       </div>
     </div>
@@ -163,11 +161,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "footer",
-      "header",
-      "custom.popups"
-    ]
+    "groups": ["footer", "header", "custom.popups"]
   }
 }
 {% endschema %}

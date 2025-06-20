@@ -2,7 +2,7 @@
   assign show_section = true
   if template == 'index' and section.settings.hide_homepage
     assign show_section = false
-  endif
+  endif -%
 -%}
 
 {%- if show_section -%}
@@ -14,7 +14,7 @@
       endif
     -%}
 
-    <div class="index-section" role="complementary">
+    <div class="index-section">
       <div class="section--divider">
         <div class="page-width footer-promotions">
           <div class="grid grid--flush-bottom">
@@ -67,34 +67,6 @@
       "type": "checkbox",
       "id": "hide_homepage",
       "label": "t:sections.footer-promotions.settings.hide_homepage.label"
-    },
-    {
-      "type": "select",
-      "id": "image_size",
-      "label": "t:sections.footer-promotions.settings.image_size.label",
-      "default": "wide",
-      "options": [
-        {
-          "value": "natural",
-          "label": "t:sections.footer-promotions.settings.image_size.options.natural.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.footer-promotions.settings.image_size.options.square.label"
-        },
-        {
-          "value": "landscape",
-          "label": "t:sections.footer-promotions.settings.image_size.options.landscape.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.footer-promotions.settings.image_size.options.portrait.label"
-        },
-        {
-          "value": "wide",
-          "label": "t:sections.footer-promotions.settings.image_size.options.wide.label"
-        }
-      ]
     }
   ],
   "blocks": [

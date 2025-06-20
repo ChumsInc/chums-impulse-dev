@@ -327,7 +327,7 @@
       "add_to_cart": "Adicionar ao carrinho",
       "preorder": "Pedido antecipado",
       "include_taxes": "Taxas incluídas.",
-      "shipping_policy_html": "<a href='{{ link }}'>Frete</a> calculado no checkout.",
+      "shipping_policy_html": "<a href='{{ link }}'>Frete<\/a> calculado no checkout.",
       "will_not_ship_until": "Envio a partir de {{ date }}",
       "will_be_in_stock_after": "Em estoque a partir de {{ date }}",
       "waiting_for_stock": "Inventory no caminho",
@@ -335,14 +335,14 @@
       "view_in_space_label": "Ver em seu espaço, carregar item na janela de realidade aumentada"
     }
   },
-  "store_availability": {
-    "general": {
+  "store_availability":{
+    "general":{
       "view_store_info": "Exibir informações de loja",
       "check_other_stores": "Ver disponibilidade em outras lojas",
       "pick_up_available": "transbordo",
       "pick_up_currently_unavailable": "Captador atualmente indisponível",
-      "pick_up_available_at_html": "Captador disponível em <strong> {{location_name}} </strong>",
-      "pick_up_unavailable_at_html": "Captador disponível atualmente em <strong> {{location_name}} </strong>"
+      "pick_up_available_at_html": "Captador disponível em <strong> {{location_name}} <\/strong>",
+      "pick_up_unavailable_at_html": "Captador disponível atualmente em <strong> {{location_name}} <\/strong>"
     }
   },
   "gift_cards": {
@@ -358,7 +358,7 @@
       "add_to_apple_wallet": "Adicionar ao Apple Wallet"
     }
   },
-  "date_formats": {
+  "date_formats":{
     "month_day_year": "%d de %B de %Y"
   }
 }

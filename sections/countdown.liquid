@@ -102,7 +102,7 @@
               data-hour="{{ block.settings.hour }}"
               data-minute="{{ block.settings.minute }}"
               data-hide-timer="{{ block.settings.hide_timer }}"
-              data-complete-message="{{ block.settings.text }}"
+              data-complete-message="{{ block.settings.text | escape }}"
             >
               <div class="countdown__display countdown__display--visible" data-time-display>
                 <div class="countdown__display-block">

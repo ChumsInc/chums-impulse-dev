@@ -19,7 +19,12 @@
   <a href="{{ section.settings.link }}">
 {% endif %}
 <div class="scrolling-text scrolling-text--{{ section.id }}">
-  <div class="scrolling-text__inner scrolling-text__inner--{{ section.settings.direction }}" aria-hidden="true" tabindex="0" style="gap: {% if section.settings.text_spacing %}40px{% else %}10px{% endif %};">
+  <div
+    class="scrolling-text__inner scrolling-text__inner--{{ section.settings.direction }}"
+    aria-hidden="true"
+    tabindex="0"
+    style="gap: {% if section.settings.text_spacing %}40px{% else %}10px{% endif %};"
+  >
     {% for i in (1..35) %}
       <span>{{ section.settings.text }}</span>
     {% endfor %}

@@ -36,7 +36,7 @@
       "signup_form_success": "We will send you an email right before we open!",
       "admin_link_html": "Store owner? <a href=\"/admin\" class=\"text-link\">Log in here</a>",
       "password_link": "Password",
-      "powered_by_shopify_html": " "
+      "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
     },
     "breadcrumbs": {
       "home": "Home",
@@ -178,23 +178,6 @@
       "email": "Email",
       "phone": "Phone number",
       "message": "Message",
-      "send": "Send",
-      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
-    },
-    "pro-form": {
-      "name": "Name",
-      "email": "Email",
-      "address": "Address",
-      "city": "City",
-      "province": "State/Province",
-      "zip": "Postal/Zip code",
-      "phone": "Phone number",
-      "message": "Message",
-      "reason": "Why do you want to be a Chums Pro?",
-      "company": "Company",
-      "website": "Website",
-      "title": "Title",
-      "explain": "Explain Here",
       "send": "Send",
       "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
     }

@@ -1,4 +1,3 @@
-{% include 'shogun-content-handler' %}
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
 <head>
@@ -32,8 +31,6 @@
   {{ 'vendor/qrcode.js' | shopify_asset_url | script_tag }}
 
   {{ content_for_header }}
-
-  {% render 'shogun-head' %}
 </head>
 
 <body class="template-giftcard" data-center-text="{{ settings.type_body_align_text }}" data-button_style="{{ settings.button_style }}" data-type_header_capitalize="{{ settings.type_header_capitalize }}" data-type_headers_align_text="{{ settings.type_headers_align_text }}" data-type_product_capitalize="{{ settings.type_product_capitalize }}" data-swatch_style="{{ settings.swatch_style }}">

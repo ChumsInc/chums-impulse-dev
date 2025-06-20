@@ -105,23 +105,22 @@ article
         {%- assign elPosition = 0 -%}
         {%- capture asd %}{% increment elPosition %}{% endcapture -%}
         <span class="breadcrumb__divider" aria-hidden="true">/</span>
-        <!-- check to see if current_tags value is required here or if this should be similar to branch chums-impulse-7.5.0 -->
-        {% if current_tags %}
-          {{ blog.title | link_to: blog.url }}
-          {% if blog.handle %}
-            {%- capture jsonldElement -%}
-              {"@type": "ListItem","position": {% increment elPosition %},"name": "{{ blog.title }}","item": "{{ shop.url }}{{ blog.url }}"}
-            {%- endcapture -%}
-            {%- assign jsonld = jsonld | append: ", " | append: jsonldElement -%}
-            <span class="breadcrumb__divider" aria-hidden="true">/</span>
-            <span>{{ current_tags | join: " + " }}</span>
-          {% endif %}
-        {% endif %}
-        {% unless jsonld == '' %}
+      {% if current_tags %}
+        {{ blog.title | link_to: blog.url }}
+      {% if blog.handle %}
+        {%- capture jsonldElement -%}
+          {"@type": "ListItem","position": {% increment elPosition %},"name": "{{ blog.title }}","item": "{{ shop.url }}{{ blog.url }}"}
+        {%- endcapture -%}
+        {%- assign jsonld = jsonld | append: ", " | append: jsonldElement -%}
+        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+        <span>{{ current_tags | join: " + " }}</span>
+      {% endif %}
+      {% endif %}
+      {% unless jsonld == '' %}
         <script type="application/ld+json">
           {"@context": "https://schema.org","@type": "BreadcrumbList","itemListElement": [{{ jsonld }}]}
-        </script>          
-        {% endunless %}
+        </script>
+      {% endunless %}
 
 
       {% elsif template.name == 'article' %}
