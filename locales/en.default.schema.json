@@ -4217,6 +4217,184 @@
       }
     }
   },
+    "flex_pdp": {
+      "section": {
+        "high_variant": {
+          "name": "Product: 250+ variants",
+          "settings": {
+            "padding": {
+              "label": "Padding",
+              "options": {
+                "none": {
+                  "label": "None"
+                },
+                "top": {
+                  "label": "Top"
+                },
+                "bottom": {
+                  "label": "Bottom"
+                },
+                "both": {
+                  "label": "Both"
+                }
+              }
+            }
+          },
+          "presets": {
+            "high_variant": {
+              "name": "Product (250+ Variants)"
+            }
+          }
+        }
+      },
+    "blocks": {
+      "buy_buttons": {
+        "name": "Buy buttons",
+        "settings": {
+          "show_dynamic_checkout": {
+            "label": "Show accelerated checkout button",
+            "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/en/manual/online-store/dynamic-checkout)"
+          }
+        },
+        "presets": {
+          "buy_buttons": {
+            "name": "Buy buttons"
+          }
+        }
+      },
+      "description": {
+        "name": "Description"
+      },
+      "divider": {
+        "name": "Divider"
+      },
+      "installments": {
+        "name": "Payment installments",
+        "settings": {
+          "content": "To display payment installments, your store needs to support Shop Pay Installments. [Learn more](https://help.shopify.com/en/manual/payments/shop-pay-installments)."
+        }
+      },
+      "inventory": {
+        "name": "Inventory",
+        "settings": {
+          "content": "Renders the inventory status for the product based on the inventory threshold, including low stock warning and incoming inventory.",
+          "inventory_threshold": {
+            "label": "Low inventory threshold"
+          }
+        }
+      },
+      "media_gallery": {
+        "name": "Media gallery",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Aspect ratio",
+            "options": {
+              "initial": {
+                "label": "Natural"
+              },
+              "portrait": {
+                "label": "Portrait"
+              },
+              "square": {
+                "label": "Square"
+              },
+              "landscape": {
+                "label": "Landscape"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Video looping"
+          },
+          "enable_video_autoplay": {
+            "label": "Autoplay video",
+            "info": "Autoplayed videos are muted for accessibility."
+          }
+        }
+      },
+      "media_grid": {
+        "name": "Media grid",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Aspect ratio",
+            "options": {
+              "initial": {
+                "label": "Natural"
+              },
+              "portrait": {
+                "label": "Portrait"
+              },
+              "square": {
+                "label": "Square"
+              },
+              "landscape": {
+                "label": "Landscape"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Video looping"
+          },
+          "enable_video_autoplay": {
+            "label": "Autoplay video",
+            "info": "Autoplayed videos are muted for accessibility."
+          }
+        }
+      },
+      "pick_up": {
+        "name": "Pickup availability",
+        "settings": {
+          "content": "Shows retail availability when local pickup is enabled. [Learn more](https://help.shopify.com/en/manual/fulfillment/setup/delivery-methods/pickup-in-store)."
+        }
+      },
+      "policies": {
+        "name": "Policies",
+        "settings": {
+          "content": "Shows if tax is included in the price and links to your shipping policy (if set). [Learn how to set up tax-inclusive pricing](https://help.shopify.com/en/manual/taxes) and [learn how to add a shipping policy](https://help.shopify.com/en/manual/fulfillment/setup/shipping-profiles#create-a-shipping-policy)."
+        }
+      },
+      "price": {
+        "name": "Price"
+      },
+      "quantity_picker": {
+        "name": "Quantity picker",
+        "settings": {
+          "show_inventory_status": {
+            "label": "Show inventory status"
+          },
+          "inventory_threshold": {
+            "label": "Low stock threshold"
+          }
+        }
+      },
+      "sku": {
+        "name": "SKU"
+      },
+      "title": {
+        "name": "Title"
+      },
+      "variant_picker": {
+        "name": "Variant picker",
+        "settings": {
+          "variant_selector_type": {
+            "label": "Style",
+            "options": {
+              "radio": {
+                "label": "Buttons"
+              },
+              "select": {
+                "label": "Dropdowns"
+              }
+            },
+            "info": "Show product options as buttons and swatches or dropdowns. [Learn how to set up color swatches](https://help.shopify.com/en/manual/custom-data/metafields/category-metafields/using-category-metafields)."
+          }
+        }
+      },
+      "vendor": {
+        "name": "Vendor"
+      }
+    }
+  },
   "common": {
   "color_scheme": {
     "label": "Color scheme",

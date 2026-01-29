@@ -1,0 +1,60 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A 3D model viewer component that integrates with Shopify's native model viewer.
+  Features progressive enhancement with configurable autoplay and aspect ratios.
+
+  @param {product} [product] - Product object containing the 3D model
+  @param {media} [media] - Media object containing the 3D model
+  @param {boolean} [autoplay] - Whether the model should autoplay (default: true)
+  @param {string} [media_crop] - Crop type of the media (16-9, portrait, landscape, square) (default: 'square')
+  @param {string} [hydration] - Hydration strategy for the component (default: 'on:visible')
+
+  @example
+  {% render 'element.model', product: product, media: media %}
+{% enddoc %}
+
+{% liquid
+  assign product = section.settings.product | default: product
+  assign media = media | default: product.media | where: 'media_type', 'model' | first
+  assign autoplay = autoplay | default: section.settings.autoplay, allow_false: true | default: true, allow_false: true
+  assign media_crop = media_crop | default: section.settings.media_crop | default: 'square'
+  assign hydration = hydration | default: 'on:visible'
+%}
+
+<is-land {{ hydration }}>
+  <div style="aspect-ratio: 1/1;">
+    {% if product != blank %}
+      {% if media %}
+        <link
+          rel="stylesheet"
+          href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+          media="print"
+          onload="this.media='all'; this.onload = null"
+        >
+
+        <model-media
+          style="display: block; height: 100%;"
+          handle="{{ product.handle }}"
+          {% if autoplay %}
+            autoplay
+          {% endif %}
+          defer-hydration
+        >
+          {{
+            media
+            | model_viewer_tag: image_size: '2048x', reveal: 'interaction', toggleable: true, defer-hydration: true
+          }}
+        </model-media>
+      {% endif %}
+    {%- else -%}
+      {% render 'element.placeholder', name: 'image' %}
+    {%- endif -%}
+  </div>
+
+  <template data-island>
+    <script type="module">
+      import 'element.model'
+    </script>
+  </template>
+</is-land>

@@ -1,0 +1,18 @@
+{% render 'section.flex-pdp.installments', product: closest.product %}
+
+{% schema %}
+{
+  "name": "t:flex_pdp.blocks.installments.name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:flex_pdp.blocks.installments.settings.content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:flex_pdp.blocks.installments.name"
+    }
+  ]
+}
+{% endschema %}

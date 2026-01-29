@@ -1,0 +1,56 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders the buy buttons for the product, including add to cart and dynamic checkout options.
+
+  This component creates a product form with both standard "Add to Cart" functionality and
+  Shopify's dynamic checkout buttons (Shop Pay, Apple Pay, Google Pay, etc.) when enabled.
+
+  @param {object} product - A product object
+  @param {boolean} [enable_dynamic_checkout] - Whether to show dynamic checkout buttons (default: true)
+
+  @example
+  {% render 'section.flex-pdp.buy-buttons', enable_dynamic_checkout: true, product: closest.product %}
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'section.flex-pdp.form-' | append: section.id
+  assign enable_dynamic_checkout = enable_dynamic_checkout | default: block.settings.show_dynamic_checkout, allow_false: true | default: true, allow_false: true
+-%}
+
+{% capture dynamic_checkout_content %}
+  {% form 'product', product %}
+    {{- form | payment_button -}}
+  {% endform %}
+{% endcapture %}
+
+{% capture dynamic_checkout_buttons %}
+  {% render 'element.button', slot: dynamic_checkout_content, shopify_payment: true %}
+{% endcapture %}
+
+{% capture product_add_to_cart_content %}
+  {% assign use_inverted = false %}
+  {% if enable_dynamic_checkout %}
+    {% assign use_inverted = true %}
+  {% endif %}
+  {% if product.selected_or_first_available_variant.available %}
+    {% render 'element.button', text: 'Add to Cart', type: 'submit', full: true, inverted: use_inverted %}
+  {% else %}
+    {% render 'element.button', text: 'Sold Out', type: 'submit', disabled: true, full: true, inverted: use_inverted %}
+  {% endif %}
+  {% render 'form.product.messages', id: form_id %}
+{% endcapture %}
+
+{% capture product_add_to_cart_stack %}
+  {% render 'layout.stack', gap: 'xs', slot: product_add_to_cart_content, align: 'center' %}
+{% endcapture %}
+
+{% capture product_buy_buttons %}
+  {{ product_add_to_cart_stack }}
+
+  {% if enable_dynamic_checkout %}
+    {{ dynamic_checkout_buttons }}
+  {% endif %}
+{%  endcapture %}
+
+{% render 'layout.stack', gap: 'xs', slot: product_buy_buttons %}

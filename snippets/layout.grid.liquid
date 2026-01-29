@@ -1,0 +1,224 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile grid layout component that provides flexible column-based layouts with responsive control.
+  Supports various styling options including gaps, lines between columns, and color schemes. The grid
+  automatically adjusts columns across different breakpoints and can optionally fill remaining space
+  with placeholder columns. Highly customizable through props while maintaining consistent layout patterns.
+
+  @param {string} slot - The slot content to wrap
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [style] - Inline styles to apply
+  @param {string} [variant] - The variant of the grid (default: 'gap'), options: 'line', 'line-internal', 'gap'
+  @param {string} [color_scheme] ('none'|'1'|'2'|'3') - The color scheme of the grid (default: 'none')
+  @param {string} [align] ('stretch'|'center'|'start'|'end') - The alignment of the grid (default: 'stretch')
+  @param {string} [justify] ('stretch'|'center'|'start'|'end') - The alignment of the grid (default: 'stretch')
+  @param {string} [justify_content] ('normal'|'center'|'start'|'end') - The alignment of the grid (default: 'normal')
+  @param {string} [align_content] ('normal'|'center'|'start'|'end') - The alignment of the grid (default: 'normal')
+  @param {number} [columns] <responsive> - The number of columns in the grid (same for all screens)
+  @param {string} [gap] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - The size of the gap between the grid items (same for all screens)
+  @param {string} [gap_row] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - The size of the gap between the grid rows (same for all screens)
+  @param {string} [gap_col] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - The size of the gap between the grid columns (same for all screens)
+  @param {string} [lines] <responsive> ('none'|'xs'|'sm'|'md'|'lg'|'xl') - The size of lines in the grid (default: 'sm')
+  @param {number} [item_count] - The number of items in the grid. If provided, the grid will automatically add filler columns to the end of the grid to fill the remaining space when using the 'line' or 'line-internal' variant.
+
+  @example
+  {% render 'layout.grid', slot: grid_items, columns: 3, gap: 'md', align: 'start' %}
+{% enddoc %}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  /* Public Layout Grid Tokens */
+  :root {
+    /* Layout Grid Gap Sizes - These are assigned by the value passed to the 'gap' param */
+    --layout-grid-gap-size-none: 0px;
+    --layout-grid-gap-size-3xs: var(--gap-size-3xs);
+    --layout-grid-gap-size-2xs: var(--gap-size-2xs);
+    --layout-grid-gap-size-xs: var(--gap-size-xs);
+    --layout-grid-gap-size-sm: var(--gap-size-sm);
+    --layout-grid-gap-size-md: var(--gap-size-md);
+    --layout-grid-gap-size-lg: var(--gap-size-lg);
+    --layout-grid-gap-size-xl: var(--gap-size-xl);
+    --layout-grid-gap-size-2xl: var(--gap-size-2xl);
+
+    /* Layout Grid Line Sizes - These are assigned by the value passed to the 'lines' param */
+    --layout-grid-line-size-none: 0px;
+    --layout-grid-line-size-xs: var(--line-size-xs);
+    --layout-grid-line-size-sm: var(--line-size-sm);
+    --layout-grid-line-size-md: var(--line-size-md);
+    --layout-grid-line-size-lg: var(--line-size-lg);
+    --layout-grid-line-size-xl: var(--line-size-xl);
+
+    --layout-grid-line-color-shade: 12%;
+  }
+{% endstylesheet %}
+
+{% liquid
+  assign classlist = classlist | default: '' | append: ' layout-grid' | strip
+  assign style = style | default: ''
+  assign align = align | default: 'stretch'
+  assign justify = justify | default: 'stretch'
+  assign justify_content = justify_content | default: 'normal'
+  assign align_content = align_content | default: 'normal'
+  assign variant = variant | default: 'gap'
+  assign item_count = item_count | default: null
+  assign color_scheme = color_scheme | default: 'none'
+
+  assign breakpoints = 'xs,sm,md,lg,xl' | split: ','
+
+  # Align Items
+  assign style = style | append: '--_align-items: ' | append: align | append: ';'
+  assign style = style | append: '--_justify-items: ' | append: justify | append: ';'
+  assign style = style | append: '--_justify-content: ' | append: justify_content | append: ';'
+  assign style = style | append: '--_align-content: ' | append: align_content | append: ';'
+
+  # Columns w/ Breakpoints
+  assign columns_xs = columns_xs | default: columns | default: 3
+  assign columns_breakpoint_map = null | default: xs: columns_xs, sm: columns_sm, md: columns_md, lg: columns_lg, xl: columns_xl
+
+  if variant contains 'line'
+    assign classlist = classlist | append: ' layout-grid--' | append: variant
+
+    # Filler Columns w/ Breakpoints
+    assign filler_spans = ''
+    assign filler_displays = ''
+    for breakpoint in breakpoints
+      assign columns_value = columns_breakpoint_map[breakpoint]
+
+      unless columns_value == nil
+        assign leftover_value = item_count | modulo: columns_value | at_least: 1
+        assign filler_columns_value = columns_value | minus: leftover_value
+
+        if filler_columns_value > 0
+          assign filler_display_value = 'block'
+        else
+          assign filler_display_value = 'none'
+        endif
+      else
+        assign filler_columns_value = ''
+        assign filler_display_value = ''
+      endunless
+
+      assign filler_spans = filler_spans | append: filler_columns_value | append: ','
+      assign filler_displays = filler_displays | append: filler_display_value | append: ','
+    endfor
+
+    assign filler_spans = filler_spans | split: ','
+    assign filler_displays = filler_displays | split: ','
+    assign filler_span_breakpoint_map = null | default: xs: filler_spans[0], sm: filler_spans[1], md: filler_spans[2], lg: filler_spans[3], xl: filler_spans[4]
+    assign filler_display_breakpoint_map = null | default: xs: filler_displays[0], sm: filler_displays[1], md: filler_displays[2], lg: filler_displays[3], xl: filler_displays[4]
+
+    # Line Size w/ Breakpoints
+    assign lines_xs = lines_xs | default: lines | default: 'sm'
+    assign lines_breakpoint_map = null | default: xs: lines_xs, sm: lines_sm, md: lines_md, lg: lines_lg, xl: lines_xl
+  elsif variant == 'gap'
+    assign classlist = classlist | append: ' layout-grid--gap'
+    assign gap_xs = gap_xs | default: gap | default: 'none'
+    assign gap_breakpoint_map = null | default: xs: gap_xs, sm: gap_sm, md: gap_md, lg: gap_lg, xl: gap_xl
+
+    assign gap_row_xs = gap_row_xs | default: gap_row | default: ''
+    assign gap_row_breakpoint_map = null | default: xs: gap_row_xs, sm: gap_row_sm, md: gap_row_md, lg: gap_row_lg, xl: gap_row_xl
+
+    assign gap_col_xs = gap_col_xs | default: gap_col | default: ''
+    assign gap_col_breakpoint_map = null | default: xs: gap_col_xs, sm: gap_col_sm, md: gap_col_md, lg: gap_col_lg, xl: gap_col_xl
+  endif
+
+  if color_scheme != 'none'
+    assign classlist = classlist | append: ' color-scheme-' | append: color_scheme | strip
+  endif
+%}
+
+<layout-grid>
+  <template shadowrootmode="open">
+    <style>
+      /* Private Layout Grid Styles */
+      :host {
+        display: contents;
+      }
+
+      .layout-grid {
+        display: grid;
+        align-items: var(--_align-items);
+        grid-template-columns: repeat(var(--_columns), minmax(0, 1fr));
+        justify-content: var(--_justify-content);
+        align-content: var(--_align-content);
+      }
+
+      .layout-grid--line,
+      .layout-grid--line-internal {
+        --_color-primary: var(--color-primary, black);
+        --_color-secondary: var(--color-secondary, white);
+        --_shade-line: var(--layout-grid-line-color-shade);
+        --_color-line: color-mix(in srgb, var(--_color-primary) var(--_shade-line), var(--_color-secondary));
+
+        grid-gap: var(--_line-size);
+        gap: var(--_line-size);
+        background-color: var(--_color-line);
+
+        &:after {
+          content: '';
+          display: var(--_filler-display);
+          height: 100%;
+          grid-column: span var(--_filler-span);
+          background-color: var(--_color-secondary);
+        }
+
+        &:is(.layout-grid--line) {
+          padding: var(--_line-size);
+        }
+      }
+
+      .layout-grid--gap {
+        gap: var(--_gap);
+        row-gap: var(--_row-gap, var(--_gap));
+        column-gap: var(--_column-gap, var(--_gap));
+        background-color: transparent;
+      }
+    </style>
+
+    {% render 'utility.breakpoint-style', property: '_columns', selector: '.layout-grid', values: columns_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_line-size', selector: '.layout-grid', value_type: 'property', value_prefix: '--layout-grid-line-size-', values: lines_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_gap', selector: '.layout-grid', value_type: 'property', value_prefix: '--layout-grid-gap-size-', values: gap_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_row-gap', selector: '.layout-grid', value_type: 'property', value_prefix: '--layout-grid-gap-size-', values: gap_row_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_column-gap', selector: '.layout-grid', value_type: 'property', value_prefix: '--layout-grid-gap-size-', values: gap_col_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_filler-span', selector: '[class*="layout-grid--line"]', values: filler_span_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_filler-display', selector: '[class*="layout-grid--line"]', values: filler_display_breakpoint_map %}
+
+    <div class="{{ classlist }}" style="{{ style }}">
+      <slot></slot>
+    </div>
+  </template>
+
+  {{ slot }}
+</layout-grid>
+
+{% javascript %}
+  class LayoutGrid extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.attachShadowRoots(this);
+    }
+
+    attachShadowRoots(element) {
+      if (this.shadowRoot) {
+        return;
+      }
+      
+      element.querySelectorAll("template[shadowrootmode]").forEach(template => {
+        const mode = template.getAttribute("shadowrootmode");
+        const shadowRoot = template.parentNode.attachShadow({ mode });
+
+        shadowRoot.appendChild(template.content);
+        template.remove();
+        this.attachShadowRoots(shadowRoot);
+      });
+    }
+  }
+
+  customElements.define('layout-grid', LayoutGrid);
+{% endjavascript %}

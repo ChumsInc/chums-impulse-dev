@@ -1,0 +1,80 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders the product details and form for the product.
+
+  This component displays the product details and form for the product.
+  It includes the product title, vendor, price, installments, variant picker,
+  quantity picker, gift recipient, buy buttons, policies, pick up, and description.
+
+  @param {object} product - A product object
+  @param {string} [slot_gallery] - The slot for the gallery
+  @param {string} [slot_details] - The slot for the details
+  @param {string} [color_scheme] - The color scheme to apply to the section
+  @param {string} [padding] ('top', 'bottom', 'both', 'none') - The padding to apply to the section
+
+  @example
+  {% render 'section.flex-pdp', product: product, color_scheme: 'none', padding: 'both' %}
+{% enddoc %}
+
+
+{%- liquid
+  assign color_scheme = color_scheme | default: section.settings.color_scheme | default: 'none'
+  assign padding = padding | default: section.settings.padding | default: 'none'
+  assign form_id = 'section.flex-pdp.form-' | append: section.id
+-%}
+
+{% if slot_details == blank %}
+  {% capture slot_details %}
+    {% render 'section.flex-pdp.title', product: product %}
+    {% render 'section.flex-pdp.vendor', product: product %}
+    {% render 'section.flex-pdp.price', product: product %}
+    {% render 'section.flex-pdp.installments', product: product %}
+    {% render 'section.flex-pdp.divider' %}
+    {% render 'section.flex-pdp.variant-picker', product: product %}
+    {% render 'section.flex-pdp.quantity-picker', product: product %}
+    {% render 'section.flex-pdp.gift-recipient', product: product %}
+    {% render 'section.flex-pdp.buy-buttons', product: product %}
+    {% render 'section.flex-pdp.policies', product: product %}
+    {% render 'section.flex-pdp.pick-up', product: product %}
+    {% render 'section.flex-pdp.description', product: product %}
+  {% endcapture %}
+{% endif %}
+
+{% if slot_gallery == blank %}
+  {% capture slot_gallery %}
+    {% render 'section.flex-pdp.media-grid', product: product %}
+  {% endcapture %}
+{% endif %}
+
+{% capture product_details_stack %}
+  {% render 'layout.stack', gap_xs: 'sm', gap_sm: 'md', slot: slot_details %}
+{% endcapture %}
+
+{% capture product_form %}
+  {% render 'form.product', product: product, id: form_id, slot: product_details_stack %}
+{% endcapture %}
+
+{% capture sticky_product_form %}
+  {% render 'layout.sticky-scroller', slot: product_form %}
+{% endcapture %}
+
+{% capture grid_content %}
+  {% render 'layout.grid.cell', span_xs: 12, span_md: 7, span_lg: 8, slot: slot_gallery %}
+  {% render 'layout.grid.cell', span_xs: 12, span_md: 5, span_lg: 4, slot: sticky_product_form %}
+{% endcapture %}
+
+{% capture grid_layout %}
+  {% render 'layout.grid',
+    columns: 12,
+    slot: grid_content,
+    gap_xs: 'sm',
+    gap_sm: 'md'
+  %}
+{% endcapture %}
+
+{% capture section_layout %}
+  {% render 'layout.section', slot: grid_layout %}
+{% endcapture %}
+
+{% render 'product.hot-reload', section: section, product: product, slot: section_layout %}

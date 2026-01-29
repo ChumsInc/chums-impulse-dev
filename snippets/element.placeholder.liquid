@@ -1,0 +1,45 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders a placeholder SVG image with optional padding control and custom styling.
+
+  @param {string} [name] - The name of the placeholder SVG (default: 'image')
+  @param {boolean} [no_padding] - Whether to remove padding from the placeholder SVG
+  @param {string} [classlist] - Additional classes for the placeholder SVG
+
+  @example
+  {% render 'element.placeholder', name: 'lifestyle-1' %}
+{% enddoc %}
+
+{%- liquid
+  assign name = name | default: 'image'
+  assign no_padding = no_padding | default: false, allow_false: true
+  assign classlist = classlist | default: ''
+
+  assign classlist = classlist | append: ' element-placeholder' | strip
+
+  if no_padding
+    assign classlist = classlist | append: ' element-placeholder--no-padding' | strip
+  endif
+
+  echo name | placeholder_svg_tag: classlist
+-%}
+
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-placeholder {
+    fill: #999;
+    background-color: #e1e1e1;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    padding: 30px 0;
+  }
+
+  .element-placeholder--no-padding {
+    padding: 0;
+  }
+{% endstylesheet %}

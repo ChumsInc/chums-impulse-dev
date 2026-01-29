@@ -80,7 +80,6 @@
             <label
               for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
               class="variant__button-label color-swatch color-swatch--{{ value | handle }}{% unless product_available %} disabled{% endunless %}"
-              style="background-color: {{ color_swatch_fallback }};{% if value.swatch.image %}  background-image: url({{ color_image }});{% endif %}"
             >
               {{ value | escape }}
             </label>
@@ -90,6 +89,7 @@
               assign color_file_name = value | handle | append: '.' | append: swatch_file_extension
               assign color_image = color_file_name | file_img_url: '50x50' | prepend: 'https:' | split: '?' | first
               assign color_swatch_fallback = value | split: ' ' | last | handle
+
               assign color_swatch_code = ''
               assign product_option_index = color_option_index | plus: 1
               assign option_field = 'option' | append: product_option_index
@@ -97,12 +97,10 @@
               if current_variant
                 assign color_swatch_code = current_variant.metafields.custom.swatch_code | default: current_variant.metafields.product.color_code
               endif
-
             -%}
             <label
               for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
               class="variant__button-label color-swatch color-swatch--{{ color_swatch_code }}{% unless product_available %} disabled{% endunless %}"
-              {%- comment -%}style="background-color: {{ color_swatch_fallback }};{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% endif %}"{%- endcomment -%}
             >
               {{ value | escape }}
             </label>

@@ -1,0 +1,17 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-email element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M63 52H1V12h62ZM1 12l25.68 24h9.72L63 12M21.82 31.68 1.56 51.16m60.78.78L41.27 31.68"
+    stroke-miterlimit="10"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

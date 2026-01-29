@@ -24,6 +24,8 @@
   {%- endif -%}
 
   {%- render 'social-meta-tags' -%}
+  {%- render 'head.import-map' -%}
+  {%- render 'head.is-land' -%}
 
   {%- render 'font-face' -%}
   {{ 'theme.css' | asset_url | stylesheet_tag: preload: true }}
@@ -73,11 +75,246 @@
       predictiveSearchPrice: {{ settings.predictive_search_show_price | json }},
       quickView: {{ settings.quick_shop_enable }},
       themeName: 'Impulse',
-      themeVersion: "8.0.0"
+      themeVersion: "8.1.0"
     };
   </script>
 
   {{ content_for_header }}
+
+  {% style %}
+    :root {
+      /* Root Variables */
+      /* ========================= */
+      --root-color-primary: {{ settings.color_body_text }};
+      --color-primary: {{ settings.color_body_text }};
+      --root-color-secondary: {{ settings.color_body_bg }};
+      --color-secondary: {{ settings.color_body_bg }};
+      --color-sale-tag: {{ settings.color_sale_tag }};
+      --color-sale-tag-text: {{ settings.color_sale_tag_text }};
+      --layout-section-padding-block: 3rem;
+      --layout-section-padding-inline--md: 40px;
+      --layout-section-max-inline-size: 1420px; 
+
+
+      /* Text */
+      /* ========================= */
+      
+      /* Body Font Styles */
+      --element-text-font-family--body: {{ settings.type_base_font_family.family }};
+      --element-text-font-family-fallback--body: {{ settings.type_base_font_family.fallback_families }};
+      --element-text-font-weight--body: {{ settings.type_base_font_family.weight }};
+      --element-text-letter-spacing--body: {{ settings.type_base_spacing | default: '50' | divided_by: 1000.00 | append: 'em' }};
+      --element-text-text-transform--body: none;
+
+      /* Body Font Sizes */
+      --element-text-font-size--body: initial;
+      --element-text-font-size--body-xs: {{ settings.type_base_size | minus: 4 | default: 12 | append: 'px' }};
+      --element-text-font-size--body-sm: {{ settings.type_base_size | minus: 2 | default: 14 | append: 'px' }};
+      --element-text-font-size--body-md: {{ settings.type_base_size | default: 16 | append: 'px' }};
+      --element-text-font-size--body-lg: {{ settings.type_base_size | plus: 2 | default: 18 | append: 'px' }};
+      
+      /* Body Line Heights */
+      --element-text-line-height--body: {{ settings.type_base_line_height | default: 1.4 }};
+
+      /* Heading Font Styles */
+      --element-text-font-family--heading: {{ settings.type_header_font_family.family }};
+      --element-text-font-family-fallback--heading: {{ settings.type_header_font_family.fallback_families }};
+      --element-text-font-weight--heading: {{ settings.type_header_font_family.weight }};
+      --element-text-letter-spacing--heading: {{ settings.type_header_spacing | default: '25' | divided_by: 1000.00 | append: 'em' }};
+      
+      {% if settings.type_header_capitalize %}
+      --element-text-text-transform--heading: uppercase;
+      {% endif %} 
+      
+      
+      /* Heading Font Sizes */
+      --element-text-font-size--heading-2xl: {{ settings.type_header_base_size | plus: 16 | default: '48' | append: 'px' }};
+      --element-text-font-size--heading-xl: {{ settings.type_header_base_size | default: '32' | append: 'px' }};
+      --element-text-font-size--heading-lg: {{ settings.type_header_base_size | minus: 6 | default: '24' | append: 'px' }};
+      --element-text-font-size--heading-md: {{ settings.type_header_base_size | minus: 8 | default: '20' | append: 'px' }};
+      --element-text-font-size--heading-sm: {{ settings.type_header_base_size | minus: 14 | default: '18' | append: 'px' }};
+      --element-text-font-size--heading-xs: {{ settings.type_header_base_size | minus: 16 | default: '16' | append: 'px' }};
+      
+      /* Heading Line Heights */
+      --element-text-line-height--heading: {{ settings.type_header_line_height | default: 1.4 }};
+
+      /* Buttons */
+      /* ========================= */
+      {% if settings.button_style == 'round-slight' %}
+          --element-button-radius: 3px;
+      {% elsif settings.button_style == 'round' %}
+          --element-button-radius: 50px;
+      {% else %}
+          --element-button-radius: 0;
+      {% endif %}
+
+      --element-button-padding-block: 12px;
+      --element-button-text-transform: uppercase;
+      --element-button-font-weight: 800;
+      --element-button-font-size: max(calc(var(--typeBaseSize) - 4px), 13px);
+      --element-button-letter-spacing: .3em;
+
+      /* Base Color Variables */
+      --element-button-color-primary: {{ settings.color_button }};
+      --element-button-color-secondary: {{ settings.color_button_text }};
+      --element-button-shade-border: 100%;
+
+      /* Hover State Variables */
+      --element-button-shade-background--hover: 0%;
+      --element-button-shade-border--hover: 100%;
+
+      /* Focus State Variables */
+      --element-button-color-focus: var(--color-focus);
+
+      /* Inputs */
+      /* ========================= */
+      {% if settings.button_style == 'round-slight' %}
+          --element-icon-radius: 3px;
+      {% elsif settings.button_style == 'round' %}
+          --element-icon-radius: 50px;
+      {% else %}
+          --element-icon-radius: 0;
+      {% endif %}
+
+      --element-input-font-size: var(--element-text-font-size--body-sm);
+      --element-input-box-shadow-shade: 100%;
+
+      /* Hover State Variables */
+      --element-input-background-shade--hover: 0%;
+      --element-input-box-shadow-spread-radius--hover: 1px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      :root {
+        --element-button-font-size: max(calc(var(--typeBaseSize) - 5px), 11px);
+      }
+    }
+
+    .element-radio {
+        &:has(input[type='radio']:checked) {
+          --element-button-color: var(--element-button-color-secondary);
+        }
+    }
+
+    /* ATC Button Overrides */
+    /* ========================= */
+
+    .element-button[type="submit"],
+    .element-button[type="submit"] .element-text,
+    .element-button--shopify-payment-wrapper button {
+      --element-button-padding-block: 13px;
+      --element-button-padding-inline: 20px;
+      --element-button-line-height: 1.42;
+      --_font-size--body-md: var(--element-button-font-size);
+
+      line-height: 1.42 !important;
+    }
+
+    /* When dynamic checkout is enabled */
+    product-form:has(.element-button--shopify-payment-wrapper) {
+      --element-button-color: {{ settings.color_body_text }};
+
+      .element-button[type="submit"],
+      .element-button--shopify-payment-wrapper button {
+        min-height: 50px !important;
+      }
+
+      .shopify-payment-button {
+        margin: 0;
+      }
+    }
+
+    /* Hover animation for non-angled buttons */
+    body:not([data-button_style='angled']) .element-button[type="submit"] {
+      position: relative;
+      overflow: hidden;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 150%;
+        width: 200%;
+        height: 100%;
+        transform: skewX(-20deg);
+        background-image: linear-gradient(to right,transparent, rgba(255,255,255,.25),transparent);
+      }
+
+      &:hover:after {
+        animation: shine 0.75s cubic-bezier(0.01, 0.56, 1, 1);
+      }
+    }
+
+    /* ANGLED STYLE - ATC Button Overrides */
+    /* ========================= */
+    
+    [data-button_style='angled'] {
+      --element-button-shade-background--active: var(--element-button-shade-background);
+      --element-button-shade-border--active: var(--element-button-shade-border);
+
+      .element-button[type="submit"] {
+        --_box-shadow: none;
+
+        position: relative;
+        max-width: 94%;
+        border-top: 1px solid {{ settings.color_button }};
+        border-bottom: 1px solid {{ settings.color_button }};
+        
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          display: block;
+          top: -1px;
+          bottom: -1px;
+          width: 20px;
+          transform: skewX(-12deg);
+          background-color: {{ settings.color_button }};
+        }
+        
+        &:before {
+          left: -6px;
+        }
+        
+        &:after {
+          right: -6px;
+        }
+      }
+
+      /* When dynamic checkout is enabled */
+      product-form:has(.element-button--shopify-payment-wrapper) {
+        .element-button[type="submit"]:before,
+        .element-button[type="submit"]:after {
+          background-color: color-mix(in srgb,var(--_color-text) var(--_shade-background),var(--_color-background));
+          border-top: 1px solid {{ settings.color_button }};
+          border-bottom: 1px solid {{ settings.color_button }};
+        }
+
+        .element-button[type="submit"]:before {
+          border-left: 1px solid {{ settings.color_button }};
+        }
+        
+        .element-button[type="submit"]:after {
+          border-right: 1px solid {{ settings.color_button }};
+        }
+      }
+
+      .element-button--shopify-payment-wrapper {
+        --_color-background: {{ settings.color_button }};
+
+        button:hover,
+        button:before,
+        button:after {
+          background-color: color-mix(in srgb,var(--_color-text) var(--_shade-background),var(--_color-background)) !important;
+        }
+
+        button:not(button:focus-visible) {
+          box-shadow: none !important;
+        }
+      }
+    }
+  {% endstyle %}
+
   {{ 'chums.custom.css' | asset_url | stylesheet_tag }}
 
   <script src="{{ 'vendor-scripts-v11.js' | asset_url | split: '?' | first }}" defer="defer"></script>
@@ -97,24 +334,11 @@
     <script>theme.settings.email = {{ shop.email | json }}</script>
     <script src="https://api.archetypethemes.co/design-mode.js" defer="defer"></script>
   {% endif %}
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-W5BRKMS');</script>
-  <!-- End Google Tag Manager -->
-
 </head>
 
 <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if request.path == '/challenge' %} template-challange{% endif %}" data-center-text="{{ settings.type_body_align_text }}" data-button_style="{{ settings.button_style }}" data-type_header_capitalize="{{ settings.type_header_capitalize }}" data-type_headers_align_text="{{ settings.type_headers_align_text }}" data-type_product_capitalize="{{ settings.type_product_capitalize }}" data-swatch_style="{{ settings.swatch_style }}" {% if settings.disable_animations %}data-disable-animations="true"{% endif %}>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5BRKMS"
-                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
 
-  {% comment %}Link to #MainContent moved to header for WCAG compliance{% endcomment %}
-  {% comment %}<a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>{% endcomment %}
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
   <div id="PageContainer" class="page-container">
     <div class="transition-body">
@@ -122,7 +346,7 @@
     {%- sections 'header-group' -%}
     {%- sections 'popup-group' -%}
 
-      <main class="main-content" id="MainContent" aria-label="{{ shop.name | escape }} Main Content">
+      <main class="main-content" id="MainContent">
         {{ content_for_layout }}
       </main>
 

@@ -1,0 +1,16 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-chat element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M13.94 46.62a9 9 0 0 1-9-9V14a9 9 0 0 1 9-9h37.12a9 9 0 0 1 9 9v23.62a9 9 0 0 1-9 9h-1.68V59L36.44 46.62Z"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

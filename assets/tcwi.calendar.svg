@@ -1,0 +1,26 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-calendar element-icon--line element-icon-calendar"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="M21.3 17.08v10.14m14.22-10.14v10.14m14.22-10.14v10.14m14.23-10.14v10.14m14.22-10.14v10.14m-65.56 5.01h74.74M12.63 22.15h74.74v60.77H12.63z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M21.05 38.72h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M21.05 51.48h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47zM21.05 64.25h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47z"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

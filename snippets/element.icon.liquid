@@ -1,0 +1,79 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  An icon component that renders SVG icons from various libraries.
+  Supports theme overrides and multiple icon libraries including default and TCWI sets
+  with configurable sizing and styling options.
+
+  @param {string} name - Name of the icon
+  @param {string} [library] - Select a non-default library of icons to load from (optional)
+
+  @example
+  {% render 'element.icon', name: 'alert' %}
+{% enddoc %}
+
+{% liquid
+  assign library = library | default: settings.icon_library | default: 'default'
+
+  # check to see if theme icon override has been set
+  capture theme_icon
+    assign full_name = 'theme.' | append: name | append: '.svg'
+    echo full_name | inline_asset_content
+  endcapture
+  assign theme_icon = theme_icon | strip
+
+  # If icon does not exist, theme_icon will contain an error message.
+  # Check to see if contents are svg.
+  if theme_icon contains '<svg'
+    echo theme_icon
+  else
+    # check to see if built-in libary icon exists
+    if library == 'tcwi'
+      assign full_name = 'tcwi.' | append: name | append: '.svg'
+      echo full_name | inline_asset_content
+    else
+      assign full_name = 'icon.' | append: name | append: '.svg'
+      echo full_name | inline_asset_content
+    endif
+  endif
+%}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    --element-icon-size: 20px;
+    --element-icon-width: initial;
+    --element-icon-height: initial;
+    --element-icon-stroke-width: 2px;
+    --element-icon-stroke-linejoin: miter;
+    --element-icon-color: inherit;
+    --element-icon-opacity: 1;
+  }
+
+  .element-icon {
+    /* Layout & Typography */
+    --_size: var(--element-icon-size);
+    --_width: var(--element-icon-width, var(--_size));
+    --_height: var(--element-icon-height, var(--_size));
+    --_stroke-width: var(--element-icon-stroke-width);
+    --_stroke-linejoin: var(--element-icon-stroke-linejoin);
+
+    /* Colors */
+    --_color: var(--element-icon-color);
+    --_opacity: var(--element-icon-opacity);
+
+    display: inline-block;
+    vertical-align: middle;
+    width: var(--_width);
+    height: var(--_height);
+    color: var(--_color);
+    opacity: var(--_opacity);
+
+    &.element-icon--line {
+      stroke-width: var(--_stroke-width);
+      stroke-linejoin: var(--_stroke-linejoin);
+    }
+  }
+{% endstylesheet %}

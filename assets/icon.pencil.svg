@@ -1,0 +1,28 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-pencil element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M52 33.96V58H8V14h23.7"
+    stroke-miterlimit="10"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="m18 47 13-5 24-24-8-8-24 24zm5-13 8 8"
+    stroke-miterlimit="10"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="m47 10 1-1a5.44 5.44 0 0 1 7.82.18A5.52 5.52 0 0 1 56 17l-1 1"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

@@ -1,0 +1,280 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A component that hot reloads the product form when a variant is selected or all of it's 
+  contents if a new product url is loaded via combined listings.
+
+  @param {string} slot - The slot to render the product form content in
+  @param {object} [section] - A section object
+  @param {object} [product] - A product object
+
+  @example Basic Example
+  {% capture product_form_content %}
+    {% for option in product.options_with_values %}
+      {% for value in option.values %}
+        {%- capture input_attributes -%}
+          {% render 'product.hot-reload.radio-attributes', value: value %}
+        {%- endcapture -%}
+
+        {%- render 'element.radio',
+          name: option.name,
+          value: value,
+          label: value,
+          checked: value.selected,
+          attributes: input_attributes
+        -%}
+      {% endfor %}
+    {% endfor %}
+  {% endcapture %}
+
+  {% capture product_form %}
+    {% render 'element.text', as: 'h1 ', variant: 'heading-xl', text: product.title %}
+    {% render 'form.product', product: product, slot: product_form_content %}
+  {% endcapture %}
+
+  {% render 'product.hot-reload', section: section, product: product, slot: product_form %}
+{% enddoc %}
+
+{% capture id %}
+  {% render 'utility.id', name: 'product-hot-reload' %}
+{% endcapture %}
+
+<product-hot-reload id="{{ id }}" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+  {{ slot }}
+</product-hot-reload>
+
+{% stylesheet %}
+  product-hot-reload {
+    contain: layout style paint;
+  }
+
+  .product-hot-reload--loading {
+    opacity: 0.6;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+    }
+    50% { 
+      opacity: 0.6;
+    }
+  }
+
+  /* View Transitions API support */
+  @supports (view-transition-name: none) {
+    product-hot-reload {
+      view-transition-name: product-content;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ProductHotReload extends HTMLElement {
+    constructor() {
+      super();
+      this.cache = new Map(); // Cache for pre-fetched content
+      this.activeRequests = new Map(); // Track active fetch requests
+      this.loadingTimeout = null; // Timeout for loading state
+      this.supportsViewTransitions = 'startViewTransition' in document;
+      
+      this.addEventListener('change', (event) => this.onVariantChange(event));
+      this.addEventListener('mouseover', (event) => this.onMouseOver(event));
+    }
+
+    showLoadingState() {
+      // Start loading state (pulse) after 200ms
+      this.loadingTimeout = setTimeout(() => {
+        this.classList.add('product-hot-reload--loading');
+      }, 200);
+    }
+
+    hideLoadingState() {
+      // Clear the timeout if it hasn't triggered yet
+      if (this.loadingTimeout) {
+        clearTimeout(this.loadingTimeout);
+        this.loadingTimeout = null;
+      }
+      
+      // Remove loading animation
+      this.classList.remove('product-hot-reload--loading');
+    }
+
+    buildRequestUrl(input) {
+      const productFormElement = input.closest('form');
+      const sectionId = this.dataset.sectionId;
+      
+      // Get dataset values from the input or selected option
+      let newProductUrl, optionValueId;
+      
+      if (input.type === 'radio') {
+        newProductUrl = input.dataset.productUrl;
+        optionValueId = input.dataset.optionValueId;
+      } else if (input.tagName === 'SELECT') {
+        const selectedOption = input.options[input.selectedIndex];
+        newProductUrl = selectedOption.dataset.productUrl;
+        optionValueId = selectedOption.dataset.optionValueId;
+      }
+
+      // Get all currently selected values from both radio inputs and select elements
+      let selectedOptionValues = [];
+      
+      // Get values from checked radio inputs
+      const checkedRadios = Array.from(productFormElement.querySelectorAll('input[type="radio"]:checked'));
+      selectedOptionValues = checkedRadios.map(({ dataset }) => dataset.optionValueId).filter(Boolean);
+      
+      // Get values from select elements
+      const selects = Array.from(productFormElement.querySelectorAll('select'));
+      selects.forEach(select => {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption && selectedOption.dataset.optionValueId) {
+          selectedOptionValues.push(selectedOption.dataset.optionValueId);
+        }
+      });
+
+      // If we're building for a hover state, replace the current option's value
+      if (input.type === 'radio' && !input.checked) {
+        const currentOptionName = input.name;
+        // Remove any existing selection for this option
+        selectedOptionValues = selectedOptionValues.filter(id => {
+          const input = productFormElement.querySelector(`input[data-option-value-id="${id}"]`);
+          return input && input.name !== currentOptionName;
+        });
+        // Add the hovered option value
+        selectedOptionValues.push(optionValueId);
+      }
+
+      const params = selectedOptionValues.length > 0 ? `&option_values=${selectedOptionValues.join(',')}` : '';
+      return `${newProductUrl}?section_id=${sectionId}${params}`;
+    }
+
+    onMouseOver(event) {
+      const label = event.target.closest('label');
+      if (!label) return;
+
+      const input = label.querySelector('input[type="radio"]');
+      if (!input) return;
+
+      // Don't pre-fetch if already selected
+      if (input.checked) return;
+
+      const requestUrl = this.buildRequestUrl(input);
+
+      // Don't prefetch if we already have cached content or an active request
+      if (this.cache.has(requestUrl) || this.activeRequests.has(requestUrl)) return;
+
+      // Pre-fetch the content for this option
+      this.fetchContent(requestUrl);
+    }
+
+    fetchContent(requestUrl) {
+      // Create and store the fetch promise
+      const fetchPromise = fetch(requestUrl)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
+          this.cache.set(requestUrl, html);
+          this.activeRequests.delete(requestUrl);
+          return html;
+        })
+        .catch((error) => {
+          this.activeRequests.delete(requestUrl);
+          throw error;
+        });
+
+      this.activeRequests.set(requestUrl, fetchPromise);
+      return fetchPromise;
+    }
+
+    async onVariantChange(event) {
+      if (!event.target.hasAttribute('data-product-hot-reload-trigger')) return;
+
+      const optionValueElement = event.target;
+      const requestUrl = this.buildRequestUrl(optionValueElement);
+      const oldProductUrl = this.dataset.productUrl;
+      
+      // Get new product URL from the input or selected option
+      let newProductUrl;
+      if (optionValueElement.type === 'radio') {
+        newProductUrl = optionValueElement.dataset.productUrl || oldProductUrl;
+      } else if (optionValueElement.tagName === 'SELECT') {
+        const selectedOption = optionValueElement.options[optionValueElement.selectedIndex];
+        newProductUrl = selectedOption.dataset.productUrl || oldProductUrl;
+      } else {
+        newProductUrl = oldProductUrl;
+      }
+
+      // Start loading state immediately on change event
+      this.showLoadingState();
+
+      let html;
+
+      try {
+        // Use cached content if available
+        if (this.cache.has(requestUrl)) {
+          html = this.cache.get(requestUrl);
+        }
+        // Wait for active request if one exists
+        else if (this.activeRequests.has(requestUrl)) {
+          html = await this.activeRequests.get(requestUrl);
+        }
+        // Make new request if no cache or active request
+        else {
+          html = await this.fetchContent(requestUrl);
+        }
+
+        await this.updateProductWithTransition(html, newProductUrl, event.target.id);
+      } catch (error) {
+        console.error('Error updating product content:', error);
+      } finally {
+        // Always hide loading state
+        this.hideLoadingState();
+      }
+    }
+
+    async updateProductWithTransition(html, newProductUrl, targetId) {
+      const updatedHtml = html.getElementById(this.id);
+      
+      if (this.supportsViewTransitions) {
+        // Use View Transitions API for smooth transitions
+        const transition = document.startViewTransition(() => {
+          this.innerHTML = updatedHtml.innerHTML;
+          this.dataset.productUrl = updatedHtml.dataset.productUrl;
+          this.dataset.variantId = updatedHtml.dataset.variantId;
+        });
+
+        // Wait for the transition to complete
+        await transition.finished;
+      } else {
+        // Fallback: Update content immediately without animations
+        this.innerHTML = updatedHtml.innerHTML;
+        this.dataset.productUrl = updatedHtml.dataset.productUrl;
+        this.dataset.variantId = updatedHtml.dataset.variantId;
+      }
+
+      // Update URL and history
+      let url = new URL(newProductUrl, window.location.origin);
+
+      // Preserve all existing URL parameters from the current page
+      const currentUrl = new URL(window.location.href);
+      for (const [key, value] of currentUrl.searchParams.entries()) {
+        // Don't override the variant parameter we're setting
+        if (key !== 'variant') {
+          url.searchParams.set(key, value);
+        }
+      }
+
+      // Add variant param if variantId exists
+      url.searchParams.set('variant', this.dataset.variantId);
+
+      // Push new state to browser history
+      window.history.pushState({}, '', url.toString());
+
+      // Focus the input for the last clicked option value
+      this.querySelector(`#${targetId}`).focus();
+    }
+  }
+
+  customElements.define('product-hot-reload', ProductHotReload);
+{% endjavascript %}

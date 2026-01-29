@@ -1,0 +1,11 @@
+<svg 
+  xmlns="http://www.w3.org/2000/svg" 
+  class="element-icon element-icon-close element-icon--line"
+  width="64" 
+  height="64" 
+  viewBox="0 0 64 64" 
+  fill="none"
+>
+  <path d="M52.5137 11.01L11.8887 51.635" stroke="currentColor" stroke-miterlimit="10"/>
+  <path d="M52.5137 51.635L11.8887 11.01" stroke="currentColor" stroke-miterlimit="10"/>
+</svg>

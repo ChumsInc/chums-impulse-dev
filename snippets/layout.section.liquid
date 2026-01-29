@@ -1,0 +1,172 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A layout component that renders a section with configurable styling and content.
+  Provides consistent section structure with support for color schemes, padding controls,
+  full width options, and content positioning. The component maintains theme-wide section
+  styling while allowing customization through props.
+
+  @param {string} slot - The content to be rendered inside the section
+  @param {string} [style] - Custom styles to be applied to the section
+  @param {string} [classlist] - Additional classes to add to the section
+  @param {string} [color_scheme] - Color scheme to apply to the section
+  @param {boolean} [full_width] - Whether the section should be full width
+  @param {string} [padding] - Controls section padding, options: 'top', 'bottom', 'both', 'none'
+
+  @example
+  {% render 'layout.section',
+    slot: section.settings.content,
+    style: custom_style,
+    classlist: 'my-custom-class',
+    color_scheme: section.settings.color_scheme,
+    full_width: false,
+    padding: 'none'
+  %}
+{% enddoc %}
+
+{%- liquid
+  assign slot = slot | default: ''
+  assign style = style | default: ''
+  assign classlist = classlist | default: ''
+  assign color_scheme = color_scheme | default: section.settings.color_scheme | default: 'none'
+  assign full_width = full_width | default: section.settings.full_width, allow_false: true | default: false, allow_false: true
+  assign padding = padding | default: section.settings.padding | default: 'both'
+
+  if padding == 'top'
+    assign classlist = classlist | append: ' layout-section--padding-top' | strip
+  endif
+
+  if padding == 'bottom'
+    assign classlist = classlist | append: ' layout-section--padding-bottom' | strip
+  endif
+
+  if padding == 'none'
+    assign classlist = classlist | append: ' layout-section--padding-none' | strip
+  endif
+
+  if full_width
+    assign classlist = classlist | append: ' layout-section--full-width' | strip
+  endif
+
+  if color_scheme != 'none'
+    assign classlist = classlist | append: ' color-scheme-' | append: color_scheme | strip
+  endif
+-%}
+
+<div class="layout-section {{ classlist }}" style="{{ style }}">
+  {% render 'utility.color-scheme-texture', color_scheme: color_scheme %}
+
+  <div class="layout-section__content">
+    {{ slot }}
+  </div>
+</div>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    --layout-section-max-inline-size: var(--page-width, 1500px);
+
+    --layout-section-padding-inline: var(--size-4);
+    --layout-section-padding-inline--xs: initial;
+    --layout-section-padding-inline--sm: initial;
+    --layout-section-padding-inline--md: initial;
+    --layout-section-padding-inline--lg: initial;
+    --layout-section-padding-inline--xl: initial;
+
+    --layout-section-padding-block: var(--size-8);
+    --layout-section-padding-block--xs: initial;
+    --layout-section-padding-block--sm: initial;
+    --layout-section-padding-block--md: initial;
+    --layout-section-padding-block--lg: initial;
+    --layout-section-padding-block--xl: initial;
+
+    --layout-section-color: initial;
+    --layout-section-background: initial;
+  }
+
+  .layout-section {
+    --_max-inline-size: var(--layout-section-max-inline-size);
+
+    --_padding-inline--xs: var(--layout-section-padding-inline--xs, var(--layout-section-padding-inline));
+    --_padding-inline--sm: var(--layout-section-padding-inline--sm, var(--_padding-inline--xs));
+    --_padding-inline--md: var(--layout-section-padding-inline--md, var(--_padding-inline--sm));
+    --_padding-inline--lg: var(--layout-section-padding-inline--lg, var(--_padding-inline--md));
+    --_padding-inline--xl: var(--layout-section-padding-inline--xl, var(--_padding-inline--lg));
+    --_padding-inline: var(--_padding-inline--xs);
+
+    --_padding-block--xs: var(--layout-section-padding-block--xs, var(--layout-section-padding-block));
+    --_padding-block--sm: var(--layout-section-padding-block--sm, var(--_padding-block--xs));
+    --_padding-block--md: var(--layout-section-padding-block--md, var(--_padding-block--sm));
+    --_padding-block--lg: var(--layout-section-padding-block--lg, var(--_padding-block--md));
+    --_padding-block--xl: var(--layout-section-padding-block--xl, var(--_padding-block--lg));
+    --_padding-block: var(--_padding-block--xs);
+
+    --_color: var(--layout-section-color, var(--color-primary, #000));
+    --_background: var(--layout-section-background, var(--color-secondary, #fff));
+
+    display: flex;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    background: var(--_background);
+    color: var(--_color);
+    padding-inline: var(--_padding-inline);
+    padding-block: var(--_padding-block);
+
+    & > .layout-section__content {
+      display: block;
+      max-inline-size: var(--_max-inline-size);
+      z-index: 1;
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    &.layout-section--full-width > .layout-section__content {
+      max-inline-size: 100%;
+    }
+
+    &.layout-section--padding-none {
+      padding-block: 0;
+    }
+
+    &.layout-section--padding-top {
+      padding-block-end: 0;
+    }
+
+    &.layout-section--padding-bottom {
+      padding-block-start: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% style %}
+  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+    .layout-section {
+      --_padding-inline: var(--_padding-inline--sm);
+      --_padding-block: var(--_padding-block--sm);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+    .layout-section {
+      --_padding-inline: var(--_padding-inline--md);
+      --_padding-block: var(--_padding-block--md);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+    .layout-section {
+      --_padding-inline: var(--_padding-inline--lg);
+      --_padding-block: var(--_padding-block--lg);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+    .layout-section {
+      --_padding-inline: var(--_padding-inline--xl);
+      --_padding-block: var(--_padding-block--xl);
+    }
+  }
+{% endstyle %}

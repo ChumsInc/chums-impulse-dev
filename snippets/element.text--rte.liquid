@@ -1,0 +1,167 @@
+{% stylesheet %}
+  /* Public RTE Variables */
+  :root {
+    /* Body Font Stack */
+    --element-text-font-family--rte-body: var(--element-text-font-family--body);
+    --element-text-font-family-fallback--rte-body: var(--element-text-font-family-fallback--body);
+    --element-text-font-weight--rte-body: var(--element-text-font-weight--body);
+    --element-text-letter-spacing--rte-body: var(--element-text-letter-spacing--body);
+    --element-text-line-height--rte-body: var(--element-text-line-height--body);
+    --element-text-text-transform--rte-body: var(--element-text-text-transform--body);
+
+    /* Body Font Sizes */
+    --element-text-font-size--rte-body: var(--element-text-font-size--body-md);
+    --element-text-line-height--rte-body: var(--element-text-line-height--body);
+
+    /* Heading Font Stack */
+    --element-text-font-family--rte-heading: var(--element-text-font-family--heading);
+    --element-text-font-family-fallback--rte-heading: var(--element-text-font-family-fallback--heading);
+    --element-text-font-weight--rte-heading: var(--element-text-font-weight--heading);
+    --element-text-letter-spacing--rte-heading: var(--element-text-letter-spacing--heading);
+    --element-text-text-transform--rte-heading: var(--element-text-text-transform--heading);
+
+    /* Heading Font Sizes */
+    --element-text-font-size--rte-heading-h1: var(--element-text-font-size--heading-xl);
+    --element-text-line-height--rte-heading-h1: var(--element-text-line-height--heading-xl);
+    --element-text-font-size--rte-heading-h2: var(--element-text-font-size--heading-lg);
+    --element-text-line-height--rte-heading-h2: var(--element-text-line-height--heading-lg);
+    --element-text-font-size--rte-heading-h3: var(--element-text-font-size--heading-md);
+    --element-text-line-height--rte-heading-h3: var(--element-text-line-height--heading-md);
+    --element-text-font-size--rte-heading-h4: var(--element-text-font-size--heading-sm);
+    --element-text-line-height--rte-heading-h4: var(--element-text-line-height--heading-sm);
+    --element-text-font-size--rte-heading-h5: var(--element-text-font-size--heading-xs);
+    --element-text-line-height--rte-heading-h5: var(--element-text-line-height--heading-xs);
+    --element-text-font-size--rte-heading-h6: var(--element-text-font-size--heading-xs);
+  }
+
+  .element-text.element-text--rte {
+    /* Body Font Stack */
+    --_font-family--rte-body: var(--element-text-font-family--rte-body);
+    --_font-family-fallback--rte-body: var(--element-text-font-family-fallback--rte-body);
+    --_font-weight--rte-body: var(--element-text-font-weight--rte-body);
+    --_letter-spacing--rte-body: var(--element-text-letter-spacing--rte-body);
+    --_text-transform--rte-body: var(--element-text-text-transform--rte-body);
+
+    /* Body Font Sizes */
+    --_line-height--rte-body: var(--element-text-line-height--rte-body);
+    --_font-size--rte-body: var(--element-text-font-size--rte-body);
+
+    /* Heading Font Stack */
+    --_font-family--rte-heading: var(--element-text-font-family--rte-heading);
+    --_font-family-fallback--rte-heading: var(--element-text-font-family-fallback--rte-heading);
+    --_font-weight--rte-heading: var(--element-text-font-weight--rte-heading);
+    --_letter-spacing--rte-heading: var(--element-text-letter-spacing--rte-heading);
+    --_text-transform--rte-heading: var(--element-text-text-transform--rte-heading);
+
+    /* Heading Font Sizes */
+    --_font-size--rte-heading-h1: var(--element-text-font-size--rte-heading-h1);
+    --_line-height--rte-heading-h1: var(--element-text-line-height--rte-heading-h1);
+    --_font-size--rte-heading-h2: var(--element-text-font-size--rte-heading-h2);
+    --_line-height--rte-heading-h2: var(--element-text-line-height--rte-heading-h2);
+    --_font-size--rte-heading-h3: var(--element-text-font-size--rte-heading-h3);
+    --_line-height--rte-heading-h3: var(--element-text-line-height--rte-heading-h3);
+    --_font-size--rte-heading-h4: var(--element-text-font-size--rte-heading-h4);
+    --_line-height--rte-heading-h4: var(--element-text-line-height--rte-heading-h4);
+    --_font-size--rte-heading-h5: var(--element-text-font-size--rte-heading-h5);
+    --_line-height--rte-heading-h5: var(--element-text-line-height--rte-heading-h5);
+    --_font-size--rte-heading-h6: var(--element-text-font-size--rte-heading-h6);
+    --_line-height--rte-heading-h6: var(--element-text-line-height--rte-heading-h6);
+
+    font-size: var(--_font-size--rte-body);
+    font-family: var(--_font-family--rte-body), var(--_font-family-fallback--rte-body);
+    font-weight: var(--_font-weight--rte-body);
+    letter-spacing: var(--_letter-spacing--rte-body);
+    text-transform: var(--_text-transform--rte-body);
+    line-height: var(--_line-height--rte-body);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--_font-family--rte-heading), var(--_font-family-fallback--rte-heading);
+      font-weight: var(--_font-weight--rte-heading);
+      letter-spacing: var(--_letter-spacing--rte-heading);
+      text-transform: var(--_text-transform--rte-heading);
+      margin: 0 0 var(--size-4);
+
+      @media only screen and (min-width: 769px) {
+        margin: 0 0 var(--size-5);
+      }
+    }
+
+    h6 {
+      font-size: var(--_font-size--rte-heading-h6);
+      line-height: var(--_line-height--rte-heading-h6);
+    }
+
+    h5 {
+      font-size: var(--_font-size--rte-heading-h5);
+      line-height: var(--_line-height--rte-heading-h5);
+    }
+
+    h4 {
+      font-size: var(--_font-size--rte-heading-h4);
+      line-height: var(--_line-height--rte-heading-h4);
+    }
+
+    h3 {
+      font-size: var(--_font-size--rte-heading-h3);
+      line-height: var(--_line-height--rte-heading-h3);
+    }
+
+    h2 {
+      font-size: var(--_font-size--rte-heading-h2);
+      line-height: var(--_line-height--rte-heading-h2);
+    }
+
+    h1 {
+      font-size: var(--_font-size--rte-heading-h1);
+      line-height: var(--_line-height--rte-heading-h1);
+    }
+
+    a {
+      text-decoration: underline;
+    }
+
+    p {
+      margin-bottom: var(--size-8);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    & table {
+      @media only screen and (max-width: 768px) {
+        & td,
+        & th {
+          padding: 6px 8px;
+        }
+      }
+    }
+
+    .table-wrapper {
+      max-width: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .video-wrapper {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      padding-bottom: 56.25%;
+
+      & iframe,
+      & video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+{% endstylesheet %}

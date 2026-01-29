@@ -1,0 +1,339 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A flexible input component that supports both input and textarea elements.
+  Features various states and variants including inline, transparent, and inverted styles.
+
+  @param {string} [name] - The name of the input field
+  @param {string} [type] - The type of the input field
+  @param {string} [label] - The label for the input field
+  @param {string} [placeholder] - The placeholder text for the input field
+  @param {string} [value] - The value of the input field
+  @param {string} [attributes] - Additional attributes for the input field
+  @param {string} [style] - Additional styles for the input field
+  @param {string} [classlist] - Additional classes for the input field
+  @param {string} [variant] - The variant of the input field
+  @param {number} [multiline] - The number of lines for a textarea
+  @param {boolean} [full] - Whether the input should be full width
+  @param {boolean} [disabled] - Whether the input should be disabled
+
+  @example
+  {% render 'element.input', name: 'email', type: 'email', label: 'Email address' %}
+{% enddoc %}
+
+{%- liquid
+  assign name = name | default: ''
+  assign type = type | default: ''
+  assign placeholder = placeholder | default: ''
+  assign value = value | default: ''
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+  assign classlist = classlist | default: '' | append: ' element-input' | strip
+  assign variant = variant | default: ''
+  assign inverted = inverted | default: false
+  assign transparent = transparent | default: false
+  assign full = full | default: false
+  assign disabled = disabled | default: false, allow_false: true
+  capture id_default
+    render 'utility.id', name: name
+  endcapture
+
+  assign id_default = id_default | strip
+  assign id = id | default: id_default
+
+  case variant
+    when 'inline'
+      assign classlist = classlist | append: ' element-input--inline'
+  endcase
+
+  if transparent
+    assign classlist = classlist | append: ' element-input--transparent'
+  endif
+
+  if inverted
+    assign classlist = classlist | append: ' element-input--inverted'
+  endif
+
+  if full
+    assign classlist = classlist | append: ' element-input--fullwidth'
+  endif
+-%}
+
+{%- capture input_attributes -%}
+  id="{{ id }}"
+  class="{{ classlist }}"
+  {% if name != blank -%}
+    name="{{ name }}"
+  {%- endif %} 
+
+  {% if type == 'date' %}
+    onfocus="(this.type='date')" 
+    onblur="if(this.value==''){this.type='text'}"
+    type="text"
+  {%- elsif type != blank -%}
+    type="{{ type }}"
+  {%- endif %} 
+
+  {% if placeholder != blank -%}
+    placeholder="{{ placeholder | strip }}"
+  {%- endif %}
+
+  {% if attributes != blank -%}
+    {{ attributes }}
+  {%- endif %}
+
+  {% if style != blank -%}
+    style="{{ style }}"
+  {%- endif %}
+
+  {% if disabled -%}
+    disabled
+  {%- endif %}
+{%- endcapture -%}
+
+{%- if label != blank -%}
+  <label for="{{ id }}" class="visually-hidden">
+    {{- label -}}
+  </label>
+{%- endif -%}
+
+{%- if multiline != blank -%}
+  <textarea
+    {{ input_attributes }}
+    {% if multiline != blank -%}
+      rows="{{ multiline }}"
+    {%- endif -%}
+  >
+    {%- if value != blank -%}
+      {{ value }}
+    {%- endif -%}
+  </textarea>
+{%- else -%}
+  <input
+    {{ input_attributes }}
+    {% if value != blank -%}
+      value="{{ value }}"
+    {%- endif %}
+  >
+{%- endif -%}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    /* Base Layout Variables */
+    --element-input-width: auto;
+    --element-input-height: auto;
+    --element-input-radius: var(--radius-xs);
+    --element-input-padding-inline: var(--size-3);
+    --element-input-padding-block: var(--size-3);
+
+    --element-input-font-family: var(--element-text-font-family--body), var(--element-text-font-family-fallback--body);
+    --element-input-font-size: var(--element-text-font-size--body-md);
+    --element-input-line-height: var(--element-text-line-height--body);
+    --element-input-letter-spacing: var(--element-text-letter-spacing--body-md);
+
+    /* Base Outline Variables */
+    --element-input-box-shadow-horizontal-offset: 0;
+    --element-input-box-shadow-vertical-offset: 0;
+    --element-input-box-shadow-blur-radius: 0;
+    --element-input-box-shadow-spread-radius: 1px;
+
+    /* Base Colors Variables */
+    --element-input-color-primary: initial;
+    --element-input-color-secondary: initial;
+    --element-input-box-shadow-shade: 12%;
+    --element-input-background-shade: 0%;
+    --element-input-text-shade: 70%;
+    --element-input-text-shade-placeholder: 50%;
+
+    /* Active State Variables */
+    --element-input-box-shadow-spread-radius--active: 2px;
+    --element-input-box-shadow-shade--active: var(--element-input-box-shadow-shade);
+    --element-input-background-shade--active: var(--element-input-background-shade);
+    --element-input-text-shade--active: 100%;
+    --element-input-box-shadow-color--active: var(--color-focus, #4a9afc);
+
+    /* Focus State Variables */
+    --element-input-box-shadow-spread-radius--focus: 2px;
+    --element-input-box-shadow-shade--focus: var(--element-input-box-shadow-shade);
+    --element-input-background-shade--focus: var(--element-input-background-shade);
+    --element-input-text-shade--focus: var(--element-input-text-shade);
+    --element-input-box-shadow-color--focus: var(--color-focus, #4a9afc);
+
+    /* Hover State Variables */
+    --element-input-box-shadow-spread-radius--hover: 2px;
+    --element-input-box-shadow-shade--hover: var(--element-input-box-shadow-shade);
+    --element-input-background-shade--hover: 4%;
+    --element-input-text-shade--hover: 100%;
+
+    /* Disabled State Variables */
+    --element-input-box-shadow-spread-radius--disabled: 2px;
+    --element-input-box-shadow-shade--disabled: 8%;
+    --element-input-background-shade--disabled: 8%;
+    --element-input-text-shade--disabled: 20%;
+
+    /* Error State Variables */
+    --element-input-box-shadow-spread-radius--error: 2px;
+    --element-input-box-shadow-shade--error: 8%;
+    --element-input-background-shade--error: initial;
+    --element-input-text-shade--error: 100%;
+    --element-input-box-shadow-color--error: var(--color-error, #ff0000);
+  }
+
+  .element-input {
+    /* Base Layout*/
+    --_width: var(--element-input-width);
+    --_height: var(--element-input-height);
+    --_radius: var(--element-input-radius);
+    --_padding-inline: var(--element-input-padding-inline);
+    --_padding-block: var(--element-input-padding-block);
+
+    /* Base Typography */
+    --_font-family: var(--element-input-font-family);
+    --_font-size: var(--element-input-font-size);
+    --_line-height: var(--element-input-line-height);
+    --_letter-spacing: var(--element-input-letter-spacing);
+
+    /* Base Colors */
+    --_color-primary: var(--element-input-color-primary, var(--root-color-primary, #000));
+    --_color-secondary: var(--element-input-color-secondary, var(--root-color-secondary, #fff));
+    --_color-error: var(--element-input-color-error);
+    --_color-active: var(--element-input-color-active);
+    --_shade-box-shadow: var(--element-input-box-shadow-shade);
+    --_shade-background: var(--element-input-background-shade);
+    --_shade-text: var(--element-input-text-shade);
+    --_shade-text-placeholder: var(--element-input-text-shade-placeholder);
+
+    --_color-background: color-mix(in srgb, var(--_color-primary) var(--_shade-background), var(--_color-secondary));
+    --_color-text: color-mix(in srgb, var(--_color-primary) var(--_shade-text), var(--_color-secondary));
+    --_color-text-placeholder: color-mix(
+      in srgb,
+      var(--_color-primary) var(--_shade-text-placeholder),
+      var(--_color-secondary)
+    );
+    --_color-box-shadow: color-mix(in srgb, var(--_color-primary) var(--_shade-box-shadow), var(--_color-secondary));
+
+    /* Base Outline */
+    --_box-shadow-horizontal-offset: var(--element-input-box-shadow-horizontal-offset);
+    --_box-shadow-vertical-offset: var(--element-input-box-shadow-vertical-offset);
+    --_box-shadow-blur-radius: var(--element-input-box-shadow-blur-radius);
+    --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius);
+    --_box-shadow: inset var(--_box-shadow-horizontal-offset) var(--_box-shadow-vertical-offset)
+      var(--_box-shadow-blur-radius) var(--_box-shadow-spread-radius) var(--_color-box-shadow);
+
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: none;
+    outline: none;
+    padding-inline: var(--_padding-inline);
+    padding-block: var(--_padding-block);
+    width: var(--_width);
+    height: var(--_height);
+    border-radius: var(--_radius);
+    box-shadow: var(--_box-shadow);
+    background-color: var(--_color-background);
+    color: var(--_color-text);
+    font-family: var(--_font-family);
+    font-size: var(--_font-size);
+    line-height: var(--_line-height);
+    letter-spacing: var(--_letter-spacing);
+
+    &::placeholder {
+      color: var(--_color-text-placeholder);
+    }
+
+    &:hover:not(:disabled) {
+      --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius--hover);
+      --_shade-box-shadow: var(--element-input-box-shadow-shade--hover);
+      --_shade-background: var(--element-input-background-shade--hover);
+      --_shade-text: var(--element-input-text-shade--hover);
+    }
+
+    &:active {
+      --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius--active);
+      --_shade-box-shadow: var(--element-input-box-shadow-shade--active);
+      --_shade-background: var(--element-input-background-shade--active);
+      --_shade-text: var(--element-input-text-shade--active);
+      --_color-box-shadow: var(--element-input-box-shadow-color--active);
+    }
+
+    &:focus {
+      --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius--focus);
+      --_shade-box-shadow: var(--element-input-box-shadow-shade--focus);
+      --_shade-background: var(--element-input-background-shade--focus);
+      --_shade-text: var(--element-input-text-shade--focus);
+      --_color-box-shadow: var(--element-input-box-shadow-color--focus);
+    }
+
+    &:disabled {
+      --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius--disabled);
+      --_shade-box-shadow: var(--element-input-box-shadow-shade--disabled);
+      --_shade-background: var(--element-input-background-shade--disabled);
+      --_shade-text: var(--element-input-text-shade--disabled);
+      cursor: not-allowed;
+    }
+
+    &[aria-invalid='true'] {
+      --_box-shadow-spread-radius: var(--element-input-box-shadow-spread-radius--error);
+      --_shade-box-shadow: var(--element-input-box-shadow-shade--error);
+      --_shade-background: var(--element-input-background-shade--error);
+      --_shade-text: var(--element-input-text-shade--error);
+      --_color-box-shadow: var(--element-input-box-shadow-color--error);
+    }
+
+    & ~ button {
+      --element-button-height: 100%;
+    }
+  }
+
+  .element-input--inverted {
+    --_color-secondary: var(--element-input-color-primary, var(--color-primary, #000));
+    --_color-primary: var(--element-input-color-secondary, var(--color-secondary, #fff));
+  }
+
+  .element-input--transparent {
+    --_color-primary: var(--element-input-color-primary, var(--color-primary, #000));
+    --_color-secondary: transparent;
+  }
+
+  .element-input--inverted.element-input--transparent {
+    --_color-primary: var(--element-input-color-secondary, var(--rootcolor-secondary, #fff));
+    --_color-secondary: transparent;
+  }
+
+  .element-input--inline {
+    --_radius: var(--radius-none);
+    --_box-shadow: inset 0 calc(var(--_box-shadow-spread-radius) * -1) 0 0 var(--_color-box-shadow);
+  }
+
+  .element-input--full {
+    --_width: 100%;
+  }
+
+  /* Date input specific styles */
+  .element-input[type="date"] {
+    text-align: left;
+    padding-right: var(--size-8); /* Space for calendar icon */
+  }
+
+  .element-input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: var(--_padding-inline);
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: var(--size-4);
+    height: var(--size-4);
+  }
+
+  .element-input[type="date"]::-webkit-datetime-edit {
+    width: 100%;
+  }
+
+  .element-input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    width: 100%;
+  }
+{% endstylesheet %}

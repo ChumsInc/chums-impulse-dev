@@ -1,0 +1,16 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-phone element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="m18.4 9.65 10.2 10.2-6.32 6.32c2.1 7 6.89 12.46 15.55 15.55l6.32-6.32 10.2 10.2-8.75 8.75C25.71 50.3 13.83 38.21 9.65 18.4Z"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

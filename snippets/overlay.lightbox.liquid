@@ -1,0 +1,472 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A reusable lightbox overlay component that displays content in a full-screen overlay.
+  Perfect for images, videos, or any content that needs to be viewed in detail.
+
+  Overlay
+  @param {string} [slot] - Content to display in the lightbox
+  @param {string} [group] - Group identifier for navigation between multiple lightboxes
+
+  @example
+  {% for image in product.images %}
+    {% capture image_content %}
+      {{ image | image_url: width: 2400 | image_tag }}
+    {% endcapture %}
+
+    {% render 'overlay.lightbox', slot: image_content, group: 'product-gallery' %}
+  {% endfor %}
+{% enddoc %}
+
+{% liquid
+  assign group = group | default: ''
+%}
+
+<overlay-lightbox data-group="{{ group }}">
+  <div class="overlay-lightbox__trigger">
+    {{ slot }}
+  </div>
+
+  <template class="overlay-lightbox__template">
+    <div class="overlay-lightbox__overlay">
+      <div class="overlay-lightbox__content">
+        {{ slot }}
+      </div>
+
+      {% if group != blank %}
+        {% render 'element.button', 
+          type: 'button', 
+          icon: 'chevron-left', 
+          classlist: 'overlay-lightbox__nav overlay-lightbox__nav--prev', 
+          attributes: 'aria-label="Previous item"', 
+          transparent: true,
+          style: '--element-button-color-primary: black; --element-button-color-secondary: white' 
+        %}
+        {% render 'element.button', 
+          type: 'button', 
+          icon: 'chevron-right', 
+          classlist: 'overlay-lightbox__nav overlay-lightbox__nav--next', 
+          attributes: 'aria-label="Next item"', 
+          transparent: true,
+          style: '--element-button-color-primary: black; --element-button-color-secondary: white' 
+        %}
+      {% endif %}
+
+      {% render 'element.button', 
+        type: 'button', 
+        icon: 'close', 
+        classlist: 'lightbox-close', 
+        attributes: 'aria-label="Close lightbox"', 
+        transparent: true,
+        style: '--element-button-color-primary: black; --element-button-color-secondary: white' 
+      %}
+    </div>
+  </template>
+</overlay-lightbox>
+
+{% stylesheet %}
+  overlay-lightbox {
+    display: contents;
+  }
+
+  .overlay-lightbox__trigger {
+    display: contents;
+    cursor: pointer;
+  }
+
+  .overlay-lightbox__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .overlay-lightbox__overlay--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .overlay-lightbox__content {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay-lightbox__content img {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .overlay-lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .overlay-lightbox__nav--prev {
+    left: 1rem;
+  }
+
+  .overlay-lightbox__nav--next {
+    right: 1rem;
+  }
+
+  /* Hide navigation buttons when there's only one item in the group */
+  .overlay-lightbox__overlay--single-item .overlay-lightbox__nav {
+    display: none;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+{% endstylesheet %}
+
+{% javascript %}
+  class OverlayLightbox extends HTMLElement {
+    // Static registry to track all lightbox instances
+    static registry = new Map();
+    // Track which groups have been prefetched
+    static prefetchedGroups = new Set();
+
+    constructor() {
+      super();
+      this.trigger = null;
+      this.template = null;
+      this.overlay = null;
+      this.closeBtn = null;
+      this.prevBtn = null;
+      this.nextBtn = null;
+      this.group = this.dataset.group;
+      this.groupItems = [];
+      this.currentIndex = 0;
+
+      // Register this instance
+      if (this.group) { 
+        if (!OverlayLightbox.registry.has(this.group)) {
+          OverlayLightbox.registry.set(this.group, []);
+        }
+        OverlayLightbox.registry.get(this.group).push(this);
+      }
+    }
+
+    connectedCallback() {
+      // Initialize elements when connected to DOM
+      this.trigger = this.querySelector('.overlay-lightbox__trigger');
+      this.template = this.querySelector('.overlay-lightbox__template');
+      this.init();
+    }
+
+    init() {
+      // Open lightbox on trigger click
+      if (this.trigger) {
+        this.trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.openLightbox();
+        });
+      }
+
+
+      // Handle ESC key globally
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen()) {
+          this.closeLightbox();
+        } else if (this.isOpen() && this.group) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            this.navigateToPrevious();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            this.navigateToNext();
+          }
+        }
+      });
+    }
+
+    openLightbox() {
+      // Create overlay if it doesn't exist
+      if (!this.overlay) {
+        this.createOverlay();
+      }
+
+      this.overlay.classList.add('overlay-lightbox__overlay--open');
+      document.body.style.overflow = 'hidden';
+
+      // If this is part of a group, find all group items
+      if (this.group) {
+        this.findGroupItems();
+
+        // Prefetch images for the group
+        this.prefetchGroupImages();
+
+        // Add single-item class if there's only one item in the group
+        if (this.groupItems.length <= 1) {
+          this.overlay.classList.add('overlay-lightbox__overlay--single-item');
+        } else {
+          this.overlay.classList.remove('overlay-lightbox__overlay--single-item');
+        }
+      } else {
+        // No group, so hide navigation buttons
+        this.overlay.classList.add('overlay-lightbox__overlay--single-item');
+      }
+    }
+
+    createOverlay() {
+      // Check if template exists
+      if (!this.template) {
+        console.error('OverlayLightbox: Template not found');
+        return;
+      }
+
+      // Clone the template content
+      this.overlay = this.template.content.cloneNode(true).querySelector('.overlay-lightbox__overlay');
+      
+      // Check if overlay was created successfully
+      if (!this.overlay) {
+        console.error('OverlayLightbox: Overlay element not found in template');
+        return;
+      }
+      
+      // Get references to buttons
+      this.closeBtn = this.overlay.querySelector('.lightbox-close');
+      this.prevBtn = this.overlay.querySelector('.overlay-lightbox__nav--prev');
+      this.nextBtn = this.overlay.querySelector('.overlay-lightbox__nav--next');
+
+      // Add event listeners
+      if (this.closeBtn) {
+        this.closeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.closeLightbox();
+        });
+      }
+
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToPrevious();
+        });
+      }
+
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToNext();
+        });
+      }
+
+      // Close lightbox when clicking outside content
+      if (this.overlay) {
+        this.overlay.addEventListener('click', (e) => {
+          if (e.target === this.overlay) {
+            this.closeLightbox();
+          }
+        });
+      }
+
+      // Append to body
+      if (this.overlay) {
+        document.body.appendChild(this.overlay);
+      }
+    }
+
+    closeLightbox() {
+      if (this.overlay) {
+        this.overlay.classList.remove('overlay-lightbox__overlay--open');
+        this.overlay.classList.remove('overlay-lightbox__overlay--single-item');
+        
+        // Remove overlay immediately
+        if (this.overlay.parentNode) {
+          this.overlay.parentNode.removeChild(this.overlay);
+          this.overlay = null;
+          this.closeBtn = null;
+          this.prevBtn = null;
+          this.nextBtn = null;
+        }
+      }
+      
+      document.body.style.overflow = '';
+    }
+
+
+    findGroupItems() {
+      // Use the static registry to find group items
+      this.groupItems = OverlayLightbox.registry.get(this.group) || [];
+      this.currentIndex = this.groupItems.indexOf(this);
+    }
+
+    navigateToPrevious() {
+      if (!this.group || this.groupItems.length <= 1) return;
+
+      let targetIndex = this.currentIndex - 1;
+      if (targetIndex < 0) {
+        // Loop to last item
+        targetIndex = this.groupItems.length - 1;
+      }
+
+      const targetLightbox = this.groupItems[targetIndex];
+      if (targetLightbox) {
+        this.switchToLightbox(targetLightbox);
+      }
+    }
+
+    navigateToNext() {
+      if (!this.group || this.groupItems.length <= 1) return;
+
+      let targetIndex = this.currentIndex + 1;
+      if (targetIndex >= this.groupItems.length) {
+        // Loop to first item
+        targetIndex = 0;
+      }
+
+      const targetLightbox = this.groupItems[targetIndex];
+      if (targetLightbox) {
+        this.switchToLightbox(targetLightbox);
+      }
+    }
+
+    switchToLightbox(targetLightbox) {
+      // Close current lightbox
+      this.closeLightbox();
+      
+      // Open target lightbox immediately
+      targetLightbox.openLightbox();
+    }
+
+    prefetchGroupImages() {
+      // Only prefetch once per group
+      if (this.group && !OverlayLightbox.prefetchedGroups.has(this.group)) {
+        OverlayLightbox.prefetchedGroups.add(this.group);
+        
+        this.groupItems.forEach(lightbox => {
+          // Find all images in this lightbox's content
+          const images = lightbox.querySelectorAll('img');
+          images.forEach(img => {
+            // Prefetch the largest available image
+            this.prefetchLargestImage(img);
+          });
+        });
+      }
+    }
+
+    prefetchLargestImage(img) {
+      // Try to get the largest image from srcset first
+      if (img.srcset) {
+        const srcsetUrls = img.srcset.split(',').map(src => src.trim().split(' ')[0]);
+        // Find the largest size (highest number in the URL)
+        let largestUrl = img.src;
+        let largestSize = 0;
+        
+        srcsetUrls.forEach(url => {
+          const size = this.extractImageSize(url);
+          if (size > largestSize) {
+            largestSize = size;
+            largestUrl = url;
+          }
+        });
+        
+        this.prefetchImage(largestUrl);
+      } else {
+        // No srcset, try to get largest size from original URL
+        const largestUrl = this.getLargestImageUrl(img.src);
+        this.prefetchImage(largestUrl);
+      }
+    }
+
+    extractImageSize(url) {
+      try {
+        const urlObj = new URL(url);
+        
+        // Check for width parameter
+        if (urlObj.searchParams.has('width')) {
+          return parseInt(urlObj.searchParams.get('width')) || 0;
+        }
+        
+        // Check for underscore format (image_2400x.jpg)
+        const pathParts = urlObj.pathname.split('_');
+        if (pathParts.length > 1) {
+          const sizeMatch = pathParts[pathParts.length - 1].match(/(\d+)x/);
+          if (sizeMatch) {
+            return parseInt(sizeMatch[1]) || 0;
+          }
+        }
+      } catch (e) {
+        // URL parsing failed
+      }
+      
+      return 0;
+    }
+
+    getLargestImageUrl(originalUrl) {
+      try {
+        const url = new URL(originalUrl);
+        
+        // Handle Shopify image URLs - try to get 2400px version
+        if (url.searchParams.has('width')) {
+          url.searchParams.set('width', '2400');
+          return url.toString();
+        } else if (url.pathname.includes('_')) {
+          // Handle Shopify's underscore format
+          const pathParts = url.pathname.split('_');
+          if (pathParts.length > 1) {
+            const extension = pathParts[pathParts.length - 1].split('.')[1] || 'jpg';
+            const newPath = pathParts.slice(0, -1).join('_') + '_2400x.' + extension;
+            url.pathname = newPath;
+            return url.toString();
+          }
+        }
+      } catch (e) {
+        // If URL parsing fails, return original
+      }
+      
+      return originalUrl;
+    }
+
+    prefetchImage(url) {
+      const prefetchImg = new Image();
+      prefetchImg.src = url;
+    }
+
+    isOpen() {
+      return this.overlay && this.overlay.classList.contains('overlay-lightbox__overlay--open');
+    }
+
+    // Clean up when element is removed
+    disconnectedCallback() {
+      if (this.group) {
+        const groupItems = OverlayLightbox.registry.get(this.group);
+        if (groupItems) {
+          const index = groupItems.indexOf(this);
+          if (index > -1) {
+            groupItems.splice(index, 1);
+          }
+          // Remove empty groups
+          if (groupItems.length === 0) {
+            OverlayLightbox.registry.delete(this.group);
+          }
+        }
+      }
+    }
+  }
+
+  // Define the custom element
+  customElements.define('overlay-lightbox', OverlayLightbox);
+{% endjavascript %}

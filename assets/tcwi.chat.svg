@@ -1,0 +1,21 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-chat element-icon--line element-icon-chat"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="M88.78 28.25v47.18h-9.42v10.58L62.91 75.43H32.55V28.25zM41.85 42.53h37.51m-37.51 9.3h37.51m-37.51 9.31h26.58"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M67.45 13.99v14.26h-34.9v35.83l-11.91 7.67V61.16h-9.42V13.99z"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

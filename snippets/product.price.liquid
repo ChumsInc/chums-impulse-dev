@@ -1,0 +1,100 @@
+{% doc %}
+  Renders the product price
+
+  @param {object} product - Product object
+  @param {boolean} [use_variant] - Whether to use the first available variant or the product itself
+  @param {boolean} [superscript_decimals] - Whether to use superscript decimals for the price (default: true)
+  @param {boolean} [product_save_amount] - Whether to show the product save amount (default: false)
+  @param {string} [product_save_type] ('dollar', 'percentage') - The type of product save amount to show (default: 'dollar')
+
+  @example
+  {% render 'product.price', product: product, use_variant: true, superscript_decimals: true %}
+{% enddoc %}
+
+{%- liquid
+  assign product = section.settings.product | default: product
+  assign use_variant = use_variant | default: true, allow_false: true
+  assign target = product
+
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  assign available = target.available | default: false
+  assign product_save_amount = product_save_amount | default: settings.product_save_amount | default: false
+  assign product_save_type = product_save_type | default: settings.product_save_type | default: 'dollar'
+  assign superscript_decimals = superscript_decimals | default: settings.superscript_decimals, allow_false: true | default: true, allow_false: true
+
+  case product_save_type
+    when 'dollar'
+      assign saved_amount = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | money_without_trailing_zeros
+    when 'percentage'
+      assign saved_amount = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100.0 | divided_by: product.selected_or_first_available_variant.compare_at_price | round | append: '%'
+  endcase
+-%}
+
+{% capture regular_price %}
+    {%- render 'element.text', locale: 'labels.regular_price', text: 'Regular price', visually_hidden: true -%}
+    {%- render 'element.text', price: true, text: price, superscript_decimals: superscript_decimals, style: 'font-weight: 700;' -%}
+{% endcapture %}
+
+{% capture on_sale_price %}
+    {%- unless product.price_varies == false and product.compare_at_price_varies %}
+      {%- render 'element.text', locale: 'labels.regular_price', text: 'Regular price', visually_hidden: true -%}
+      {%- render 'element.text', price: true, text: compare_at_price, text_decoration: 'line-through', superscript_decimals: superscript_decimals, style: 'opacity: 0.7;' -%}
+    {%- endunless -%}
+
+    {%- render 'element.text', locale: 'labels.sale_price', text: 'Sale price', visually_hidden: true -%}
+    {%- render 'element.text', price: true, text: price, superscript_decimals: superscript_decimals, style: 'font-weight: 700;--element-text-color: var(--color-sale-price);' -%}
+{% endcapture %}
+
+{% capture save_amount %}
+  {% assign info_save_amount = 'info.save_amount' | t: saved_amount: saved_amount %}
+  {%- capture fallback_info_save_amount -%}
+    Save {{ saved_amount }}
+  {%- endcapture -%}
+
+  {%- render 'element.text',
+    as: 'span',
+    locale: info_save_amount,
+    text: fallback_info_save_amount,
+    style: '--element-text-color: var(--color-sale-tag-text);'
+  -%}
+{% endcapture %}
+
+{% capture unit_price %}
+  {%- render 'element.text', price: true, text: product.selected_or_first_available_variant.unit_price, superscript_decimals: superscript_decimals -%}
+  <span>/</span>
+  <span>
+    {%- if product.selected_or_first_available_variant.unit_price_measurement.reference_value != 1 -%}
+      {{- product.selected_or_first_available_variant.unit_price_measurement.reference_value -}}
+    {%- endif -%}
+    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}
+  </span>
+{% endcapture %}
+
+
+  {%- capture price_stack -%}
+    {% if product.selected_or_first_available_variant.unit_price_measurement %}
+      {{ unit_price }}
+    {% else %}
+      {% if compare_at_price > price %}
+        {%- if product_save_amount -%}
+          {%- render 'element.badge', label: save_amount, type: 'sale', inverted: true -%}
+        {%- endif -%}
+        
+        {{ on_sale_price }}
+      {% else %}
+        {{ regular_price }}
+      {% endif %}
+    {% endif %}
+  {%- endcapture -%}
+
+  {%- render 'layout.stack',
+    slot: price_stack,
+    horizontal: true,
+    align: 'center',
+    gap: 'xs'
+  -%}

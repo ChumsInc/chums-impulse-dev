@@ -1,0 +1,193 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A radio input component that provides a styled radio button with an optional label.
+  Supports various states (hover, focus, active, disabled) and can be customized through props.
+  The component maintains consistent styling and behavior while providing flexibility through
+  configuration options like custom attributes, styles and classes.
+
+  @param {string} [id] - The ID of the radio field
+  @param {number} [index] - The index of the radio field (default: 1)
+  @param {string} name - The name of the radio field
+  @param {string} [label] - The label for the radio field
+  @param {string} value - The value of the radio field
+  @param {string} [attributes] - Additional attributes for the radio field
+  @param {string} [style] - Additional styles for the radio field
+  @param {string} [classlist] - Additional classes for the radio field
+  @param {boolean} [disabled] - Whether the radio field should be disabled (default: false)
+  @param {boolean} [checked] - Whether the radio field should be checked (default: false)
+  @param {boolean} [display_icon] - Whether the icon should be displayed (default: true)
+  @param {string} [slot] - The slot for the radio field
+
+  @example
+  {% render 'element.radio', name: 'size', label: 'Small', value: 'small' %}
+{% enddoc %}
+
+{%- liquid
+  assign index = index | default: 1
+  assign name = name | default: ''
+  assign label = label | default: ''
+  assign value = value | default: ''
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+  assign classlist = classlist | default: '' | append: ' element-radio' | strip
+  assign checked = checked | default: false
+  assign display_icon = display_icon | default: true, allow_false: true
+  assign slot = slot | default: ''
+
+  capture id_default
+    render 'utility.id', name: name, index: index
+  endcapture
+  assign id = id | default: id_default
+
+-%}
+
+{%- if slot == blank -%}
+  {%- capture slot_default -%}
+    {%- if display_icon -%}
+      <span class="element-radio__icon"></span>
+    {%- endif -%}
+
+    {%- if label != blank -%}
+      {% render 'element.text', text: label, variant: 'body-md' %}
+    {%- endif -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+<label
+  class="{{ classlist }}"
+  for="{{ id }}"
+  {% if style != blank -%}
+    style="{{ style }}"
+  {%- endif %}
+>
+  <input
+    type="radio"
+    id="{{ id }}"
+    {% if name != blank -%}
+      name="{{ name }}"
+    {%- endif %}
+
+    {% if attributes != blank -%}
+      {{ attributes }}
+    {%- endif %}
+
+    {% if checked -%}
+      checked
+    {%- endif %}
+
+    {% if disabled -%}
+      disabled
+    {%- endif %}
+
+    {% if value != blank -%}
+      value="{{ value }}"
+    {%- endif %}
+  >
+
+  {{ slot | default: slot_default }}
+</label>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    --element-radio-size: var(--size-5);
+    --element-radio-dot-size: var(--size-2-5);
+    --element-radio-dot-opacity: 0;
+    --element-radio-radius: 50%;
+    --element-radio-gap: var(--size-2);
+    --element-radio-border-width: 1px;
+    --element-radio-border-width--focus: 2px;
+
+    --element-radio-color-primary: initial;
+    --element-radio-color-secondary: initial;
+    --element-radio-color-focus: var(--color-focus);
+    --element-radio-shade-background: 0%;
+    --element-radio-shade-background--hover: 4%;
+    --element-radio-shade-background--checked: 100%;
+    --element-radio-shade-background--disabled: 8%;
+    --element-radio-shade-border: 12%;
+    --element-radio-shade-border--disabled: 8%;
+  }
+
+  .element-radio {
+    /* Layout & Typography */
+    --_size: var(--element-radio-size);
+    --_dot-size: var(--element-radio-dot-size);
+    --_dot-opacity: var(--element-radio-dot-opacity);
+    --_radius: var(--element-radio-radius);
+    --_gap: var(--element-radio-gap);
+    --_border-width: var(--element-radio-border-width);
+
+    /* Colors */
+    --_color-primary: var(--element-radio-color-primary, var(--color-primary));
+    --_color-secondary: var(--element-radio-color-secondary, var(--color-secondary));
+    --_color-focus: var(--element-radio-color-focus, var(--color-focus, #4a9afc));
+    --_shade-background: var(--element-radio-shade-background);
+    --_shade-border: var(--element-radio-shade-border);
+
+    --_box-shadow: 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-primary) var(--_shade-border), var(--_color-secondary));
+
+    @media (max-width: 768px) {
+      --_size: var(--radio-size, var(--size-4));
+      --_dot-size: var(--radio-dot-size, var(--size-2));
+    }
+
+    position: relative;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_gap);
+    cursor: pointer;
+
+    input[type='radio'] {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      cursor: pointer;
+    }
+
+    &:hover {
+      --_shade-background: var(--element-radio-shade-background--hover);
+    }
+
+    &:has(input[type='radio']:checked) {
+      --_dot-opacity: 1;
+      --_shade-background: var(--element-radio-shade-background--checked);
+    }
+
+    &:has(input[type='radio']:focus-visible) {
+      --_border-width: var(--element-radio-border-width--focus);
+      --_box-shadow: 0 0 0 var(--_border-width) var(--_color-focus);
+    }
+
+    &:has(input[type='radio']:disabled) {
+      --_shade-background: var(--element-radio-shade-background--disabled);
+      --_shade-border: var(--element-radio-shade-border--disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  .element-radio__icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--_size);
+    height: var(--_size);
+    border-radius: var(--_radius);
+    box-shadow: var(--_box-shadow);
+    background-color: color-mix(in srgb, var(--_color-primary) var(--_shade-background), var(--_color-secondary));
+
+    &::before {
+      content: '';
+      width: var(--_dot-size);
+      height: var(--_dot-size);
+      background-color: var(--_color-secondary);
+      border-radius: 50%;
+      opacity: var(--_dot-opacity);
+    }
+  }
+{% endstylesheet %}

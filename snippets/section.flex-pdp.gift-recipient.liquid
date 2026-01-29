@@ -1,0 +1,282 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the gift card recipient form for gift card products.
+  
+  This component provides a comprehensive form for customers to send gift cards to 
+  recipients. It includes fields for recipient email, name, message, and delivery date, 
+  with proper validation and error handling.
+  
+  Features:
+  - Recipient email (required)
+  - Recipient name (optional)
+  - Personal message (optional, max 200 characters)
+  - Delivery date (optional)
+  - Form validation and error display
+  - Automatic form clearing on successful submission
+
+  @param {object} product - A product object
+  
+  @example
+  {% render 'section.flex-pdp.gift-recipient', product: closest.product %}
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'section.flex-pdp.form-' | append: section.id
+-%}
+
+{% stylesheet %}
+	gift-recipient-form {
+	  display: block;
+	  position: relative;
+	
+	  & .recipient-fields {
+	    display: none;
+	  }
+	}
+{% endstylesheet %}
+
+{%- liquid
+  assign product = section.settings.product | default: product
+  assign gift_card_recipient_control_flag = 'properties[__shopify_send_gift_card_to_recipient]'
+
+  capture checkbox_label
+    render 'element.text', as: 'span', variant: 'body-md', locale: 'actions.send_as_gift', text: 'I want to send this as a gift'
+  endcapture
+
+  capture input_email_id
+    render 'utility.id', name: 'properties[Recipient email]'
+  endcapture
+
+  capture input_email_label
+    render 'utility.translate', key: 'labels.recipient_email', fallback: 'Recipient email'
+  endcapture
+
+  capture input_name_id
+    render 'utility.id', name: 'properties[Recipient name]'
+  endcapture
+
+  capture input_name_label
+    render 'utility.translate', key: 'labels.recipient_name_optional', fallback: 'Recipient name (optional)'
+  endcapture
+
+  capture input_message_id
+    render 'utility.id', name: 'properties[Message]'
+  endcapture
+
+  capture input_message_label
+    render 'utility.translate', key: 'labels.message_optional', fallback: 'Message (optional)'
+  endcapture
+
+  capture input_date_id
+    render 'utility.id', name: 'properties[Send on]'
+  endcapture
+
+  capture input_date_label
+    render 'utility.translate', key: 'labels.recipient_send_on', fallback: 'Send on (optional)'
+  endcapture
+
+  assign max_chars_message = 200
+  capture fallback_max_chars_message_rendered
+    echo max_chars_message
+    echo ' characters max'
+  endcapture
+
+  assign info_max_characters = 'info.max_characters' | t: max_chars: max_chars_message
+  capture max_chars_message_rendered
+    render 'utility.translate', t: info_max_characters, fallback: fallback_max_chars_message_rendered
+  endcapture
+-%}
+
+{%- capture input_email_attributes -%}
+  {% if form.errors contains 'email' %}
+    aria-invalid="true"
+    aria-describedby="RecipientForm-email-error-{{ section.id }}"
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture input_name_attributes -%}
+  {% if form.errors contains 'name' %}
+    aria-invalid="true"
+    aria-describedby="RecipientForm-name-error-{{ section.id }}"
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture input_date_attributes -%}
+  autocomplete="send_on"
+  pattern="\d{4}-\d{2}-\d{2}"
+  {% if form.errors contains 'send_on' %}
+    aria-invalid="true"
+    aria-describedby="RecipientForm-send_on-error-{{ section.id }}"
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture input_message_attributes -%}
+  maxlength="{{ max_chars_message }}"
+  aria-label="{{ input_message_label }}"
+  {% if form.errors contains 'message' %}
+    aria-invalid="true"
+    aria-describedby="RecipientForm-message-error-{{ section.id }}"
+  {% endif %}
+{%- endcapture -%}
+
+{% capture input_message_content %}
+  {%- render 'element.input',
+    multiline: 10,
+    id: input_message_id,
+    classlist: 'gift-recipient-form__message',
+    name: 'properties[Message]',
+    placeholder: input_message_label,
+    label: input_message_label,
+    attributes: input_message_attributes,
+    value: form.message,
+    full: true
+  -%}
+
+  {%- render 'element.text', variant: 'body-sm', text: max_chars_message_rendered, style: 'opacity: 0.7;' -%}
+{% endcapture %}
+
+{% capture form_inputs %}
+  {% form 'product', product %}
+    {% capture form_inputs_content %}
+      {%- render 'element.input',
+        classlist: 'gift-recipient-form__email',
+        id: input_email_id,
+        type: 'email',
+        placeholder: input_email_label,
+        label: input_email_label,
+        name: 'properties[Recipient email]',
+        value: form.email,
+        attributes: input_email_attributes,
+        full: true
+      -%}
+
+      {%- render 'element.input',
+        classlist: 'gift-recipient-form__name',
+        id: input_name_id,
+        type: 'text',
+        placeholder: input_name_label,
+        label: input_name_label,
+        name: 'properties[Recipient name]',
+        value: form.name,
+        attributes: input_name_attributes,
+        full: true
+      -%}
+
+      {% render 'layout.stack', gap: 'xs', slot: input_message_content %}
+
+      {%- render 'element.input',
+        classlist: 'gift-recipient-form__date',
+        id: input_date_id,
+        type: 'date',
+        label: input_date_label,
+        placeholder: input_date_label,
+        name: 'properties[Send on]',
+        value: form.send_on,
+        attributes: input_date_attributes,
+        full: true
+      -%}
+    {% endcapture %}
+  {% endform %}
+{% endcapture %}
+
+{% capture main_content %}
+  {%- render 'element.checkbox',
+    classlist: 'gift-recipient-form__checkbox',
+    name: gift_card_recipient_control_flag,
+    label: checkbox_label
+  -%}
+  
+  {% render 'layout.stack', gap: 'sm', slot: form_inputs_content, classlist: 'recipient-fields' %}
+{% endcapture %}
+
+
+<gift-recipient-form data-form-id="{{ form_id }}">
+
+  {% render 'layout.stack', gap: 'sm', slot: main_content %}
+
+  <input
+    type="hidden"
+    name="{{ gift_card_recipient_control_flag }}"
+    value="if_present"
+    id="Recipient-Control-{{ section.id }}"
+    disabled
+  >
+</gift-recipient-form>
+
+{% javascript %}
+  class GiftRecipientForm extends HTMLElement {
+    constructor() {
+      super()
+      this.checkboxInput = this.querySelector('.gift-recipient-form__checkbox input[type="checkbox"]')
+      this.emailInput = this.querySelector('.gift-recipient-form__email')
+      this.nameInput = this.querySelector('.gift-recipient-form__name')
+      this.messageInput = this.querySelector('.gift-recipient-form__message')
+      this.dateInput = this.querySelector('.gift-recipient-form__date')
+      this.addEventListener('change', () => this.onChange())
+      this.recipientFields = this.querySelector('.recipient-fields')
+
+      this.checkboxInput.addEventListener('change', () => {
+        event.stopPropagation()
+        this.recipientFields.style.display = this.checkboxInput.checked ? 'block' : 'none'
+      })
+    }
+
+    connectedCallback() {
+      this.abortController = new AbortController()
+
+      document.addEventListener('product-form:submit:error', (event) => {
+        if (event.target.form.id === this.dataset.formId) {
+          this.displayErrorMessage(event.detail.errorMessage)
+        }
+      }, { signal: this.abortController.signal })
+
+      document.addEventListener('product-form:submit:success', (event) => {
+        if (event.target.form.id === this.dataset.formId) {
+          this.clearInputFields()
+          this.clearErrorMessage()
+        }
+      }, { signal: this.abortController.signal })
+    }
+
+    disconnectedCallback() {
+      this.abortController.abort()
+    }
+
+    onChange() {
+      if (!this.checkboxInput.checked) {
+        this.clearInputFields()
+        this.clearErrorMessage()
+      }
+    }
+
+    clearInputFields() {
+      for (const element of this.querySelectorAll('input')) {
+        element.value = ''
+      }
+    }
+
+    displayErrorMessage(body) {
+      this.clearErrorMessage()
+      if (body) {
+        return Object.entries(body).forEach(([key, value]) => {
+          const inputElement = this[`${key}Input`]
+          if (!inputElement) {
+            return
+          }
+
+          inputElement.setAttribute('aria-invalid', true)
+        })
+      }
+    }
+
+    clearErrorMessage() {
+      for (const inputElement of this.querySelectorAll('input')) {
+        inputElement.setAttribute('aria-invalid', false)
+        inputElement.removeAttribute('aria-describedby')
+      }
+    }
+  }
+
+  customElements.define('gift-recipient-form', GiftRecipientForm)
+{% endjavascript %}

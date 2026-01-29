@@ -1,0 +1,53 @@
+{% render 'section.flex-pdp.media-gallery', 
+  product: closest.product
+%}
+
+{% schema %}
+{
+  "name": "t:flex_pdp.blocks.media_gallery.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "t:flex_pdp.blocks.media_gallery.settings.image_aspect_ratio.label",
+      "default": "1/1",
+      "options": [
+        {
+          "value": "initial",
+          "label": "t:flex_pdp.blocks.media_gallery.settings.image_aspect_ratio.options.initial.label"
+        },
+        {
+          "value": "9/16",
+          "label": "t:flex_pdp.blocks.media_gallery.settings.image_aspect_ratio.options.portrait.label"
+        },
+        {
+          "value": "1/1",
+          "label": "t:flex_pdp.blocks.media_gallery.settings.image_aspect_ratio.options.square.label"
+        },
+        {
+          "value": "16/9",
+          "label": "t:flex_pdp.blocks.media_gallery.settings.image_aspect_ratio.options.landscape.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "t:flex_pdp.blocks.media_gallery.settings.enable_video_looping.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_autoplay",
+      "label": "t:flex_pdp.blocks.media_gallery.settings.enable_video_autoplay.label",
+      "default": false,
+      "info": "t:flex_pdp.blocks.media_gallery.settings.enable_video_autoplay.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:flex_pdp.blocks.media_gallery.name"
+    }
+  ]
+}
+{% endschema %}

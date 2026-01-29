@@ -1,0 +1,180 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Interactive quantity selector with plus/minus buttons and numeric input.
+
+  @param {string} [id] - ID of the quantity selector
+  @param {string} [name] - Name of the quantity selector
+  @param {number} [value] - Initial value of the quantity selector
+  @param {number} [min] - Minimum value of the quantity selector
+  @param {number} [max] - Maximum value of the quantity selector
+  @param {string} [form_id] - ID of the form the quantity selector is associated with
+  @param {string} [cart_item_key] - Key of the cart item the quantity selector is associated with
+  @param {string} [style] - Custom styles for the quantity selector
+  @param {boolean} [inverted] - Whether to invert the color scheme
+  @param {boolean} [disabled] - Whether to disable the quantity selector
+  @param {string} [label] - Label of the quantity selector
+
+  @example
+  {% render 'element.quantity-selector', value: 1, min: 1, max: 10 %}
+{% enddoc %}
+
+{%- liquid
+  capture default_id
+    render 'utility.id', name: product.id
+  endcapture
+
+  assign id = id | default: default_id
+  assign name = name | default: 'quantity'
+  assign value = value | default: 1
+  assign min = min | default: 1
+  assign form_id = form_id | default: ''
+  assign cart_item_key = cart_item_key | default: ''
+  assign inverted = inverted | default: false
+  assign style = style | default: ''
+  assign disabled = disabled | default: false, allow_false: true
+  assign label = label | default: ''
+
+  assign inverted_input = false
+  assign inverted_buttons = true
+  if inverted
+    assign inverted_input = true
+    assign inverted_buttons = false
+  endif
+
+  assign value_string = value | append: ''
+  assign value_string_size = value_string.size
+
+  if label == blank
+    capture label
+     render 'utility.translate', key: 'labels.quantity', fallback: 'Quantity'
+    endcapture
+  endif
+-%}
+
+{%- capture custom_properties -%}
+  --digit-count: {{ value_string_size }}ch;
+{%- endcapture -%}
+
+{%- assign style = custom_properties | append: ' ' | append: style | strip -%}
+
+{%- capture input_attributes -%}
+  data-initial-value="{{ value }}"
+  min="{{ min }}"
+  max="{{ max }}"
+  pattern="[0-9]*"
+  form="{{ form_id }}"
+{%- endcapture -%}
+
+{%- capture button_minus_attributes -%}
+  aria-label="{% render 'utility.translate', key: 'actions.reduce_item_quantity', fallback: 'Reduce item quantity by one' -%}"
+{%- endcapture -%}
+
+{%- capture button_plus_attributes -%}
+  aria-label="{% render 'utility.translate', key: 'actions.increase_item_quantity', fallback: 'Increase item quantity by one' -%}"
+{%- endcapture -%}
+
+<quantity-selector
+  class="element-quantity-selector"
+  {% if cart_item_key != blank -%}
+    key="{{ cart_item_key }}"
+  {%- endif %}
+  style="{{ style }}"
+>
+  {%- render 'element.button',
+    classlist: 'element-quantity-selector__button element-quantity-selector__button--minus',
+    icon: 'minus',
+    attributes: button_minus_attributes,
+    inverted: inverted_buttons,
+    transparent: true,
+    type: 'button',
+    disabled: disabled,
+    style: '--element-button-color-primary: var(--color-primary); --element-button-color-secondary: var(--color-secondary);'
+  -%}
+
+  {%- render 'element.input',
+    type: 'text',
+    classlist: 'element-quantity-selector__input',
+    id: id,
+    name: name,
+    value: value,
+    attributes: input_attributes,
+    inverted: inverted_input,
+    disabled: disabled
+  -%}
+
+  {%- render 'element.button',
+    classlist: 'element-quantity-selector__button element-quantity-selector__button--plus',
+    icon: 'plus',
+    attributes: button_plus_attributes,
+    inverted: inverted_buttons,
+    transparent: true,
+    type: 'button',
+    disabled: disabled,
+    style: '--element-button-color-primary: var(--color-primary); --element-button-color-secondary: var(--color-secondary);'
+  -%}
+</quantity-selector>
+
+<script type="module">
+  import 'element.quantity-selector'
+</script>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-quantity-selector {
+    --element-input-color-primary: var(--color-primary, #000);
+    --element-input-color-secondary: var(--color-secondary, #fff);
+
+    width: fit-content;
+    display: inline-block;
+    position: relative;
+    overflow: visible;
+    pointer-events: auto;
+
+    &.is-loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  .element-quantity-selector__input {
+    --element-input-radius: var(--element-button-radius);
+    --element-input-padding-inline: calc(
+      var(--element-input-line-height) * var(--element-input-font-size) + 2 * var(--element-input-padding-block)
+    );
+    --element-input-width: max(calc(var(--digit-count, 1ch) + 2 * var(--size-1)), 32px);
+    box-sizing: content-box;
+    text-align: center;
+  }
+
+  .element-quantity-selector__button {
+    --element-button-border-width: 0;
+    --element-button-color-primary: var(--element-input-color-primary, var(--root-color-primary, #000));
+    --element-button-color-secondary: var(--element-input-color-secondary, var(--root-color-secondary, #fff));
+
+    position: absolute;
+    top: 0;
+    height: 100%;
+    aspect-ratio: 1;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    z-index: 1;
+
+    &:has(+ .element-quantity-selector__input:focus),
+    .element-quantity-selector__input:focus + & {
+      border-width: var(--element-input-box-shadow-spread-radius--hover);
+    }
+
+    &:is(.element-quantity-selector__button--minus) {
+      border-radius: var(--element-button-radius) 0 0 var(--element-button-radius);
+      left: 0;
+    }
+
+    &:is(.element-quantity-selector__button--plus) {
+      border-radius: 0 var(--element-button-radius) var(--element-button-radius) 0;
+      right: 0;
+    }
+  }
+{% endstylesheet %}

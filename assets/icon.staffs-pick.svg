@@ -1,0 +1,12 @@
+<svg
+  class="element-icon element-icon-staffs-pick element-icon--line"
+  width="20"
+  height="20"
+  viewBox="0 0 100 100"
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M21.875 15.625V87.5L26.8555 83.7891L50 66.4062L73.1445 83.7891L78.125 87.5V15.625H21.875ZM28.125 21.875H71.875V75L51.8555 59.9609L50 58.5938L48.1445 59.9609L28.125 75V21.875Z"
+  />
+</svg>

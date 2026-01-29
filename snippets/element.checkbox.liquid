@@ -1,0 +1,197 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A checkbox input component with customizable styling and icon support.
+  Features accessible form controls with proper labeling and visual states
+  for checked, unchecked, hover, focus, and disabled states.
+
+  @param {number} [index] - The index of the radio field
+  @param {string} name - The name of the checkbox field
+  @param {string} label - The label for the checkbox field
+  @param {string} value - The value of the checkbox field
+  @param {string} [attributes] - Additional attributes for the checkbox field
+  @param {string} [style] - Additional styles for the checkbox field
+  @param {string} [classlist] - Additional classes for the checkbox field
+  @param {boolean} [checked] - Whether the checkbox field should be checked
+  @param {string} undefined - The icon for the checkbox field
+  @param {boolean} [display_icon] - Whether the icon should be displayed
+
+  @example
+  {% render 'element.checkbox', name: 'terms', label: 'I agree to the terms' %}
+{% enddoc %}
+
+{%- liquid
+  assign name = name | default: ''
+  assign label = label | default: ''
+  assign value = value | default: ''
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+  assign classlist = classlist | default: '' | append: ' element-checkbox' | strip
+  assign checked = checked | default: false
+  assign icon = icon | default: 'check'
+  assign index = index | default: 1
+  assign display_icon = display_icon | default: true, allow_false: true
+
+  capture id_default
+    render 'utility.id', name: name, index: index
+  endcapture
+
+  assign id = id | default: id_default
+
+  if display_icon
+    assign classlist = classlist | append: ' element-checkbox--with-icon'
+  endif
+-%}
+
+<label
+  class="{{ classlist }}"
+  for="{{ id }}"
+  {% if style != blank -%}
+    style="{{ style }}"
+  {%- endif %}
+>
+  <input
+    type="checkbox"
+    id="{{ id }}"
+    {% if name != blank -%}
+      name="{{ name }}"
+    {%- endif %}
+
+    {% if attributes != blank -%}
+      {{ attributes }}
+    {%- endif %}
+
+    {% if checked -%}
+      checked
+    {%- endif %}
+
+    {% if value != blank -%}
+      value="{{ value }}"
+    {%- endif %}
+  >
+
+  {%- if display_icon and icon != blank -%}
+    <span class="element-checkbox__icon">
+      {%- render 'element.icon', name: icon -%}
+    </span>
+  {%- endif -%}
+
+  {%- if label != blank -%}
+    {{ label }}
+  {%- endif -%}
+</label>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-checkbox {
+    /* Layout & Typography */
+    --_size: var(--element-checkbox-size, var(--size-5));
+    --_icon-size: var(--element-checkbox-icon-size, var(--size-3-5));
+    --_radius: var(--element-checkbox-radius, 1px);
+    --_gap: var(--element-checkbox-gap, var(--size-2));
+    --_outline-width: var(--element-checkbox-outline-width, 1px);
+    --_outline-width-active: var(--element-checkbox-outline-width-active, 2px);
+    --_font-family: var(
+      --element-checkbox-font-family,
+      var(--element-text-font-family--body),
+      var(--element-text-font-family-fallback--body)
+    );
+    --_font-size: var(--element-checkbox-font-size, var(--element-text-font-size--body-md));
+    --_letter-spacing: var(--element-checkbox-letter-spacing, var(--element-text-letter-spacing--body));
+    --_line-height: var(--element-checkbox-line-height, var(--element-text-line-height--body));
+    --_font-weight: var(--element-checkbox-font-weight, normal);
+
+    /* Colors */
+    --_color-primary: var(--color-primary);
+    --_color-secondary: var(--color-secondary);
+    --_color-active: var(--color-focus);
+    --_color-shadow: var(
+      --element-checkbox-shadow-color,
+      color-mix(in srgb, var(--root-color-primary) var(--_outline-shade), var(--root-color-secondary))
+    );
+    --_color-background: var(--root-color-secondary);
+    --_color-text: var(--_color-primary);
+    --_outline-shade: var(--element-checkbox-outline-shade, 12%);
+    --_shadow-inset: var(--element-checkbox-shadow-inset, inset);
+    --_shadow-h-offset: var(--element-checkbox-shadow-horizontal-offset, 0);
+    --_shadow-v-offset: var(--element-checkbox-shadow-vertical-offset, 0);
+    --_shadow-blur: var(--element-checkbox-shadow-blur-radius, 0);
+    --_shadow-spread: var(--element-checkbox-shadow-spread-radius, var(--_outline-width));
+    --_icon-opacity: var(--element-checkbox-icon-opacity, 0);
+
+    @media (max-width: 768px) {
+      --_size: var(--element-checkbox-size, var(--size-4));
+      --_icon-size: var(--element-checkbox-icon-size, var(--size-3));
+    }
+
+    position: relative;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_gap);
+    color: var(--_color-text);
+    font-family: var(--_font-family);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    font-weight: var(--_font-weight);
+    cursor: pointer;
+
+    input[type='checkbox'] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:hover {
+      --_color-background: color-mix(in srgb, var(--_color-primary) 4%, var(--_color-secondary));
+    }
+
+    &:hover:has(input[type='checkbox']:checked) {
+      --_color-shadow: color-mix(in srgb, var(--_color-secondary) 12%, var(--_color-primary));
+      --_color-background: color-mix(in srgb, var(--_color-secondary) 4%, var(--_color-primary));
+    }
+
+    &:has(input[type='checkbox']:checked) {
+      --_icon-opacity: 1;
+      --_color-background: var(--_color-primary);
+      --_color-shadow: var(--_color-primary);
+    }
+
+    &:has(input[type='checkbox']:focus-visible) {
+      --_color-shadow: var(--_color-active);
+      --_outline-width: var(--_outline-width-active);
+    }
+
+    &:not(.element-checkbox--with-icon):has(input[type='checkbox']:focus-visible) {
+      outline: 3px solid var(--color-focus);
+    }
+
+    &:has(input[type='checkbox']:disabled) {
+      --_color-background: color-mix(in srgb, var(--_color-primary) 8%, var(--_color-secondary));
+      --_color-shadow: color-mix(in srgb, var(--_color-primary) 8%, var(--_color-secondary));
+    }
+  }
+
+  .element-checkbox__icon {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: var(--_size);
+    height: var(--_size);
+    border-radius: var(--_radius);
+    box-shadow: var(--_shadow-inset) var(--_shadow-h-offset) var(--_shadow-v-offset) var(--_shadow-blur)
+      var(--_shadow-spread) var(--_color-shadow);
+    background-color: var(--_color-background);
+
+    .element-icon {
+      width: var(--_icon-size);
+      height: var(--_icon-size);
+      color: var(--_color-secondary);
+      opacity: var(--_icon-opacity);
+    }
+  }
+{% endstylesheet %}

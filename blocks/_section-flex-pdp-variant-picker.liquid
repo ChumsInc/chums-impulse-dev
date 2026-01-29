@@ -1,0 +1,28 @@
+{% render 'section.flex-pdp.variant-picker', 
+  product: closest.product, 
+  variant_selector_type: block.settings.variant_selector_type 
+%}
+
+{% schema %}
+{
+  "name": "t:flex_pdp.blocks.variant_picker.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant_selector_type",
+      "label": "t:flex_pdp.blocks.variant_picker.settings.variant_selector_type.label",
+      "default": "radio",
+      "options": [
+        { "value": "radio", "label": "t:flex_pdp.blocks.variant_picker.settings.variant_selector_type.options.radio.label" },
+        { "value": "select", "label": "t:flex_pdp.blocks.variant_picker.settings.variant_selector_type.options.select.label" }
+      ],
+      "info": "t:flex_pdp.blocks.variant_picker.settings.variant_selector_type.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:flex_pdp.blocks.variant_picker.name"
+    }
+  ]
+}
+{% endschema %} 

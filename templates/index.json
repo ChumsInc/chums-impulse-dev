@@ -19,7 +19,7 @@
             "title": "",
             "title_size": 80,
             "subheading": "",
-            "link": "shopify://collections/2025-new-products-colors",
+            "link": "shopify://collections/new-products-colors",
             "link_text": "",
             "link_2": "",
             "link_text_2": "",
@@ -68,7 +68,7 @@
       "type": "featured-collection",
       "settings": {
         "title": "SHOP New Styles & Colors",
-        "home_featured_products": "2025-new-products-colors",
+        "home_featured_products": "new-products-colors",
         "per_row": 5,
         "rows": 1,
         "mobile_scrollable": false,
@@ -154,7 +154,7 @@
             "title": "",
             "text": "",
             "button_label": "",
-            "button_link": "shopify://collections/2025-new-products-colors"
+            "button_link": "shopify://collections/new-products-colors"
           }
         }
       },

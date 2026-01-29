@@ -15,8 +15,7 @@
         "enable": true,
         "collection_image_enable": true,
         "parallax": true,
-        "parallax_direction": "top",
-        "collection_title_below": true
+        "parallax_direction": "top"
       }
     },
     "main-collection": {

@@ -1,0 +1,12 @@
+<svg
+  class="element-icon element-icon-women-owned element-icon--line"
+  width="20"
+  height="20"
+  viewBox="0 0 100 100"
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M50 2C33.4766 2 20 15.4766 20 32C20 47.1641 31.3516 59.7891 46 61.75V72H32V80H46V94H54V80H68V72H54V61.75C68.6484 59.7891 80 47.1641 80 32C80 15.4766 66.5234 2 50 2ZM50 10C62.1953 10 72 19.8047 72 32C72 44.1953 62.1953 54 50 54C37.8047 54 28 44.1953 28 32C28 19.8047 37.8047 10 50 10Z"
+  />
+</svg>

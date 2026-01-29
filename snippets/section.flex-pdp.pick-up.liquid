@@ -1,0 +1,194 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders store pickup availability information for the product.
+  
+  This component displays pickup availability at nearby stores, showing the closest 
+  location's status and providing access to a drawer with all available locations. 
+  It includes store names, addresses, phone numbers, and availability status with 
+  appropriate icons and styling.
+  
+  Features:
+  - Shows closest store availability status
+  - Displays store name and pickup time
+  - Provides drawer with all available locations
+  - Shows store addresses and contact information
+  - Handles both available and unavailable states
+  
+  @param {object} product - A product object
+  
+  @example
+  {% render 'section.flex-pdp.pick-up', product: closest.product %}
+{% enddoc %}
+
+{% stylesheet %}
+	.element-icon-in-stock {
+	  fill: var(--success-green, #56ad6a);
+	}
+	
+	.element-icon-out-of-stock {
+	  fill: var(--color-error, #ba4444);
+	}
+
+	.element-text__store-address p {
+	  margin: 0;
+	}
+{% endstylesheet %}
+
+{%- liquid
+  assign product_variant = product.selected_or_first_available_variant
+  assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true
+-%}
+
+{% capture drawer_title %}
+  {% render 'element.text', variant: 'body-md', text: product_variant.product.title, style: '--element-text-font-weight: 700;' %}
+  {% unless product_variant.title == 'Default Title' %}
+    {% render 'element.text', variant: 'body-sm', text: product_variant.title %}
+  {% endunless %}
+{% endcapture %}
+
+{% capture drawer_title_stack %}
+  {% render 'layout.stack', gap: 'xs', slot: drawer_title %}
+{% endcapture %}
+
+{% capture drawer_content %}
+  {% capture store_availability_row_stack %}
+    {%- for availability in pick_up_availabilities -%}
+      {% capture store_availability_icon %}
+        {%- if availability.available -%} 
+          <span style="--element-icon-size: var(--element-text-font-size--body-md);">
+          {% render 'element.icon', name: 'in-stock' %}
+          </span>
+        {%- else -%}
+          <span style="--element-icon-size: var(--element-text-font-size--body-md);">
+            {% render 'element.icon', name: 'out-of-stock' %}
+          </span>
+        {%- endif -%}
+      {% endcapture %}
+
+      {% capture store_address %}
+        {%- assign address = availability.location.address -%}
+        {{ address | format_address }}
+        {%- if address.phone.size > 0 -%}
+          <br />
+          {{ address.phone }}
+        {%- endif -%}
+      {% endcapture %}
+
+      {% capture store_availability_info %}
+        {% render 'element.text', variant: 'body-md', text: availability.location.name, style: '--element-text-font-weight: 600;' %}
+
+        {%- if availability.available -%}
+          {% render 'element.text', variant: 'body-sm', locale: 'info.pick_up_available', text: 'Pickup available' %}
+        {%- else -%}
+          {% render 'element.text', variant: 'body-sm', locale: 'info.pick_up_currently_unavailable', text: 'Pick up currently unavailable' -%}
+        {%- endif -%}
+
+        {% render 'element.text', variant: 'body-sm', text: store_address, classlist: 'element-text__store-address' %}
+      {% endcapture %}
+
+      {% capture store_availability_info_stack %}
+        {% render 'layout.stack', gap: 'xs', slot: store_availability_info %}
+      {% endcapture %}
+      
+      {% capture store_availability_row %}
+        {{ store_availability_icon }}
+        {{ store_availability_info_stack }}
+      {% endcapture %}
+
+      {% if forloop.first %}
+        {% render 'element.divider' %}
+      {% endif %}
+
+      {% render 'layout.stack', gap: 'sm', horizontal: true, wrap: 'nowrap', slot: store_availability_row %}
+      
+      {% if forloop.last == false %}
+        {% render 'element.divider' %}
+      {% endif %}
+    {%- endfor -%}
+  {% endcapture %}
+  {% render 'layout.stack', gap: 'md', slot: store_availability_row_stack %}
+{% endcapture %}
+
+{% render 'overlay.drawer', slot: drawer_content, label: drawer_title_stack, id: 'store-availability-drawer' %}
+
+{%- if pick_up_availabilities.size > 0 -%}
+  {%- assign closest_location = pick_up_availabilities.first -%}
+
+  {% capture store_availability_icon %}
+    {%- if closest_location.available -%}
+      <span style="--element-icon-size: var(--element-text-font-size--body-md);">
+        {% render 'element.icon', name: 'in-stock' %}
+      </span>
+    {%- else -%}
+      <span style="--element-icon-size: var(--element-text-font-size--body-md);">
+        {% render 'element.icon', name: 'out-of-stock' %}
+      </span>
+    {%- endif -%}
+  {% endcapture %}
+
+  {% capture info_pick_up_available_text %}
+    {% assign info_pick_up_available_at_html = 'info.pick_up_available_at_html'
+      | t: location_name: closest_location.location.name
+    %}
+
+    {%- capture fallback_info_pick_up_available_at_html -%}
+      Pickup available at <strong>{{ closest_location.location.name }}</strong>
+    {%- endcapture -%}
+
+    {% render 'utility.translate',
+      t: info_pick_up_available_at_html,
+      fallback: fallback_info_pick_up_available_at_html
+    %}
+  {% endcapture %}
+
+  {% capture info_pick_up_unavailable_text %}
+    {% assign info_pick_up_unavailable_at_html = 'info.pick_up_unavailable_at_html'
+      | t: location_name: closest_location.location.name
+    %}
+    {%- capture fallback_info_pick_up_unavailable_at_html -%}
+      Pickup currently unavailable at <strong>{{ closest_location.location.name }}</strong>
+    {%- endcapture -%}
+    {% render 'utility.translate',
+      t: info_pick_up_unavailable_at_html,
+      fallback: fallback_info_pick_up_unavailable_at_html
+    %}
+  {% endcapture %}
+
+  {% capture drawer_trigger_text %}
+    {%- if pick_up_availabilities.size == 1 -%}
+      {% render 'utility.translate',
+        key: 'actions.view_store_info',
+        fallback: "View store info"
+      %}
+    {%- else -%}
+      {% render 'utility.translate',
+        key: 'actions.check_availability',
+        fallback: "Check availability"
+      %}
+    {%- endif -%}
+  {% endcapture %}
+
+  {% capture store_availability_info %}
+    
+    {%- if closest_location.available -%}
+      {% render 'element.text', variant: 'body-md', text: info_pick_up_available_text %}
+      {% render 'element.text', variant: 'body-sm', text: closest_location.pick_up_time %}
+      {% render 'element.text', as: 'a', variant: 'body-sm', text: drawer_trigger_text, text_decoration: 'underline', style: 'cursor: pointer;', attributes: 'data-open-drawer="store-availability-drawer" href="#"' %}
+    {%- else -%}
+      {% render 'element.text', variant: 'body-md', text: info_pick_up_unavailable_text %}
+      {% render 'element.text', as: 'a', variant: 'body-sm', text: drawer_trigger_text, text_decoration: 'underline', style: 'cursor: pointer;', attributes: 'data-open-drawer="store-availability-drawer" href="#"' %}
+    {%- endif -%}
+  {% endcapture %}
+
+  {% capture store_availability_info_stack %}
+    {% render 'layout.stack', gap: 'xs', slot: store_availability_info %}
+  {% endcapture %}
+
+  {% capture store_availability_row %}
+    {{ store_availability_icon }}
+    {{ store_availability_info_stack }}
+  {% endcapture %}
+
+  {% render 'layout.stack', gap: 'sm', horizontal: true, wrap: 'nowrap', slot: store_availability_row %}
+{%- endif -%}

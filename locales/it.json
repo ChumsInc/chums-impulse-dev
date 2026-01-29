@@ -380,5 +380,41 @@
   },
   "date_formats": {
     "month_day_year": "%b %d, %Y"
+  },
+  "info": {
+    "unable_to_add_item_to_cart": "Impossibile aggiungere l'articolo al carrello",
+    "item_added_to_cart_html": "{{ product_title }} aggiunto al carrello!",
+    "low_stock_count": {
+      "one": "Scorte basse - {{ count }} articolo rimasto",
+      "other": "Scorte basse - {{ count }} articoli rimasti"
+    },
+    "back_in_stock_on": "Torna in magazzino {{ date }}",
+    "backordered": "In arretrato, spedizione a breve",
+    "in_stock": "In magazzino",
+    "sold_out": "Esaurito",
+    "tax_included": "Imposte incluse.",
+    "shipping_policy_html": "<a href='{{ link }}'>Spedizione</a> calcolata alla cassa.",
+    "pick_up_available": "Ritiro disponibile",
+    "pick_up_currently_unavailable": "Ritiro attualmente non disponibile",
+    "pick_up_available_at_html": "Ritiro disponibile presso <strong>{{ location_name }}</strong>",
+    "pick_up_unavailable_at_html": "Ritiro attualmente non disponibile presso <strong>{{ location_name }}</strong>"
+  },
+  "labels": {
+    "quantity": "Quantità",
+    "search": "Cerca",
+    "close": "Chiudi",
+    "get_directions": "Ottieni indicazioni",
+    "view_store_info": "Visualizza informazioni del negozio",
+    "check_availability": "Verifica disponibilità in altri negozi",
+    "show_all_results": "Mostra tutti i risultati per \"{{ terms }}\"",
+    "from_price": "da {{ price }}"
+  },
+  "actions": {
+    "add_to_cart": "Aggiungi al carrello",
+    "close": "Chiudi",
+    "get_directions": "Ottieni indicazioni",
+    "view_store_info": "Visualizza informazioni del negozio",
+    "check_availability": "Verifica disponibilità in altri negozi",
+    "show_all_results": "Mostra tutti i risultati per \"{{ terms }}\""
   }
 }

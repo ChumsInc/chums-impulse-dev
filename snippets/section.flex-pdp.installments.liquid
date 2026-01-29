@@ -1,0 +1,31 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  This component displays Shopify installments payment terms for products.
+
+  The installments feature allows customers to pay for purchases in smaller, interest-free payments over time. This is particularly useful for higher-value items.
+
+  More information can be found at:
+  - https://help.shopify.com/en/manual/payments/shop-pay-installments/activating-shop-pay-installments
+  - https://shopify.dev/docs/storefronts/themes/pricing-payments/installments
+
+  The component uses the {{ form | payment_terms }} filter to automatically display the appropriate installment options based on the product price and customer eligibility.
+
+  @param {object} product - A product object
+
+  @example
+  {% render 'section.flex-pdp.installments', product: closest.product %}
+{% enddoc %}
+
+
+{% capture payment_terms_content %}
+  {% form 'product', product %}
+    {% capture payment_terms %}
+      {{ form | payment_terms }}
+    {% endcapture %}
+  {% endform %}
+{% endcapture %}
+
+{% if payment_terms != blank %}
+ {% render 'element.text', variant: 'body-sm', text: payment_terms %}
+{% endif %}

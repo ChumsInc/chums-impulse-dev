@@ -430,7 +430,7 @@ for WCAG 2.2 AA compliance.
               <textarea class="hide" aria-hidden="true" aria-label="Product JSON" data-variant-json>
                 {{ product.variants | json }}
               </textarea>
-              {%- if product.options.size > 1 -%}
+              {%- if product.options.size >= 1 -%}
                 <textarea class="hide" aria-hidden="true" aria-label="Variant JSON" data-current-variant-json>
                   {{ current_variant | json }}
                 </textarea>

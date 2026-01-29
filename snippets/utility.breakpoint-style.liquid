@@ -1,0 +1,33 @@
+{% doc %}
+  @param {string} property: Property to apply
+  @param {string} selector: Selector to apply
+  @param {object} values: Map of values
+  @param {string} [value_prefix]: Prefix to apply to the property
+{% enddoc %}
+
+{% liquid 
+  assign breakpoints = 'xs,sm,md,lg,xl' | split: ','
+  assign breakpoint_values = null | default: xs: 0, sm: 576, md: 768, lg: 992, xl: 1200
+  assign value_prefix = value_prefix | default: ''
+  assign value_type = value_type | default: 'value'
+%}
+
+
+{% for breakpoint in breakpoints %}
+  {% assign value = values[breakpoint] %}
+  {%- if value != blank -%}
+    {% if value_type == 'property' %}
+    <style>
+      @media (min-width: {{ breakpoint_values[breakpoint] }}px) {
+        {{ selector }} { --{{ property }}: var({{ value_prefix }}{{ value }}); }
+      }
+      </style>
+    {% else %}
+      <style>
+        @media (min-width: {{ breakpoint_values[breakpoint] }}px) {
+          {{ selector }} { --{{ property }}: {{ value_prefix }}{{ value }}; }
+        }
+      </style>
+    {% endif %}
+  {%- endif -%}
+{% endfor %}

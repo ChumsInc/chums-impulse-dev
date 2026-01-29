@@ -1,0 +1,44 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A utility component that generates media query breakpoint values based on standard sizes.
+  Outputs min-width values in pixels for responsive design breakpoints (xs, sm, md, lg, xl).
+  The component provides consistent breakpoint values across the theme while allowing flexibility
+  through a simple size parameter.
+
+
+  @param {string} size (xs, sm, md, lg, xl) - The size of the breakpoint required
+
+  @example
+  {% style %}
+    @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+      .layout-stack {
+        --_gap: var(--_gap--xl);
+      }
+    }
+  {% endstyle %}
+{% enddoc %} 
+
+{%- liquid 
+  assign size_xs = settings.breakpoint-xs | default: 0
+  assign size_sm = settings.breakpoint-sm | default: 576
+  assign size_md = settings.breakpoint-md | default: 768
+  assign size_lg = settings.breakpoint-lg | default: 992
+  assign size_xl = settings.breakpoint-xl | default: 1200
+
+  assign output = ''
+
+  case size
+    when 'xs'
+      assign output = 'min-width: ' | append: size_xs | append: 'px'
+    when 'sm'
+      assign output = 'min-width: ' | append: size_sm | append: 'px'
+    when 'md'
+      assign output = 'min-width: ' | append: size_md | append: 'px'
+    when 'lg'
+      assign output = 'min-width: ' | append: size_lg | append: 'px'
+    when 'xl'
+      assign output = 'min-width: ' | append: size_xl | append: 'px'
+  endcase
+
+  echo output -%}

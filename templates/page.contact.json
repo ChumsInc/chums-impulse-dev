@@ -9,38 +9,59 @@
  */
 {
   "sections": {
+    "shogun-helper": {
+      "type": "shogun-helper",
+      "settings": {}
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
     },
-    "rich-text": {
-      "type": "rich-text",
+    "slideshow_Kj8fWJ": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "image_e469r3": {
+          "type": "image",
           "settings": {
-            "title": "Get in touch"
+            "top_subheading": "",
+            "title": "Contact Us",
+            "title_size": 80,
+            "subheading": "",
+            "link": "",
+            "link_text": "",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "rgba(0,0,0,0)",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/ContactUsPictureforWebsite-05_8c9287f9-0fdd-4a2b-ae37-74ad1f4532cd.jpg",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
           }
-        },
-        "text": {
-          "type": "text",
-          "settings": {}
         }
       },
       "block_order": [
-        "heading",
-        "text"
+        "image_e469r3"
       ],
-      "settings": {}
+      "name": "t:sections.slideshow.presets.hero_optional_slideshow.name",
+      "settings": {
+        "section_height": "650px",
+        "mobile_height": "auto",
+        "parallax": true,
+        "style": "bars",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "lazyload_images": true
+      }
     },
     "form": {
       "type": "contact-form",
-      "settings": {}
-    },
-    "shogun-helper": {
-      "type": "shogun-helper",
-      "settings": {}
+      "settings": {
+        "title": "Contact us",
+        "text": "<p>Chums prides itself in providing exemplary customer service. Complete customer satisfaction is our foremost goal. If you have any questions or concerns, please do not hesitate to reach out.</p>",
+        "show_phone": false,
+        "narrow_column": true
+      }
     },
     "shogun-optimizer": {
       "type": "shogun-optimizer",
@@ -50,7 +71,7 @@
   "order": [
     "shogun-helper",
     "main",
-    "rich-text",
+    "slideshow_Kj8fWJ",
     "form",
     "shogun-optimizer"
   ]

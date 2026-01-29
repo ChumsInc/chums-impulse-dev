@@ -147,3 +147,9 @@ details[open] > .site-nav__dropdown-has-image div.site-nav__dropdown-image img {
 .footer--powered-by {
     display: none;
 }
+
+/* default width does not pass minimum size test for WCAG 2.2 AA */
+.js-qty__wrapper {
+    min-width: 100px;
+    max-width: 100px;
+}

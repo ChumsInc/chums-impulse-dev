@@ -1,0 +1,193 @@
+{% doc %}
+  Image element snippet
+
+  @param {string} [classes] - classes to add to the element
+  @param {string} [alt] - alt text for the image (default: image.alt)
+  @param {string} [loading] - image loading state
+  @param {boolean} [preload] - preload image
+  @param {string} [sizes] - image sizes (default: '100vw')
+  @param {string} [sizeVariable] - image size variable used in image size calculations
+  @param {string} [fallback] - fallback used in image size calculations when first condition is not met
+  @param {string} [animation] - image animation style (default: 'fadein')
+  @param {string} [type] - image type, can be blank, photoswipe, or asset
+  @param {string} [widths] - image widths
+  @param {string} [img_width] - image width
+  @param {string} [img_height] - image height
+  @param {string} [img_tag_width] - image tag width
+  @param {string} [img_tag_height] - image tag height
+  @param {object} [img] - image object
+  @param {object} [asset] - image asset object
+  @param {object} [media] - media object
+  @param {string} [format] - image format
+  @param {string} [itemprop] - image itemprop
+  @param {string} [role] - image role
+  @param {boolean} [ariaHidden] - image aria-hidden
+  @param {string} [style] - image style
+  @param {string} [host] - image host
+  @param {string} [data-name] - image data-name
+  @param {string} [data-value] - image data-value
+  @param {string} [product_zoom_size] - photoswipe image zoom size
+  @param {number} [loopIndex] - photoswipe gallery loop index
+  @param {string} [media_height] - photoswipe media height
+  @param {string} [media_width] - photoswipe media width
+{% enddoc %}
+
+{%- comment -%}
+  Image element snippet
+  - Builds out our theme images
+  - Builds out image tags for hosted files
+  - Builds out images that connect into Photoswipe
+  https://shopify.dev/api/liquid/filters#image_tag
+  https://shopify.dev/api/liquid/filters#image_url
+{%- endcomment -%}
+
+{% liquid
+  assign classes = classes | escape
+  assign alt = alt | escape
+
+  # Image Loading https: //developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading#value
+  # Lazyloading or eager
+  # Eager is the default loading behavior of the browser, which is the same as not including the attribute and means the image is loaded as soon as possible
+  # We are setting it explicitly here but there are no performance benefits
+
+  if loading == 'eager'
+    assign loading = 'eager'
+  elsif loading == false
+    assign loading = 'eager'
+    assign preload = true
+  else
+    assign loading = 'lazy'
+    assign preload = false
+  endif
+
+  # Image sizes https: //developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes
+  # Can explicitly pass in sizes. For example: sizes: '200px' or '(min-width: 769px) 400px, 30vw'
+  # Can pass in only a sizeVariable
+  # This can represent a setting like products per row which means each grid item has a width that can vary
+  # Can pass in an explicit value
+  # Can also pass in an optional fallback size which is only used when the first condition passed to sizes is not true.
+  # If sizes and sizeVariable is blank we output a default value for sizes which is 100vw
+  if sizes == blank and sizeVariable != blank
+    capture sizes
+      render 'element.image.sizes', sizeVariable: sizeVariable, fallback: fallback
+    endcapture
+  endif
+
+  if sizes == blank
+    assign sizes = '100vw'
+  else
+    assign sizes = sizes
+  endif
+
+  if alt == blank
+    assign alt = img.alt | default: ''
+  endif
+
+  assign animation = animation | default: 'fadein'
+
+  # Add a class to the image so we can target theme images
+  assign classes = classes | append: ' image-element'
+%}
+
+<is-land on:visible data-image-type="{{ type }}">
+  {%- liquid
+    # Default scenario for images
+    if type == blank
+      if widths != blank
+        if img_width == blank
+          assign img_width = widths | split: ',' | last | strip
+        endif
+        if img_tag_width == blank
+          assign img_tag_width = img_width | strip
+        endif
+        if img_tag_height == blank
+          assign img_tag_height = img_tag_width | divided_by: img.aspect_ratio
+        endif
+        assign img = img | image_url: width: img_width, format: format | image_tag: preload: preload, height: img_tag_height, width: img_tag_width, class: classes, loading: loading, alt: alt, sizes: sizes, widths: widths, itemprop: itemprop, role: role, aria-hidden: ariaHidden, style: style, data-animate: animation
+      endif
+
+      if widths == blank
+        if img_width == blank
+          assign img_width = img.width | times: 2 | round
+        endif
+        if img_tag_width == blank
+          assign img_tag_width = img_width | strip
+        endif
+        if img_tag_height == blank
+          assign img_tag_height = img_tag_width | divided_by: img.aspect_ratio
+        endif
+        assign img = img | image_url: width: img_width, format: format | image_tag: preload: preload, height: img_tag_height, width: img_tag_width, class: classes, loading: loading, alt: alt, sizes: sizes, itemprop: itemprop, role: role, aria-hidden: ariaHidden, style: style, data-animate: animation
+      endif
+
+      echo img
+    endif
+  -%}
+
+  {% comment %} Hosted images {% endcomment %}
+  {% if type != blank and type != 'photoswipe' %}
+    {% if host == 'theme' %}
+      {% assign img_src = asset | asset_url %}
+    {% else %}
+      {% assign img_src = asset | shopify_asset_url %}
+    {% endif %}
+
+    {% capture img_widths %}
+        {% if host == 'theme' %}
+          {{ asset | asset_img_url: '360x' }} 360w,
+          {{ asset | asset_img_url: '540x' }} 540w,
+          {{ asset | asset_img_url: '720x' }} 720w,
+          {{ asset | asset_img_url: '900x' }} 900w,
+          {{ asset | asset_img_url: '1080x' }} 1080w
+        {% endif %}
+      {% endcapture %}
+
+    <img
+      src="{{ img_src }}"
+      width="{{ img_width }}"
+      height="{{ img_height }}"
+      class="{{ classes }}"
+      loading="{{ loading }}"
+      alt="{{ alt }}"
+      {% if img_widths != blank %}
+        srcset="{{ img_widths }}"
+      {% endif %}
+      {% if data-name and data-value %}
+        data-{{ data-name }}="{{ data-value }}"
+      {% endif %}
+      sizes="{{ sizes }}"
+      data-animate="{{ animation }}"
+    >
+  {% endif %}
+
+  {% comment %} Photoswipe images {% endcomment %}
+  {% if type == 'photoswipe' %}
+    {% assign widthsArray = widths | split: ',' %}
+    {% capture img_widths %}
+      {% for width in widthsArray %}
+       {{ media | image_url: width: width }} {{ width | append: 'w' }},
+      {% endfor %}
+    {% endcapture %}
+    {% assign img_width = widthsArray | last | strip %}
+    {% assign img_height = img_width | divided_by: img.aspect_ratio %}
+    {% assign photoswipe_src = img | image_url: width: product_zoom_size, format: format %}
+
+    {{
+      img
+      | image_url: width: img_width
+      | image_tag:
+        width: img_width,
+        height: img_height,
+        class: classes,
+        loading: loading,
+        alt: alt,
+        data-photoswipe-src: photoswipe_src,
+        data-photoswipe-width: media_width,
+        data-photoswipe-height: media_height,
+        data-index: loopIndex,
+        sizes: sizes,
+        widths: widths,
+        preload: preload,
+        data-animate: animation
+    }}
+  {% endif %}
+</is-land>

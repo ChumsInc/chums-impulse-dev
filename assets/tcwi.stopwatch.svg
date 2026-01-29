@@ -1,0 +1,27 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-stopwatch element-icon--line element-icon-stopwatch"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <circle cx="60.82" cy="54.12" r="4.26" fill="none" stroke="currentColor" />
+  <path
+    d="M46.92 78.41a28 28 0 1 0-14.08-24.28"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M32.84 54.13a28 28 0 1 1 14.08 24.28m-12.78-9.04H11.19m27.51-6.72H23.4m15.3 13.44H23.4"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M32.84 54.13a28 28 0 1 1 14.08 24.28m13.9-61.47v14.24m-17.98 1.51 3.08 3.99M33.27 49.27l4.96.87m13.02 30.28 1.72-4.73m17.42 4.73-1.72-4.73m16.39-7.57L80.7 65.6m7.68-16.33-4.88 1.31m-4.69-17.89-3.08 4.03M60.82 49.87V39.6M54.4 16.94h12.84"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

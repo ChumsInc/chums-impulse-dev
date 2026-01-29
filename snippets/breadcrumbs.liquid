@@ -6,13 +6,11 @@ article
 
 {% if settings.show_breadcrumbs %}
 
-  {% unless template.name == 'index' or template.name == 'cart' %}
-    <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs" data-template-name="{{ template.name }}">
-      <a href="{{ routes.root_url }}"
-         title="{{ 'general.breadcrumbs.home_link_title' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
+{% unless template.name == 'index' or template.name == 'cart' %}
+  <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs" data-template-name="{{ template.name }}">
+    <a href="{{ routes.root_url }}" title="{{ 'general.breadcrumbs.home_link_title' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
 
-
-      {% if template.name == 'product' %}
+    {% if template.name == 'product' %}
         {%- assign jsonld = '' -%}
         {%- assign elPosition = 0 -%}
         {%- capture asd %}{% increment elPosition %}{% endcapture -%}
@@ -21,10 +19,10 @@ article
         {%- endcapture -%}
         {%- assign jsonld = jsonld | append: jsonldElement -%}
       {% if collection %}
-      {% if settings.show_breadcrumbs_collection_link %}
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
-        <a href="{{ routes.collections_url }}">{{ 'general.search.collections' | t | replace: ':', '' }}</a>
-      {% endif %}
+        {% if settings.show_breadcrumbs_collection_link %}
+          <span class="breadcrumb__divider" aria-hidden="true">/</span>
+          <a href="{{ routes.collections_url }}">{{ 'general.search.collections' | t | replace: ':', ''}}</a>
+        {% endif %}
 
         <span class="breadcrumb__divider" aria-hidden="true">/</span>
         {% if collection.handle %}
@@ -36,8 +34,7 @@ article
           {%- assign jsonld = jsonld | append: ", " | append: jsonldElement -%}
         {% endif %}
       {% endif %}
-
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ product.title }}</a>
         {%- capture jsonldElement -%}
           {"@type": "ListItem","position": {% increment elPosition %},"name": "{{ product.title | replace: '"', '\"' }}","item": "{{ shop.url }}{{ product.url }}"}
@@ -48,7 +45,7 @@ article
         </script>
 
 
-      {% elsif template.name == 'collection' and collection.handle %}
+    {% elsif template.name == 'collection' and collection.handle %}
         {%- assign jsonld = '' -%}
         {%- assign elPosition = 0 -%}
         {%- capture asd %}{% increment elPosition %}{% endcapture -%}
@@ -58,10 +55,10 @@ article
         {%- assign jsonld = jsonld | append: jsonldElement -%}
       {% if settings.show_breadcrumbs_collection_link %}
         <span class="breadcrumb__divider" aria-hidden="true">/</span>
-        <a href="{{ routes.collections_url }}">{{ 'general.search.collections' | t | replace: ':', '' }}</a>
+        <a href="{{ routes.collections_url }}">{{ 'general.search.collections' | t | replace: ':', ''}}</a>
       {% endif %}
 
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ collection.title }}</a>
         {% if false and collection.handle %}
           {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
@@ -85,26 +82,25 @@ article
 
         <span class="breadcrumb__divider" aria-hidden="true">/</span>
 
-      {% for tag in current_tags %}
-        {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
+        {% for tag in current_tags %}
+          {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
 
-        {% assign tag_name = tag | strip %}
-        {% assign tag_text = tag_name | capitalize %}
-        <span>{{ tag_text }}</span>
+          {% assign tag_name = tag | strip %}
+          {% assign tag_text = tag_name | capitalize %}
+          <span>{{ tag_text }}</span>
 
-      {% unless forloop.last %}
-        <span>+</span>
-      {% endunless %}
+          {% unless forloop.last %}
+            <span>+</span>
+          {% endunless %}
 
-      {% endfor %}
+        {% endfor %}
       {% endif %}
 
-
-      {% elsif template.name == 'blog' %}
+    {% elsif template.name == 'blog' %}
         {%- assign jsonld = '' -%}
         {%- assign elPosition = 0 -%}
         {%- capture asd %}{% increment elPosition %}{% endcapture -%}
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
       {% if current_tags %}
         {{ blog.title | link_to: blog.url }}
       {% if blog.handle %}
@@ -123,7 +119,7 @@ article
       {% endunless %}
 
 
-      {% elsif template.name == 'article' %}
+    {% elsif template.name == 'article' %}
         {%- assign jsonld = '' -%}
         {%- assign elPosition = 0 -%}
         {%- capture asd %}{% increment elPosition %}{% endcapture -%}
@@ -131,9 +127,9 @@ article
           {"@type": "ListItem","position": {% increment elPosition %},"name": "{{ blog.title }}","item": "{{ shop.url }}{{ blog.url }}"}
         {%- endcapture -%}
         {%- assign jsonld = jsonld | append: jsonldElement -%}
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
-        {{ blog.title | link_to: blog.url }}
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      {{ blog.title | link_to: blog.url }}
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ article.title }}</a>
         {%- capture jsonldElement -%}
           {"@type": "ListItem","position": {% increment elPosition %},"name": "{{ article.title | replace: '"', '\"' }}","item": "{{ shop.url }}{{ article.url }}"}
@@ -144,23 +140,23 @@ article
         </script>
 
 
-      {% elsif template.name == 'page' %}
+    {% elsif template.name == 'page' %}
 
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ page.title }}</a>
 
-      {% elsif template.name == 'search' %}
+    {% elsif template.name == 'search' %}
 
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ page_title | replace: '*', '' }}</a>
 
-      {% else %}
+    {% else %}
 
-        <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span class="breadcrumb__divider" aria-hidden="true">/</span>
         <a href="" aria-current="page">{{ page_title }}</a>
 
-      {% endif %}
-    </nav>
-  {% endunless %}
+    {% endif %}
+  </nav>
+{% endunless %}
 
 {% endif %}

@@ -2,6 +2,7 @@
 
 {%- if section.settings.enable -%}
   {%- if section.settings.collection_image_enable and collection.image -%}
+    {% comment %}CHUMS, Added by Steve 2026.01.29{% endcomment %}
     {% liquid
       # Handle mobile images for collection banner
       # Added by Steve - 2025.01.28
@@ -26,6 +27,7 @@
         }
       {% endstyle %}
     {% endif %}
+    {% comment %}end CHUMS{% endcomment %}
 
     <div
       id="CollectionHeaderSection"
@@ -47,20 +49,21 @@
               preload: true,
               loading: 'eager',
           -%}
+              {% comment %}CHUMS, Added by Steve 2026.01.29{% endcomment %}
               {%- if has_mobile_image -%}
-              {%- render 'image-element',
-                img: mobile_image,
-                classes: 'medium-up--hide collection-hero__image',
-                preload: true,
-                loading: 'eager',
-              -%}
+                {%- render 'image-element',
+                  img: mobile_image,
+                  classes: 'medium-up--hide collection-hero__image',
+                  preload: true,
+                  loading: 'eager',
+                -%}
               {%- endif -%}
+              {% comment %}end CHUMS{% endcomment %}
         {%- if section.settings.parallax -%}
             </div>
           </parallax-image>
         {%- endif -%}
 
-        {% if section.settings.collection_title_below == false %}
         <div class="collection-hero__content">
           <div class="page-width">
             <header class="section-header section-header--hero">
@@ -73,7 +76,6 @@
             </header>
           </div>
         </div>
-        {% endif %}
       </div>
     </div>
   {%- else -%}
@@ -101,19 +103,6 @@
     data-section-type="collection-header">
   </div>
 {%- endif -%}
-
-{% if section.settings.collection_title_below == true and collection.image %}
-  <div class="collection-hero__title">
-    <div class="page-width">
-      <header class="section-header section-header--title">
-        {%- render 'breadcrumbs' -%}
-        <h1 class="section-header__title">
-          {{ collection.title }}
-        </h1>
-      </header>
-    </div>
-  </div>
-{% endif %}
 
 {% schema %}
 {
@@ -152,12 +141,6 @@
           "label": "t:sections.background-image-text.settings.parallax_direction.options.left.label"
         }
       ]
-    },
-    {
-      "type": "checkbox",
-      "id": "collection_title_below",
-      "label": "Show title below collection image",
-      "default": false
     }
   ],
   "disabled_on": {

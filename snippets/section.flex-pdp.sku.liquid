@@ -1,0 +1,21 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the product SKU (Stock Keeping Unit) if available.
+  
+  This component displays the SKU for the current product variant with a "SKU:" prefix. 
+  It only renders when the variant has a SKU value, keeping the display clean when no 
+  SKU is available.
+  
+  @param {object} product - A product object
+  
+  @example
+  {% render 'section.flex-pdp.sku', product: closest.product %}
+{% enddoc %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{%- if current_variant.sku != blank -%}
+  {%- assign sku = 'SKU: ' | append: current_variant.sku -%}
+  {%- render 'element.text', text: sku, variant: 'body-sm' -%}
+{%- endif -%}

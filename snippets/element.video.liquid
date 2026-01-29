@@ -1,0 +1,164 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Video component supporting native video files and external video services with customizable playback options.
+
+  @param {video} [video] - Video object
+  @param {external_video} [external_video] - External video object
+  @param {boolean} [autoplay] - Autoplay the video (default: false)
+  @param {boolean} [loop] - Loop the video (default: false)
+  @param {boolean} [show_controls] - Show the video controls (default: false)
+  @param {boolean} [muted] - Mute the video (default: false)
+  @param {boolean} [background] - Set the video as a background (default: false)
+  @param {string} [media_crop] - Crop type of the media (default: '16-9'), options: '16-9', 'portrait', 'landscape', 'square'
+  @param {string} [hydration] - Hydration strategy (default: 'on:visible'), options: 'on:visible', 'on:idle', 'on:interaction', 'on:media'
+
+  @example
+  {% render 'element.video', autoplay: true %}
+{% enddoc %}
+
+{% liquid
+  assign video = video | default: section.settings.video
+  assign external_video = external_video | default: section.settings.external_video
+  assign autoplay = autoplay | default: section.settings.autoplay, allow_false: true | default: false, allow_false: true
+  assign loop = loop | default: section.settings.loop, allow_false: true | default: false, allow_false: true
+  assign show_controls = show_controls | default: section.settings.show_controls, allow_false: true | default: false, allow_false: true
+  assign muted = muted | default: section.settings.muted, allow_false: true | default: false, allow_false: true
+  assign background = background | default: section.settings.background, allow_false: true | default: false, allow_false: true
+  assign media_crop = media_crop | default: section.settings.media_crop | default: '16-9'
+  assign hydration = hydration | default: 'on:visible'
+
+  if external_video != blank
+    assign external_video_host = external_video.host | default: external_video.type
+    assign external_video_id = external_video.external_id | default: external_video.id
+  endif
+%}
+
+<is-land {{ hydration }}>
+  <div
+    class="element-video aspect-ratio--{{ media_crop }}"
+    data-background="{{ background }}"
+    {% if video.aspect_ratio %}
+      style="--aspect-ratio: {{ video.aspect_ratio }}"
+    {% endif %}
+  >
+    {%- if video != blank -%}
+      {%- if autoplay -%}
+        {%- assign show_controls = false -%}
+      {%- else -%}
+        {%- assign show_controls = true -%}
+      {%- endif -%}
+
+      <video-media
+        {% if autoplay %}
+          autoplay
+        {% endif %}
+        defer-hydration
+      >
+        {{
+          video
+          | video_tag:
+            playsinline: true,
+            controls: show_controls,
+            loop: loop,
+            muted: autoplay,
+            image_size: '500x',
+            preload: 'metadata'
+        }}
+      </video-media>
+    {%- elsif external_video != blank -%}
+      <video-media
+        host="{{ external_video_host }}"
+        {% if autoplay %}
+          autoplay
+        {% endif %}
+        defer-hydration
+      >
+        <template>
+          {%- if external_video_host == 'youtube' -%}
+            <iframe
+              src="https://www.youtube.com/embed/{{ external_video_id }}?playsinline=1&{% if autoplay %}autoplay=1&controls=0&mute=1&{% endif %}{% if loop %}loop=1&{% endif %}playlist={{ external_video_id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+              allow="autoplay; encrypted-media"
+              allowfullscreen="allowfullscreen"
+            ></iframe>
+          {%- elsif external_video_host == 'vimeo' -%}
+            <iframe
+              src="https://player.vimeo.com/video/{{ external_video_id }}?autopause=1&{% if autoplay %}background=1&autoplay=1&muted=1&{% endif %}{% if loop %}loop=1&{% endif %}transparent=0&responsive=1&portrait=0&title=0&byline=0"
+              allow="autoplay; encrypted-media;"
+              allowfullscreen="allowfullscreen"
+            ></iframe>
+          {%- endif -%}
+        </template>
+        <div class="product__video-wrapper__grippy"></div>
+        <div class="product__video-wrapper__grippy"></div>
+      </video-media>
+    {%- else -%}
+      {%- render 'element.placeholder', name: 'hero-apparel-1' -%}
+    {%- endif -%}
+  </div>
+
+  {% if video != blank or external_video != blank %}
+    <template data-island>
+      <script type="module">
+        import 'element.video'
+      </script>
+    </template>
+  {% endif %}
+</is-land>
+
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  video-media {
+    --default-aspect-ratio: 16 / 9;
+
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--aspect-ratio, var(--default-aspect-ratio));
+  }
+
+  video-media > :is(video, iframe, img, svg) {
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  }
+
+  video-media > img,
+  video-media > svg,
+  video-media > video:not(:fullscreen) {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .element-video[data-background='true'] > video-media,
+  .element-video[data-background='true'] > .element-placeholder {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .element-video.aspect-ratio--square {
+    --aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1;
+  }
+
+  .element-video.aspect-ratio--portrait {
+    --aspect-ratio: 9 / 16;
+    aspect-ratio: 9 / 16;
+  }
+
+  .element-video.aspect-ratio--landscape,
+  .element-video.aspect-ratio--16-9 {
+    --aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9;
+  }
+
+  video-media:not([loaded]) > :is(video, iframe),
+  video-media[loaded] > img,
+  video-media[loaded] > svg {
+    visibility: hidden;
+    opacity: 0;
+  }
+{% endstylesheet %}

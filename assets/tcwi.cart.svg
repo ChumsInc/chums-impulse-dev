@@ -1,0 +1,20 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-cart element-icon--line element-icon-cart"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path d="M26.81 71.11h-.05" fill="none" stroke="currentColor" />
+  <circle cx="42.66" cy="76.95" r="6.73" fill="none" stroke="currentColor" />
+  <circle cx="72.7" cy="76.95" r="6.73" fill="none" stroke="currentColor" />
+  <path d="M38.99 59.17 23.7 16.32H11.36" fill="none" stroke="currentColor" />
+  <path
+    d="M27.26 26.3h61.38L77 59.17H39a5.53 5.53 0 0 0-5.53 5.53A5.53 5.53 0 0 0 39 70.22h43.87M57.95 59.17V26.3m-9.12 32.87L42.61 26.3m24.46 32.87L73.3 26.3m11.78 10.04H30.84m49.84 12.39H35.27"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

@@ -1,0 +1,15 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the product description in an accordion format.
+  
+  This component displays the product description using rich text formatting within 
+  an expandable accordion interface. The accordion is open by default to show the 
+  description content immediately.
+  
+  @example
+  {% render 'section.flex-pdp.description', product: closest.product %}
+{% enddoc %}
+
+
+{% render 'element.text', variant: 'rte', text: product.description %}

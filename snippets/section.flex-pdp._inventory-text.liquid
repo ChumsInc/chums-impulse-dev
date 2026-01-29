@@ -1,0 +1,89 @@
+{%  doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the inventory text for the product.
+  
+  @param {object} product - The product object
+  @param {object} current_variant - The current variant object
+  @param {number} inventory_threshold - The inventory threshold
+  
+  @example
+  {% render 'section.flex-pdp._inventory-text', product: product, current_variant: current_variant, inventory_threshold: 10 %}
+{% enddoc %}
+
+{% capture product_inventory %}
+  {%  liquid
+    assign current_variant = current_variant | default: product.selected_or_first_available_variant
+    assign inventory_threshold = inventory_threshold | default: 10
+    
+    
+    assign show_low_inventory_message = false
+    
+    if current_variant.inventory_management == 'shopify'
+      if current_variant.inventory_quantity <= inventory_threshold and current_variant.inventory_quantity > 0
+        # If inventory is low, show the low inventory message
+        assign show_low_inventory_message = true
+      endif
+    endif
+
+    # Incoming inventory is only displayed if the following conditions are met:
+    #   Inventory transfer notice is enabled
+    #     If the product is not in stock
+    #     If the product does not have low inventory
+    #     If the product has incoming inventory
+    #     If product inventory is less than or equal to zero and inventory policy is continue
+    # In other words, if the product has low inventory or in stock, do not show the incoming inventory message
+
+    assign oos_and_continue_selling = false
+    if current_variant.inventory_quantity <= 0 and current_variant.inventory_policy == 'continue'
+      assign oos_and_continue_selling = true
+    elsif current_variant.inventory_quantity <= 0 and current_variant.inventory_policy == 'deny'
+      assign oos_and_continue_selling = false
+    endif
+
+    assign show_incoming_inventory_message = false
+
+    if block.settings.inventory_transfers_enable and current_variant.incoming and show_low_inventory_message == false and current_variant.available == false and oos_and_continue_selling
+      assign show_incoming_inventory_message = true
+    endif
+  %}
+
+  {% capture low_inventory_message %}
+    {%- if show_low_inventory_message -%}
+      {% assign info_low_stock_count = 'info.low_stock_count' | t: count: current_variant.inventory_quantity %}
+      {% capture fallback_info_low_stock_count %}
+        Low stock - {{ current_variant.inventory_quantity }} item{% if coucurrent_variant.inventory_quantity != 1 %}s{% endif %} left
+      {% endcapture %}
+      {% render 'utility.translate', t: info_low_stock_count, fallback: fallback_info_low_stock_count %}
+    {%- endif -%}
+  {% endcapture %}
+
+  {% capture incoming_inventory_message %}
+    {%- if current_variant.next_incoming_date -%}
+      {%- assign date = current_variant.next_incoming_date | date: format: 'date' -%}
+      {%- if current_variant.available == false -%}
+        {% assign info_back_in_stock_on = 'info.back_in_stock_on' | t: date: date %}
+        {%- capture fallback_info_back_in_stock_on -%}
+          Back in stock {{ date }}
+        {%- endcapture -%}
+        {% render 'utility.translate', t: info_back_in_stock_on, fallback: fallback_info_back_in_stock_on %}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'utility.translate', key: 'info.backordered', fallback: 'Backordered, shipping soon' %}
+    {%- endif -%}
+  {% endcapture %}
+
+  {% if show_low_inventory_message %}
+    {{ low_inventory_message }}
+  {% elsif show_incoming_inventory_message %}
+    {{ incoming_inventory_message }}
+  {% else %}
+    {%- if current_variant.available -%}
+    {% render 'utility.translate', key: 'info.in_stock', fallback: 'In stock' %}
+    {%- else -%}
+      {% render 'utility.translate', key: 'info.sold_out', fallback: 'Sold out' %}
+    {%- endif -%}
+  {% endif %}
+{% endcapture %}
+
+{{ product_inventory }}

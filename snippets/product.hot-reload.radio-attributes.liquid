@@ -1,0 +1,22 @@
+{% doc %}
+  This snippet is used to add attributes to a radio element to support the product hot reload.
+
+  @param {object} value - A product option value object (https://shopify.dev/docs/api/liquid/objects/product_option_value)
+
+  @example
+  {% capture attributes %}
+    {% render 'product.hot-reload.radio-attributes', value: value %}
+  {% endcapture %}
+
+  {% render 'element.radio', attributes: attributes %}
+
+{% enddoc %}
+
+{%- liquid
+  assign product_url = value.product_url | default: blank
+  assign option_value_id = value.id | default: blank
+-%}
+
+data-product-hot-reload-trigger
+data-product-url="{{ product_url }}"
+data-option-value-id="{{ option_value_id }}"

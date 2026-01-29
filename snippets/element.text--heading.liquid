@@ -1,0 +1,105 @@
+{% stylesheet %}
+  /* Public Heading Variables */
+  :root {
+    /* Heading Font Styles */
+    --element-text-font-family--heading: 'Arial';
+    --element-text-font-family-fallback--heading: 'sans-serif';
+    --element-text-font-weight--heading: var(--font-weight-700);
+    --element-text-letter-spacing--heading: var(--letter-space-md);
+    --element-text-text-transform--heading: none;
+    
+    /* Heading Color */
+    --element-text-color--heading: initial;
+    
+    /* Heading Font Sizes */
+    --element-text-font-size--heading: initial;
+    --element-text-font-size--heading-2xl: var(--text-size-12);
+    --element-text-font-size--heading-xl: var(--text-size-8);
+    --element-text-font-size--heading-lg: var(--text-size-6);
+    --element-text-font-size--heading-md: var(--text-size-5);
+    --element-text-font-size--heading-sm: var(--text-size-4-5);
+    --element-text-font-size--heading-xs: var(--text-size-4);
+    --element-text-font-size--heading-2xs: var(--text-size-3-5);
+    
+    /* Heading Line Heights */
+    --element-text-line-height--heading: var(--line-height-md);
+    --element-text-line-height--heading-2xl: initial;
+    --element-text-line-height--heading-xl: initial;
+    --element-text-line-height--heading-lg: initial;
+    --element-text-line-height--heading-md: initial;
+    --element-text-line-height--heading-sm: initial;
+    --element-text-line-height--heading-xs: initial;
+    --element-text-line-height--heading-2xs: initial;
+  } 
+
+  .element-text:is([class*="element-text--heading"]) {
+    /* Heading Font Styles */
+    --_font-family--heading: var(--_font-family, var(--element-text-font-family--heading));
+    --_font-family-fallback--heading: var(--_font-family-fallback, var(--element-text-font-family-fallback--heading));
+    --_font-weight--heading: var(--_font-weight, var(--element-text-font-weight--heading));
+    --_letter-spacing--heading: var(--_letter-spacing, var(--element-text-letter-spacing--heading));
+    --_text-transform--heading: var(--_text-transform, var(--element-text-text-transform--heading));
+
+    /* Heading Color */
+    --_color--heading: var(--_color, var(--element-text-color--heading, currentColor));
+
+    /* Heading Font Sizes */
+    --_font-size--heading: var(--_font-size, var(--element-text-font-size--heading));
+    --_font-size--heading-2xl: var(--_font-size--heading, var(--element-text-font-size--heading-2xl));
+    --_font-size--heading-xl: var(--_font-size--heading, var(--element-text-font-size--heading-xl));
+    --_font-size--heading-lg: var(--_font-size--heading, var(--element-text-font-size--heading-lg));
+    --_font-size--heading-md: var(--_font-size--heading, var(--element-text-font-size--heading-md));
+    --_font-size--heading-sm: var(--_font-size--heading, var(--element-text-font-size--heading-sm));
+    --_font-size--heading-xs: var(--_font-size--heading, var(--element-text-font-size--heading-xs));
+
+    /* Heading Line Heights */
+    --_line-height--heading: var(--_line-height, var(--element-text-line-height--heading));
+    --_line-height--heading-2xl: var(--element-text-line-height--heading-2xl, var(--_line-height--heading));
+    --_line-height--heading-xl: var(--element-text-line-height--heading-xl, var(--_line-height--heading));
+    --_line-height--heading-lg: var(--element-text-line-height--heading-lg, var(--_line-height--heading));
+    --_line-height--heading-md: var(--element-text-line-height--heading-md, var(--_line-height--heading));
+    --_line-height--heading-sm: var(--element-text-line-height--heading-sm, var(--_line-height--heading));
+    --_line-height--heading-xs: var(--element-text-line-height--heading-xs, var(--_line-height--heading));
+
+    font-family:var(--_font-family--heading), var(--_font-family-fallback--heading);
+    font-weight: var(--_font-weight--heading);
+    letter-spacing: var(--_letter-spacing--heading);
+    text-transform: var(--_text-transform--heading);
+    color: var(--_color--heading);
+
+    &:where(.element-text--heading-2xs) {
+      font-size: var(--_font-size--heading-2xs);
+      line-height: var(--_line-height--heading-2xs);
+    }
+  
+    &:where(.element-text--heading-xs) {
+      font-size: var(--_font-size--heading-xs);
+      line-height: var(--_line-height--heading-xs);
+    }
+
+    &:where(.element-text--heading-sm) {
+      font-size: var(--_font-size--heading-sm);
+      line-height: var(--_line-height--heading-sm);
+    }
+
+    &:where(.element-text--heading-md) {
+      font-size: var(--_font-size--heading-md);
+      line-height: var(--_line-height--heading-md);
+    }
+
+    &:where(.element-text--heading-lg) {
+      font-size: var(--_font-size--heading-lg);
+      line-height: var(--_line-height--heading-lg);
+    }
+
+    &:where(.element-text--heading-xl) {
+      font-size: var(--_font-size--heading-xl);
+      line-height: var(--_line-height--heading-xl);
+    }
+
+    &:where(.element-text--heading-2xl) {
+      font-size: var(--_font-size--heading-2xl);
+      line-height: var(--_line-height--heading-2xl);
+    }
+  }
+{% endstylesheet %}

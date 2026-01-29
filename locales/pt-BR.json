@@ -360,5 +360,41 @@
   },
   "date_formats":{
     "month_day_year": "%d de %B de %Y"
+  },
+  "info": {
+    "unable_to_add_item_to_cart": "Não foi possível adicionar o item ao carrinho",
+    "item_added_to_cart_html": "{{ product_title }} adicionado ao carrinho!",
+    "low_stock_count": {
+      "one": "Estoque baixo - {{ count }} item restante",
+      "other": "Estoque baixo - {{ count }} itens restantes"
+    },
+    "back_in_stock_on": "De volta ao estoque {{ date }}",
+    "backordered": "Pedido pendente, envio em breve",
+    "in_stock": "Em estoque",
+    "sold_out": "Esgotado",
+    "tax_included": "Impostos incluídos.",
+    "shipping_policy_html": "<a href='{{ link }}'>Frete</a> calculado no checkout.",
+    "pick_up_available": "Retirada disponível",
+    "pick_up_currently_unavailable": "Retirada atualmente indisponível",
+    "pick_up_available_at_html": "Retirada disponível em <strong>{{ location_name }}</strong>",
+    "pick_up_unavailable_at_html": "Retirada atualmente indisponível em <strong>{{ location_name }}</strong>"
+  },
+  "labels": {
+    "quantity": "Quantidade",
+    "search": "Pesquisar",
+    "close": "Fechar",
+    "get_directions": "Obter direções",
+    "view_store_info": "Ver informações da loja",
+    "check_availability": "Verificar disponibilidade em outras lojas",
+    "show_all_results": "Mostrar todos os resultados para \"{{ terms }}\"",
+    "from_price": "a partir de {{ price }}"
+  },
+  "actions": {
+    "add_to_cart": "Adicionar ao carrinho",
+    "close": "Fechar",
+    "get_directions": "Obter direções",
+    "view_store_info": "Ver informações da loja",
+    "check_availability": "Verificar disponibilidade em outras lojas",
+    "show_all_results": "Mostrar todos os resultados para \"{{ terms }}\""
   }
 }

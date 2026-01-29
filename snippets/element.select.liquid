@@ -1,0 +1,236 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Custom select element that looks like a button with a chevron icon.
+  Uses the faux select pattern with a custom element for enhanced functionality.
+  Maintains native select behavior while providing custom styling.
+
+  Element
+  @param {string} [name] - Name attribute for the select element
+  @param {string} [id] - ID attribute for the select element
+  @param {string} [placeholder] - Placeholder text when no option is selected
+  @param {boolean} [disabled] - Whether the select is disabled
+  @param {string} [variant] - Button variant (default, primary, outline)
+  @param {string} [size] - Button size (sm, md, lg)
+  @param {string} [class] - Additional CSS classes
+  @param {string} [attributes] - Additional attributes for the select element
+
+  Content
+  @param {string} [slot] - Option elements to render inside the select
+
+  @example
+  {% capture options %}
+    <option value="">Choose an option</option>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+  {% endcapture %}
+  
+  {% render 'element.select',
+     name: 'my-select',
+     placeholder: 'Select an option',
+     variant: 'primary',
+     slot: options %}
+{% enddoc %}
+
+{% liquid
+  # Element Defaults
+  assign name = name | default: ''
+  assign id = id | default: ''
+  assign placeholder = placeholder | default: ''
+  assign transparent = transparent | default: false
+  assign disabled = disabled | default: false
+  assign variant = variant | default: 'default'
+  assign size = size | default: 'md'
+  assign class = class | default: ''
+  assign attributes = attributes | default: ''
+
+  # Build class list
+  assign wrapper_classes = 'element-select__wrapper'
+
+  if disabled
+    assign wrapper_classes = wrapper_classes | append: ' element-select__wrapper--disabled'
+  endif
+
+  if variant != 'default'
+    assign button_classes = button_classes | append: ' select-button--' | append: variant
+  endif
+
+  if size != 'md'
+    assign button_classes = button_classes | append: ' select-button--' | append: size
+  endif
+
+  if class != ''
+    assign wrapper_classes = wrapper_classes | append: ' ' | append: class
+  endif
+%}
+
+<element-select class="{{ wrapper_classes }}">
+  <select 
+    name="{{ name }}"
+    id="{{ id }}"
+    {% if disabled %}disabled{% endif %}
+    aria-label="{{ placeholder }}"
+    tabindex="0"
+    {{ attributes }}
+  >
+    {{ slot }}
+  </select>
+  
+  {% render 'element.button', 
+     classlist: button_classes, 
+     icon: 'chevron-down', 
+     icon_position: 'end', 
+     inverted: true,
+     transparent: transparent,
+     text: placeholder,
+     attributes: 'tabindex="-1"'
+  %}
+</element-select>
+
+{% stylesheet %}
+  element-select {
+    display: inline-block;
+    position: relative;
+  }
+
+  /* Ensure the custom element inherits the wrapper styles */
+  element-select.element-select__wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  element-select.element-select__wrapper select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+    /* Ensure the select is focusable and visible to screen readers */
+    pointer-events: auto;
+  }
+
+  /* Focus state for the wrapper */
+  element-select.element-select__wrapper--focused .element-button {
+    --_box-shadow: 0 0 0 var(--element-input-box-shadow-spread-radius--focus) color-mix(in srgb, var(--color-primary) var(--element-input-box-shadow-shade--focus), transparent);
+  }
+
+  element-select select:focus-visible + .element-button {
+    --_border-width: var(--element-input-box-shadow-spread-radius--focus);
+    --_box-shadow: inset 0 0 0 var(--_border-width) var(--_color-focus);
+  }
+
+  /* Ensure the button takes full width */
+  element-select .element-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  // Custom element for select button functionality
+  class ElementSelect extends HTMLElement {
+    constructor() {
+      super();
+      this.select = null;
+      this.buttonText = null;
+      this.button = null;
+    }
+
+    connectedCallback() {
+      // Wait for DOM to be ready
+      this.select = this.querySelector('select');
+      this.button = this.querySelector('.element-button');
+      
+      if (this.select && this.button) {
+        this.init();
+      }
+    }
+
+    init() {
+      // Find the button text element within the element.button
+      this.buttonText = this.button.querySelector('.element-button__text') || this.button.querySelector('[data-button-text]');
+      
+      // Set initial text
+      this.updateButtonText();
+      
+      // Add click handler to button to trigger select
+      this.button.addEventListener('click', (e) => this.handleButtonClick(e));
+      
+      // Add keyboard handler for the select element
+      this.select.addEventListener('keydown', (e) => this.handleKeydown(e));
+      
+      // Update on change
+      this.select.addEventListener('change', () => this.updateButtonText());
+      
+      // Update on focus for better UX
+      this.select.addEventListener('focus', () => this.handleFocus());
+      this.select.addEventListener('blur', () => this.handleBlur());
+    }
+
+    handleButtonClick(e) {
+      // Prevent default button behavior
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Trigger the native select
+      this.select.focus();
+      this.select.click();
+    }
+
+    handleKeydown(e) {
+      // Handle keyboard navigation for the select
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          this.select.click();
+          break;
+        case 'ArrowDown':
+        case 'ArrowUp':
+          // Let the native select handle arrow key navigation
+          break;
+        default:
+          // Let other keys pass through
+          break;
+      }
+    }
+
+    updateButtonText() {
+      if (!this.buttonText) return;
+      
+      const selectedOption = this.select.options[this.select.selectedIndex];
+      if (selectedOption && selectedOption.value !== '') {
+        this.buttonText.textContent = selectedOption.textContent;
+      } else {
+        this.buttonText.textContent = this.select.getAttribute('aria-label') || 'Select an option';
+      }
+    }
+
+    handleFocus() {
+      this.classList.add('element-select__wrapper--focused');
+    }
+
+    handleBlur() {
+      this.classList.remove('element-select__wrapper--focused');
+    }
+
+    disconnectedCallback() {
+      // Clean up event listeners
+      if (this.button) {
+        this.button.removeEventListener('click', (e) => this.handleButtonClick(e));
+      }
+      if (this.select) {
+        this.select.removeEventListener('keydown', (e) => this.handleKeydown(e));
+        this.select.removeEventListener('change', () => this.updateButtonText());
+        this.select.removeEventListener('focus', () => this.handleFocus());
+        this.select.removeEventListener('blur', () => this.handleBlur());
+      }
+    }
+  }
+
+  // Register the custom element
+  customElements.define('element-select', ElementSelect);
+{% endjavascript %} 

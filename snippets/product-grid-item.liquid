@@ -216,7 +216,7 @@ Arguments
           {%- endfor -%}
         {%- endif -%}
 
-        {%- if quick_shop_enable and type == blank -%}
+        {%- if quick_shop_enable and type == blank and product.variants_count <= 250 -%}
           <button class="quick-product__btn btn--not-ready js-modal-open-quick-modal-{{ product.id }} small--hide">
             {{ settings.quick_shop_text }}
           </button>

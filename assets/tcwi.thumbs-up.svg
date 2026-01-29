@@ -1,0 +1,22 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-thumbs-up element-icon--line element-icon-thumbs-up"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path d="M16.01 54.13h20.02v35.22H16.01z" fill="none" stroke="currentColor" />
+  <path
+    d="m36 82.72 3.84 2.63a11.53 11.53 0 0 0 6.54 2h13.91M36 58.78l2.07-1.93A10.23 10.23 0 0 0 40.26 54l7.66-15a7.4 7.4 0 0 0 .81-3.36v-8.3a2.93 2.93 0 0 1 2.92-2.94c2.41 0 5.78 1 7.92 6.18a18.63 18.63 0 0 1 1 10.5l-1.29 6.94h19A4.91 4.91 0 0 1 83.16 53a4.91 4.91 0 0 1-4.91 4.92H59.6m3.08 9.8H76a4.91 4.91 0 0 1 4.91 4.92A4.91 4.91 0 0 1 76 77.55H65.65"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M65.65 77.55h6.12a4.92 4.92 0 0 1 4.92 4.92 4.93 4.93 0 0 1-4.92 4.92h-12.5m.33-29.5h19.47A4.92 4.92 0 0 1 84 62.81a4.91 4.91 0 0 1-4.92 4.91h-16.4m-9.49-47.66v-9.41m-5.86 11.47-6.05-7.22m2.87 12.56-9.27-1.64m27.16 1.86 9.27-1.64M59 22.26l6.05-7.21"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

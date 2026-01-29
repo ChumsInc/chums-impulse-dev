@@ -1,0 +1,29 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-size-chart element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"
+    fill="none"
+    stroke="currentColor"
+  />
+  <ellipse
+    cx="22.39"
+    cy="24.81"
+    rx="3.28"
+    ry="2.12"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39m24.39 0v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

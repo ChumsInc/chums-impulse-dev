@@ -377,5 +377,41 @@
   },
   "date_formats":{
     "month_day_year": "%B %d, %Y"
+  },
+  "info": {
+    "unable_to_add_item_to_cart": "Artikel kann nicht in den Warenkorb gelegt werden",
+    "item_added_to_cart_html": "{{ product_title }} wurde in den Warenkorb gelegt!",
+    "low_stock_count": {
+      "one": "Niedriger Lagerbestand - {{ count }} Artikel übrig",
+      "other": "Niedriger Lagerbestand - {{ count }} Artikel übrig"
+    },
+    "back_in_stock_on": "Wieder auf Lager {{ date }}",
+    "backordered": "Nachbestellt, Versand bald",
+    "in_stock": "Auf Lager",
+    "sold_out": "Ausverkauft",
+    "tax_included": "Steuern enthalten.",
+    "shipping_policy_html": "<a href='{{ link }}'>Versand</a> wird an der Kasse berechnet.",
+    "pick_up_available": "Abholung verfügbar",
+    "pick_up_currently_unavailable": "Abholung derzeit nicht verfügbar",
+    "pick_up_available_at_html": "Abholung verfügbar bei <strong>{{ location_name }}</strong>",
+    "pick_up_unavailable_at_html": "Abholung derzeit nicht verfügbar bei <strong>{{ location_name }}</strong>"
+  },
+  "labels": {
+    "quantity": "Menge",
+    "search": "Suchen",
+    "close": "Schließen",
+    "get_directions": "Wegbeschreibung erhalten",
+    "view_store_info": "Geschäftsinformationen anzeigen",
+    "check_availability": "Verfügbarkeit in anderen Geschäften prüfen",
+    "show_all_results": "Alle Ergebnisse für \"{{ terms }}\" anzeigen",
+    "from_price": "ab {{ price }}"
+  },
+  "actions": {
+    "add_to_cart": "In den Warenkorb legen",
+    "close": "Schließen",
+    "get_directions": "Wegbeschreibung erhalten",
+    "view_store_info": "Geschäftsinformationen anzeigen",
+    "check_availability": "Verfügbarkeit in anderen Geschäften prüfen",
+    "show_all_results": "Alle Ergebnisse für \"{{ terms }}\" anzeigen"
   }
 }

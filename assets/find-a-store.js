@@ -72,8 +72,6 @@
     function buildMarkerContent(customer) {
         const content = document.createElement('div');
         content.classList.toggle('customer-link');
-        content.role = 'button';
-        content.tabIndex = '0';
         const customerName = document.createElement('div');
         customerName.classList.toggle('store-map__customer__name', true);
         customerName.innerText = customer.CustomerName;
@@ -148,7 +146,7 @@
             params.set('lat', elements.posLat.value);
             params.set('lng', elements.posLng.value);
             params.set('range', elements.range.value);
-            const url = 'https://intranet.chums.com/api/stores?' + params.toString();
+            const url = 'https://intranet.chums.com/api/stores.json?' + params.toString();
             const res = await fetch(url);
             if (!res.ok) {
                 return;

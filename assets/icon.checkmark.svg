@@ -1,0 +1,17 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-circle-checkmark element-icon--line element-icon-checkmark"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M52.68 24.48A22 22 0 1 1 47 15.93"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path d="m21 32 8.5 8.5L57 13" fill="none" stroke="currentColor" />
+</svg>

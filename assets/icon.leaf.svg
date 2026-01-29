@@ -1,0 +1,23 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-leaf element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M52 11 13 50m22-37v15h16"
+    stroke-miterlimit="10"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M52 11c6 24-16.72 47.29-33 32C7 22 29 10 52 11"
+    stroke-miterlimit="10"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

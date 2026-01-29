@@ -1,0 +1,27 @@
+{% liquid
+  assign style = style | default: ''
+  assign slot = slot | default: ''
+
+  assign span_xs = span_xs | default: span | default: 1
+  assign span_breakpoints_map = null | default: xs: span_xs, sm: span_sm, md: span_md, lg: span_lg, xl: span_xl
+%}
+
+<layout-grid-cell>
+  <template shadowrootmode="open">
+    <style>
+      .layout-grid__cell {
+        --_span: var(--_span--xs);
+        grid-column-end: span var(--_span);
+      }
+
+      :host {
+        display: contents;
+      }      
+    </style>
+    {% render 'utility.breakpoint-style', property: '_span', selector: '.layout-grid__cell', values: span_breakpoints_map %}
+    <div class="layout-grid__cell" style="{{ style }}">
+      <slot></slot>
+    </div>
+  </template>
+  {{ slot }}
+</layout-grid-cell>

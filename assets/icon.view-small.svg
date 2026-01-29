@@ -1,0 +1,13 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-view-small element-icon--line"
+  viewbox="0 0 35 35"
+  fill="currentColor"
+  width="20"
+  height="20"
+>
+  <path d="M0 0h15v15H0zm20 0h15v15H20zM0 20h15v15H0zm20 0h15v15H20z" />
+</svg>

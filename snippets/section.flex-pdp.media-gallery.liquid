@@ -1,0 +1,838 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders a product media gallery with thumbnail navigation and lightbox functionality.
+
+  This component displays product media in a main gallery view with thumbnail navigation.
+  It supports images, videos, external videos, and 3D models. The featured image is
+  displayed first, followed by all other media. Images can be opened in a lightbox
+  overlay with navigation controls. Thumbnails can be positioned around the main gallery.
+
+  @param {object} product - A product object
+  @param {string} [image_aspect_ratio] - The aspect ratio for media containers (default: '1/1')
+  @param {string} [thumbnail_position] - Position of thumbnails: 'top', 'left', 'right', 'bottom' (default: 'bottom')
+  @param {boolean} [autoplay] - Autoplay the video (default: false)
+  @param {boolean} [loop] - Loop the video (default: false)
+
+  @example
+  {% render 'section.flex-pdp.media-gallery', product: product, thumbnail_position: 'left' %}
+{% enddoc %}
+
+{%  liquid
+  assign image_aspect_ratio = image_aspect_ratio | default: block.settings.image_aspect_ratio | default: '1/1'
+  assign thumbnail_position = thumbnail_position | default: 'left'
+  assign autoplay = autoplay | default: block.settings.enable_video_autoplay, allow_false: true | default: false, allow_false: true
+  assign loop = loop | default: block.settings.enable_video_looping, allow_false: true | default: false, allow_false: true
+
+  if image_aspect_ratio == '1/1'
+    assign video_aspect_ratio = 'square'
+  elsif image_aspect_ratio == '16/9'
+    assign video_aspect_ratio = 'landscape'
+  elsif image_aspect_ratio == '9/16'
+    assign video_aspect_ratio = 'portrait'
+  else
+    assign video_aspect_ratio = 'landscape'
+  endif
+%}
+
+{%- capture id -%}{% render 'utility.id', prefix: 'media-gallery' %}{%- endcapture -%}
+
+{%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+{%- assign group = 'product-gallery-' | append: id -%}
+
+{% capture main_gallery %}
+  {% if product.media.size > 0 %}
+    {% assign is_active = false %}
+
+    {% if product.selected_or_first_available_variant.image != blank %}
+      {% assign is_active = true %}
+      {% capture image_content %}
+        {{ product.selected_or_first_available_variant.image | image_url: width: 2400 | image_tag:  alt: media.alt }}
+      {% endcapture %}
+
+      <div class="media-gallery__slide media-gallery__slide--active" data-media-id="{{ product.selected_or_first_available_variant.image.id }}" data-media-type="image">
+        {%- assign group = 'product-gallery-' | append: id -%}
+        {% render 'overlay.lightbox', slot: image_content, group: group %}
+      </div>
+    {% endif %}
+
+    {% for media in product.media %}
+      {% liquid
+        if forloop.first and is_active == false
+          assign is_active = true
+        else
+          assign is_active = false
+        endif
+      %}
+
+      {% unless media == product.selected_or_first_available_variant.image %}
+        <div class="media-gallery__slide{% if is_active %} media-gallery__slide--active{% endif %}" data-media-id="{{ media.id }}" data-media-type="{{ media.media_type }}">
+          {% case media.media_type %}
+            {% when 'image' %}
+
+                {% capture image_content %}
+                  {{ media | image_url: width: 2400 | image_tag: loading: 'lazy', alt: media.alt }}
+                {% endcapture %}
+                {% render 'overlay.lightbox', slot: image_content, group: group %}
+
+            {% when 'video' %}
+              {% render 'element.video', video: media, media_crop: video_aspect_ratio, autoplay: autoplay, loop: loop %}
+            {% when 'external_video' %}
+              {% render 'element.video', external_video: media, media_crop: video_aspect_ratio, autoplay: autoplay, loop: loop %}
+            {% when 'model' %}
+              {% render 'element.model', media: media, autoplay: autoplay %}
+          {% endcase %}
+        </div>
+      {% endunless %}
+    {% endfor %}
+  {% else %}
+    <div class="media-gallery__slide media-gallery__slide--active">
+      {% render 'element.placeholder', name: 'product-1' %}
+    </div>
+  {% endif %}
+{% endcapture %}
+
+{% capture thumbnail_navigation %}
+  {% if product.media.size > 1 %}
+    {% capture thumbnail_buttons %}
+      {% assign is_active = false %}
+
+      {% if product.selected_or_first_available_variant.image != blank %}
+        {% assign media = product.selected_or_first_available_variant.image %}
+        {% assign is_active = true %}
+        {% capture image_content %}
+          {{ product.selected_or_first_available_variant.image | image_url: width: 2400 | image_tag:  alt: media.alt }}
+        {% endcapture %}
+
+        <button
+          class="media-gallery__thumb media-gallery__thumb--active"
+          data-media-id="{{ media.id }}"
+          data-media-type="{{ media.media_type }}"
+          aria-label="View {{ media.alt | default: 'image' | escape }}"
+        >
+          <div class="media-gallery__thumb-image">
+
+            {{ media | image_url: width: 240 | image_tag }}
+          </div>
+        </button>
+      {% endif %}
+      {% for media in product.media %}
+        {% liquid
+          if forloop.first and is_active == false
+            assign is_active = true
+          else
+            assign is_active = false
+          endif
+        %}
+
+        {% unless media == product.selected_or_first_available_variant.image %}
+          <button
+            class="media-gallery__thumb{% if is_active %} media-gallery__thumb--active{% endif %}"
+            data-media-id="{{ media.id }}"
+            data-media-type="{{ media.media_type }}"
+            aria-label="View {{ media.alt | default: 'image' | escape }}"
+          >
+            <div class="media-gallery__thumb-image">
+              {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                <span class="media-gallery__thumb-icon">
+                  {% render 'element.icon', name: 'play' %}
+                </span>
+              {%- endif -%}
+              {%- if media.media_type == 'model' -%}
+                <span class="media-gallery__thumb-icon">
+                  {% render 'element.icon', name: '3d' %}
+                </span>
+              {%- endif -%}
+
+              {{ media.preview_image | image_url: width: 240 | image_tag }}
+            </div>
+          </button>
+        {% endunless %}
+      {% endfor %}
+    {% endcapture %}
+
+    {% liquid
+      assign stack_horizontal = true
+      if thumbnail_position == 'left' or thumbnail_position == 'right'
+        assign stack_horizontal = false
+      endif
+      assign thumbnail_classes = 'media-gallery__thumbnails media-gallery__thumbnails--' | append: thumbnail_position
+    %}
+
+    {% render 'layout.stack',
+      horizontal_xs: true,
+      horizontal_lg: stack_horizontal,
+      gap: 'xs',
+      wrap: 'nowrap',
+      classlist: thumbnail_classes,
+      slot: thumbnail_buttons
+    %}
+  {% endif %}
+{% endcapture %}
+
+{% liquid
+  assign is_horizontal = false
+  assign is_reverse = false
+  assign align = 'center'
+
+  if thumbnail_position == 'left' or thumbnail_position == 'right'
+    assign is_horizontal = true
+    assign align = 'start'
+  endif
+
+  if thumbnail_position == 'right' or thumbnail_position == 'bottom'
+    assign is_reverse = true
+  endif
+
+  assign gallery_classes = 'media-gallery media-gallery--' | append: thumbnail_position
+  assign gallery_attributes = 'id="' | append: id | append: '" data-media-gallery'
+%}
+
+{% capture gallery_content %}
+  {{ thumbnail_navigation }}
+
+  <div class="media-gallery__main" data-aspect-ratio="{{ image_aspect_ratio }}">
+    {{ main_gallery }}
+
+    {% if product.media.size > 1 %}
+      {% render 'element.button',
+        type: 'button',
+        icon: 'chevron-left',
+        classlist: 'media-gallery__nav media-gallery__nav--prev',
+        attributes: 'aria-label="Previous image"',
+        inverted: true
+      %}
+      {% render 'element.button',
+        type: 'button',
+        icon: 'chevron-right',
+        classlist: 'media-gallery__nav media-gallery__nav--next',
+        attributes: 'aria-label="Next image"',
+        inverted: true
+      %}
+    {% endif %}
+  </div>
+{% endcapture %}
+
+<media-gallery class="media-gallery media-gallery--{{ thumbnail_position }}" id="{{ id }}">
+  {% render 'layout.stack',
+    horizontal_xs: false,
+    horizontal_lg: is_horizontal,
+    reverse_xs: true,
+    reverse_lg: is_reverse,
+    gap: 'sm',
+    align: align,
+    slot: gallery_content
+  %}
+</media-gallery>
+
+{% stylesheet %}
+  .media-gallery {
+    --media-gallery-thumb-size: 80px;
+    --media-gallery-thumb-gap: var(--gap-size-xs);
+
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .media-gallery__main {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    aspect-ratio: 1;
+    touch-action: pan-y pinch-zoom;
+    transition: height 0.3s ease-in-out;
+  }
+
+  /* Disable transition when setting height programmatically */
+  .media-gallery__main--no-transition {
+    transition: none;
+  }
+
+  .media-gallery__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .media-gallery__main:hover .media-gallery__nav {
+    opacity: 1;
+  }
+
+  .media-gallery__nav--prev {
+    left: var(--gap-size-sm);
+  }
+
+  .media-gallery__nav--next {
+    right: var(--gap-size-sm);
+  }
+
+  .media-gallery__nav:focus-visible {
+    opacity: 1;
+  }
+
+  .media-gallery__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .media-gallery__slide--is-animating {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  .media-gallery__slide--active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+  }
+
+  .media-gallery__slide--prev {
+    transform: translateX(-100%);
+  }
+
+  .media-gallery__slide--next {
+    transform: translateX(100%);
+  }
+
+  .media-gallery__slide img:not(.overlay-lightbox__overlay img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .media-gallery__thumbnails {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+
+    max-height: 650px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .media-gallery__thumbnails--top,
+  .media-gallery__thumbnails--bottom {
+    overflow-x: auto;
+  }
+
+  .media-gallery__thumbnails--left,
+  .media-gallery__thumbnails--right {
+    overflow-y: auto;
+  }
+
+  /* Webkit scrollbar styling */
+  .media-gallery__thumbnails::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  .media-gallery__thumbnails::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .media-gallery__thumbnails::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+  }
+
+  .media-gallery__thumbnails::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+
+  .media-gallery__thumb {
+    position: relative;
+    border: 2px solid transparent;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+    width: var(--media-gallery-thumb-size);
+    height: var(--media-gallery-thumb-size);
+  }
+
+  .media-gallery__thumb--active {
+    border-color: var(--color-primary);
+  }
+
+  .media-gallery__thumb:hover {
+    border-color: var(--color-primary);
+    opacity: 0.8;
+  }
+
+  .media-gallery__thumb:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .media-gallery__thumb-image {
+    position: relative;
+    width: 100%;
+    max-width: var(--media-gallery-thumb-size);
+    max-height: var(--media-gallery-thumb-size);
+    height: var(--media-gallery-thumb-size);
+    aspect-ratio: 1;
+  }
+
+  .media-gallery__thumb-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .media-gallery__thumb-icon {
+    display: flex;
+    position: absolute;
+    top: var(--gap-size-2xs);
+    right: var(--gap-size-2xs);
+    background: var(--color-primary);
+    color: var(--color-secondary);
+    border-radius: 0;
+    padding: var(--gap-size-2xs);
+    z-index: 1;
+  }
+
+  .media-gallery__thumb-icon .element-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+
+  .media-gallery .shopify-model-viewer-ui,
+  .media-gallery .shopify-model-viewer-ui model-viewer {
+      width: 100%;
+      height: 100%;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .media-gallery__main {
+      min-height: 300px;
+    }
+
+
+    .media-gallery__nav {
+      opacity: 1;
+    }
+  }
+{% endstylesheet %}
+
+{% style %}
+  #{{ id }} .media-gallery__main {
+    aspect-ratio: {{ image_aspect_ratio }};
+  }
+{% endstyle %}
+
+{% javascript %}
+  class MediaGalleryElement extends HTMLElement {
+    constructor() {
+      super();
+      this.slides = this.querySelectorAll('.media-gallery__slide');
+      this.thumbs = this.querySelectorAll('.media-gallery__thumb');
+      this.prevBtn = this.querySelector('.media-gallery__nav--prev');
+      this.nextBtn = this.querySelector('.media-gallery__nav--next');
+      this.mainContainer = this.querySelector('.media-gallery__main');
+      this.currentIndex = 0;
+      this.isAnimating = false;
+      this.isNaturalAspectRatio = this.mainContainer?.getAttribute('data-aspect-ratio') === 'initial';
+
+      // Touch/swipe handling
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.touchEndX = 0;
+      this.touchEndY = 0;
+      this.minSwipeDistance = 50;
+    }
+
+    connectedCallback() {
+      this.init();
+    }
+
+    init() {
+      // Adjust container height for natural aspect ratio
+      if (this.isNaturalAspectRatio) {
+        this.adjustContainerHeight(true); // Disable transition for initial setup
+
+        // Set up resize observer for images that might load asynchronously
+        this.setupResizeObserver();
+      }
+
+      // Add click handlers to thumbnails
+      this.thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => {
+          const direction = index > this.currentIndex ? 'next' : 'prev';
+          this.goToSlide(index, direction);
+        });
+      });
+
+      // Add click handlers to navigation buttons
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.previousSlide();
+        });
+      }
+
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.nextSlide();
+        });
+      }
+
+      // Add keyboard navigation
+      this.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.previousSlide();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.nextSlide();
+        }
+      });
+
+      // Make the gallery focusable for keyboard navigation
+      this.setAttribute('tabindex', '0');
+
+      // Add touch/swipe handlers
+      this.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+      this.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+      this.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Ensure only the initial active slide can play
+      this.pauseNonActiveSlides();
+      this.autoplayActiveSlideIfEligible();
+    }
+
+    goToSlide(index, direction = 'next') {
+      if (index < 0 || index >= this.slides.length) return;
+      if (index === this.currentIndex) return;
+      if (this.isAnimating) return;
+
+      const currentSlide = this.slides[this.currentIndex];
+      const targetSlide = this.slides[index];
+
+      // Before animating, pause non-target slides
+      this.pauseAllMediaExceptInSlide(targetSlide);
+
+      // Reset all slides
+      this.resetSlides();
+
+      // Position slides for animation
+      this.positionSlidesForAnimation(currentSlide, targetSlide, direction);
+
+      // Update UI state
+      this.updateThumbnails(index);
+      this.currentIndex = index;
+
+      // Start animation after positioning is applied
+      this.animateSlides(currentSlide, targetSlide, direction);
+
+      // Adjust container height for natural aspect ratio after slide change
+      if (this.isNaturalAspectRatio) {
+        setTimeout(() => {
+          this.adjustContainerHeight();
+        }, 50); // Small delay to ensure slide is positioned
+      }
+    }
+
+    resetSlides() {
+      this.slides.forEach(slide => {
+        slide.classList.remove('media-gallery__slide--prev', 'media-gallery__slide--next');
+      });
+    }
+
+    positionSlidesForAnimation(currentSlide, targetSlide, direction) {
+      // Remove animation class from all slides during positioning
+      this.slides.forEach(slide => {
+        slide.classList.remove('media-gallery__slide--is-animating');
+      });
+
+      if (direction === 'next') {
+        // Next: target and others on right, current stays in center
+        targetSlide.style.transform = 'translateX(100%)';
+        this.slides.forEach(slide => {
+          if (slide !== currentSlide && slide !== targetSlide) {
+            slide.style.transform = 'translateX(100%)';
+          }
+        });
+      } else {
+        // Previous: target and others on left, current stays in center
+        targetSlide.style.transform = 'translateX(-100%)';
+        this.slides.forEach(slide => {
+          if (slide !== currentSlide && slide !== targetSlide) {
+            slide.style.transform = 'translateX(-100%)';
+          }
+        });
+      }
+    }
+
+    updateThumbnails(activeIndex) {
+      this.thumbs[this.currentIndex].classList.remove('media-gallery__thumb--active');
+      this.thumbs[activeIndex].classList.add('media-gallery__thumb--active');
+    }
+
+    adjustContainerHeight(disableTransition = false) {
+      if (!this.isNaturalAspectRatio || !this.mainContainer) return;
+
+      const activeSlide = this.slides[this.currentIndex];
+      if (!activeSlide) return;
+
+      // Disable transition if requested (for initial setup)
+      if (disableTransition) {
+        this.mainContainer.classList.add('media-gallery__main--no-transition');
+      }
+
+      // Find the image in the active slide
+      const img = activeSlide.querySelector('img');
+      if (!img) return;
+
+      // Get the image's natural dimensions
+      const imgWidth = img.naturalWidth || img.width;
+      const imgHeight = img.naturalHeight || img.height;
+
+      if (imgWidth && imgHeight) {
+        // Calculate the aspect ratio
+        const aspectRatio = imgWidth / imgHeight;
+
+        // Get the container width
+        const containerWidth = this.mainContainer.offsetWidth;
+
+        // Calculate the height based on the aspect ratio
+        const calculatedHeight = containerWidth / aspectRatio;
+
+        // Set the container height
+        this.mainContainer.style.height = calculatedHeight + 'px';
+      } else {
+        // Fallback: temporarily make the slide visible to measure its height
+        const originalOpacity = activeSlide.style.opacity;
+        const originalTransform = activeSlide.style.transform;
+        activeSlide.style.opacity = '1';
+        activeSlide.style.transform = 'translateX(0)';
+        activeSlide.style.position = 'relative';
+        activeSlide.style.visibility = 'hidden';
+
+        // Get the natural height of the slide content
+        const slideHeight = activeSlide.offsetHeight;
+
+        // Restore original styles
+        activeSlide.style.opacity = originalOpacity;
+        activeSlide.style.transform = originalTransform;
+        activeSlide.style.position = '';
+        activeSlide.style.visibility = '';
+
+        // Set the container height to match the slide height
+        this.mainContainer.style.height = slideHeight + 'px';
+      }
+
+      // Re-enable transition after a brief delay
+      if (disableTransition) {
+        setTimeout(() => {
+          this.mainContainer.classList.remove('media-gallery__main--no-transition');
+        }, 10);
+      }
+    }
+
+    setupResizeObserver() {
+      if (!this.isNaturalAspectRatio || !window.ResizeObserver) return;
+
+      this.resizeObserver = new ResizeObserver(() => {
+        this.adjustContainerHeight();
+      });
+
+      // Observe all images in the slides
+      this.slides.forEach(slide => {
+        const images = slide.querySelectorAll('img');
+        images.forEach(img => {
+          this.resizeObserver.observe(img);
+
+          // Also listen for load events to recalculate when image loads
+          img.addEventListener('load', () => {
+            if (slide.classList.contains('media-gallery__slide--active')) {
+              this.adjustContainerHeight();
+            }
+          });
+        });
+      });
+    }
+
+    animateSlides(currentSlide, targetSlide, direction) {
+      // Set animation flag
+      this.isAnimating = true;
+
+      // Frame 1: Initial positions are already set (no animation class)
+
+      // Frame 2: Add animation class
+      requestAnimationFrame(() => {
+        currentSlide.classList.add('media-gallery__slide--is-animating');
+        targetSlide.classList.add('media-gallery__slide--is-animating');
+
+        // Frame 3: Trigger animation
+        requestAnimationFrame(() => {
+          // Animate current slide out
+          if (direction === 'next') {
+            currentSlide.style.transform = 'translateX(-100%)';
+          } else {
+            currentSlide.style.transform = 'translateX(100%)';
+          }
+
+          // Animate target slide in
+          targetSlide.style.transform = 'translateX(0)';
+          targetSlide.classList.add('media-gallery__slide--active');
+
+          // Clean up after animation
+          this.waitForTransition(currentSlide).then(() => {
+            this.positionCurrentSlideAfterAnimation(currentSlide, targetSlide, direction);
+            this.scrollActiveThumbnailIntoView();
+            // Hydrate and autoplay current slide media if eligible and pause others
+            this.pauseNonActiveSlides();
+            this.autoplayActiveSlideIfEligible();
+            // Clear animation flag
+            this.isAnimating = false;
+          });
+        });
+      });
+    }
+
+    positionCurrentSlideAfterAnimation(currentSlide, targetSlide, direction) {
+      // Remove animation class and active class from current slide
+      currentSlide.classList.remove('media-gallery__slide--is-animating', 'media-gallery__slide--active');
+      targetSlide.classList.remove('media-gallery__slide--is-animating');
+
+      if (direction === 'next') {
+        currentSlide.style.transform = 'translateX(100%)';
+      } else {
+        currentSlide.style.transform = 'translateX(-100%)';
+      }
+
+      // Adjust container height for natural aspect ratio after animation
+      if (this.isNaturalAspectRatio) {
+        this.adjustContainerHeight();
+      }
+    }
+
+    scrollActiveThumbnailIntoView() {
+      this.thumbs[this.currentIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+
+    nextSlide() {
+      const nextIndex = (this.currentIndex + 1) % this.slides.length;
+      this.goToSlide(nextIndex, 'next');
+    }
+
+    previousSlide() {
+      const prevIndex = this.currentIndex === 0 ? this.slides.length - 1 : this.currentIndex - 1;
+      this.goToSlide(prevIndex, 'prev');
+    }
+
+    waitForTransition(element) {
+      return new Promise((resolve) => {
+        const handleTransitionEnd = (e) => {
+          if (e.target === element) {
+            element.removeEventListener('transitionend', handleTransitionEnd);
+            resolve();
+          }
+        };
+        element.addEventListener('transitionend', handleTransitionEnd);
+      });
+    }
+
+    handleTouchStart(e) {
+      if (this.isAnimating) return;
+
+      const touch = e.touches[0];
+      this.touchStartX = touch.clientX;
+      this.touchStartY = touch.clientY;
+    }
+
+    handleTouchMove(e) {
+      if (this.isAnimating) return;
+
+      const touch = e.touches[0];
+      this.touchEndX = touch.clientX;
+      this.touchEndY = touch.clientY;
+    }
+
+    handleTouchEnd(e) {
+      if (this.isAnimating) return;
+
+      const deltaX = this.touchEndX - this.touchStartX;
+      const deltaY = this.touchEndY - this.touchStartY;
+      const absDeltaX = Math.abs(deltaX);
+      const absDeltaY = Math.abs(deltaY);
+
+      // Only trigger swipe if horizontal movement is greater than vertical
+      if (absDeltaX > absDeltaY && absDeltaX > this.minSwipeDistance) {
+        if (deltaX > 0) {
+          // Swipe right - go to previous slide
+          this.previousSlide();
+        } else {
+          // Swipe left - go to next slide
+          this.nextSlide();
+        }
+      }
+    }
+
+    // Utilities for media control
+    pauseAllMediaExceptInSlide(slide) {
+      const allowed = new Set(slide ? Array.from(slide.querySelectorAll('video-media, model-media')) : []);
+      this.querySelectorAll('video-media[playing], model-media[playing]').forEach((el) => {
+        if (!allowed.has(el)) {
+          el.pause();
+        }
+      });
+    }
+
+    pauseNonActiveSlides() {
+      this.slides.forEach((slide, index) => {
+        if (index !== this.currentIndex) {
+          slide.querySelectorAll('video-media[playing], model-media[playing]').forEach((element) => element.pause());
+        }
+      });
+    }
+
+    autoplayActiveSlideIfEligible() {
+      const activeSlide = this.slides[this.currentIndex];
+      if (!activeSlide) return;
+
+      const mediaEls = activeSlide.querySelectorAll('video-media, model-media');
+      mediaEls.forEach((element) => {
+        if (!element.hasAttribute('autoplay')) return;
+        if (element.hasAttribute('playing')) return;
+        // If already loaded, try immediately; else wait for 'loaded' attribute
+        if (element.hasAttribute('loaded')) {
+          element.play();
+        } else {
+          const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+              if (mutation.type === 'attributes' && mutation.attributeName === 'loaded' && element.hasAttribute('loaded')) {
+                observer.disconnect();
+                element.play();
+                break;
+              }
+            }
+          });
+
+          observer.observe(element, { attributes: true, attributeFilter: ['loaded'] });
+        }
+      });
+    }
+  }
+
+  // Define the custom element
+  customElements.define('media-gallery', MediaGalleryElement);
+{% endjavascript %}

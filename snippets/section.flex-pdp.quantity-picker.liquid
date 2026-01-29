@@ -1,0 +1,69 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders a quantity selector with optional inventory status display.
+
+  This component provides a quantity input field with increment/decrement buttons
+  and can optionally display inventory status information. It respects inventory
+  limits when inventory management is enabled and shows appropriate maximum values.
+
+  @param {boolean} [show_inventory_status] - Whether to show inventory status below quantity selector (default: true)
+  @param {number} [inventory_threshold] - The inventory level at which to show low stock warning (default: 10)
+
+  @example
+  {% render 'section.flex-pdp.quantity-picker', show_inventory_status: true, inventory_threshold: 5, product: closest.product %}
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'section.flex-pdp.form-' | append: section.id
+  assign show_inventory_status = show_inventory_status | default: block.settings.show_inventory_status, allow_false: true | default: true, allow_false: true
+  assign inventory_threshold = inventory_threshold | default: block.settings.inventory_threshold | default: 10
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+{% capture product_inventory %}
+  {% render 'section.flex-pdp._inventory-text', product: product, inventory_threshold: inventory_threshold %}
+{% endcapture %}
+
+{% capture quantity_selector_label %}
+  {% capture quantity_selector_attributes %}
+    for="{% render 'utility.id', name: product.id %}"
+  {% endcapture -%}
+
+  {% if show_inventory_status %}
+    {%  capture quantity_selector_label_beginning %}
+      {%- render 'utility.translate', key: 'labels.quantity', fallback: 'Quantity' -%}
+    {% endcapture %}
+    {% assign quantity_selector_label_beginning = quantity_selector_label_beginning | strip | append: ':' %}
+    {%  capture quantity_selector_label_content %}
+      {% render 'element.text', as: 'span', text: quantity_selector_label_beginning, style: 'font-weight: 600;' %}
+      {% render 'element.text', as: 'span', text: product_inventory, style: 'opacity: 0.75;' %}
+    {% endcapture %}
+    {% render 'element.text', as: 'label', variant: 'body-sm', text: quantity_selector_label_content, attributes: quantity_selector_attributes %}
+  {% else %}
+    {% render 'element.text', as: 'label', variant: 'body-sm', locale: 'labels.quantity', text: 'Quantity', style: 'font-weight: 600;', attributes: quantity_selector_attributes %}
+  {% endif %}
+{% endcapture %}
+
+{% capture quantity_selector_stack %}
+  {% assign value = 1 %}
+  {% assign max = '' %}
+  {% assign min = 1 %}
+  {% assign disabled = false %}
+
+  {% if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy != 'continue' and show_inventory_status %}
+    {% assign max = current_variant.inventory_quantity %}
+  {% endif %}
+
+  {% unless current_variant.available %}
+    {% assign max = 0 %}
+    {% assign min = 0 %}
+    {% assign value = 0 %}
+    {% assign disabled = true %}
+  {% endunless %}
+
+  {% render 'layout.stack', gap: 'xs', horizontal: true, slot: quantity_selector_label %}
+  {% render 'element.quantity-selector', product: product, form_id: form_id, max: max, value: value, min: min, disabled: disabled %}
+{% endcapture %}
+
+{% render 'layout.stack', gap: 'xs', slot: quantity_selector_stack %}

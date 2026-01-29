@@ -4728,7 +4728,7 @@ theme.recentlyViewed = {
         <div class="grid__item grid-product ${gridWidth} aos-animate" data-aos="row-of-${rowOf}">
           <div class="grid-product__content">
             <a href="${product.url}" class="grid-product__link">
-                <!-- aria-hidden="true" due to image alt text just includes product title, duplicated below // SM:2025.06.20, rule: image-redundant-alt -->
+            <!-- aria-hidden="true" due to image alt text just includes product title, duplicated below // SM:2025.06.20, rule: image-redundant-alt -->
               <div class="grid-product__image-mask" aria-hidden="true">
                 ${image}
               </div>
@@ -7066,8 +7066,6 @@ theme.recentlyViewed = {
         var swatches = this.container.querySelectorAll(this.selectors.variantColorSwatch);
         if (swatches.length) {
           swatches.forEach(swatch => {
-            // CHUMS - 2025.01.27, previous event was 'change', and it doesn't
-            // seem to be getting triggered to hide variant images
             swatch.addEventListener('updateSwatch', function(evt) {
               var color = swatch.dataset.colorName;
               var index = swatch.dataset.colorIndex;
@@ -7273,9 +7271,11 @@ theme.recentlyViewed = {
   
       // Show/hide thumbnails based on current image set
       updateImageSetThumbs: function(set) {
+        // CHUMS, SM 2026.01.29
         this.cache.thumbSlider.querySelectorAll('.product__thumb-item[data-group-all]').forEach(thumb => {
           thumb.dataset.group = set;
         })
+        // END CHUMS
         this.cache.thumbSlider.querySelectorAll('.product__thumb-item').forEach(thumb => {
           thumb.classList.toggle(classes.hidden, thumb.dataset.group !== set);
         });
@@ -7680,10 +7680,12 @@ theme.recentlyViewed = {
         // Override default settings if image set feature enabled
         if (this.settings.imageSetName) {
           var imageSetArgs = this.imageSetArguments(variant);
+          // CHUMS, SM 2026.01.29
           this.cache.mainSlider.querySelectorAll(selectors.slideGroupAll).forEach(el => {
             el.dataset.setName = this.settings.imageSetName;
             el.dataset.group = this.settings.imageSetName + '_' + this.settings.currentImageSet;
           })
+          // END CHUMS
           mainSliderArgs = Object.assign({}, mainSliderArgs, imageSetArgs);
           this.updateImageSetThumbs(mainSliderArgs.imageSet);
         }

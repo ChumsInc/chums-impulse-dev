@@ -1,0 +1,192 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile layout component that provides flexible stacking of elements in either vertical or horizontal orientation.
+  Supports responsive gap sizing, flex wrapping, justification and alignment controls, and can be reversed.
+  The component is highly customizable through props while maintaining consistent spacing and layout behavior.
+
+  @param {string} slot - The slot content to wrap
+  @param {string} [as] - The HTML element to use for the stack (default: 'div')
+  @param {string} [id] - ID attribute
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [attributes] - Additional attributes
+  @param {string} [style] - Inline styles to apply
+  @param {string} [gap] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - Gap size between items, default: 'none'
+  @param {string} [gap_row] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - Gap size between rows
+  @param {string} [gap_col] <responsive> ('none'|'3xs'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl') - Gap size between columns
+  @param {boolean} [horizontal] <responsive> - Whether the stack should be horizontal (default: false)
+  @param {boolean} [reverse] <responsive> - Whether the stack should be reversed (default: false)
+  @param {string} [justify] <responsive> - Controls how items are positioned along the main axis, options: 'start', 'center', 'end', 'space-around', 'space-between', 'space-evenly'
+  @param {string} [align] <responsive> - Controls how items are aligned along the cross axis, options: 'start', 'center', 'end', 'stretch', 'baseline'
+  @param {string} [wrap] - Controls flex wrapping (default: 'wrap'), options: 'wrap', 'nowrap', 'wrap-reverse'
+
+  @example
+  {% render 'layout.stack', slot: content, horizontal: true, reverse: true, gap: 'xs' %}
+{% enddoc %}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  /* Public Layout Stack Tokens */
+  :root {
+    /* Layout Stack Gap Sizes - These are assigned by the value passed to the 'gap' param */
+    --layout-stack-gap-size-none: 0px;
+    --layout-stack-gap-size-3xs: var(--gap-size-3xs);
+    --layout-stack-gap-size-2xs: var(--gap-size-2xs);
+    --layout-stack-gap-size-xs: var(--gap-size-xs);
+    --layout-stack-gap-size-sm: var(--gap-size-sm);
+    --layout-stack-gap-size-md: var(--gap-size-md);
+    --layout-stack-gap-size-lg: var(--gap-size-lg);
+    --layout-stack-gap-size-xl: var(--gap-size-xl);
+    --layout-stack-gap-size-2xl: var(--gap-size-2xl);
+
+    /* Layout Stack Default Layout */
+    --layout-stack-margin: 0;
+  }
+{% endstylesheet %}
+
+{% liquid
+  assign slot = slot | default: ''
+  assign as = as | default: 'div'
+  assign id = id | default: ''
+  assign classlist = classlist | default: '' | append: ' layout-stack' | strip
+
+  assign wrap = wrap | default: 'wrap'
+  assign align = align | default: ''
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+
+  assign breakpoints = 'xs,sm,md,lg,xl' | split: ','
+
+  # Flex Direction w/ Breakpoints
+  assign horizontal_xs = horizontal_xs | default: horizontal | default: false
+  assign horizontal_breakpoint_map = null | default: xs: horizontal_xs, sm: horizontal_sm, md: horizontal_md, lg: horizontal_lg, xl: horizontal_xl
+
+  assign reverse_xs = reverse_xs | default: reverse | default: false
+  assign reverse_breakpoint_map = null | default: xs: reverse_xs, sm: reverse_sm, md: reverse_md, lg: reverse_lg, xl: reverse_xl
+
+  assign flex_directions = ''
+  for breakpoint in breakpoints
+    assign horizontal_value = horizontal_breakpoint_map[breakpoint]
+    assign reverse_value = reverse_breakpoint_map[breakpoint]
+
+    unless horizontal_value == nil and reverse_value == nil
+      if horizontal_value
+        if reverse_value
+          assign flex_directions = flex_directions | append: 'row-reverse' | append: ','
+        else
+          assign flex_directions = flex_directions | append: 'row' | append: ','
+        endif
+      else
+        if reverse_value
+          assign flex_directions = flex_directions | append: 'column-reverse' | append: ','
+        else
+          assign flex_directions = flex_directions | append: 'column' | append: ','
+        endif
+      endif
+    else
+      assign flex_directions = flex_directions | append: '' | append: ','
+    endunless
+  endfor
+  assign flex_directions = flex_directions | split: ','
+  assign flex_direction_breakpoint_map = null | default: xs: flex_directions[0], sm: flex_directions[1], md: flex_directions[2], lg: flex_directions[3], xl: flex_directions[4]
+
+  # Gap w/ Breakpoints
+  assign gap_xs = gap_xs | default: gap | default: 'none'
+  assign gap_breakpoint_map = null | default: xs: gap_xs, sm: gap_sm, md: gap_md, lg: gap_lg, xl: gap_xl
+
+  assign gap_row_xs = gap_row_xs | default: gap_row | default: ''
+  assign gap_row_breakpoint_map = null | default: xs: gap_row_xs, sm: gap_row_sm, md: gap_row_md, lg: gap_row_lg, xl: gap_row_xl
+
+  assign gap_col_xs = gap_col_xs | default: gap_col | default: ''
+  assign gap_col_breakpoint_map = null | default: xs: gap_col_xs, sm: gap_col_sm, md: gap_col_md, lg: gap_col_lg, xl: gap_col_xl
+
+  # Justify w/ Breakpoints
+  assign justify_xs = justify_xs | default: justify | default: 'start'
+  assign justify_breakpoint_map = null | default: xs: justify_xs, sm: justify_sm, md: justify_md, lg: justify_lg, xl: justify_xl
+
+  # Align w/ Breakpoints
+  assign align_xs = align_xs | default: align | default: 'stretch'
+  assign align_breakpoint_map = null | default: xs: align_xs, sm: align_sm, md: align_md, lg: align_lg, xl: align_xl
+
+  # Wrap w/ Breakpoints
+  assign wrap_xs = wrap_xs | default: wrap | default: 'wrap'
+  assign wrap_breakpoint_map = null | default: xs: wrap_xs, sm: wrap_sm, md: wrap_md, lg: wrap_lg, xl: wrap_xl
+%}
+
+<layout-stack class="{{ classlist }}">
+  <template shadowrootmode="open">
+    <style>
+      :host {
+        display: contents;
+      }
+
+      .layout-stack {
+        /* Layout & Typography */
+        --_flex-direction: var(--_flex-direction--xs);
+        --_justify: var(--_justify--xs);
+        --_align: var(--_align--xs);
+
+        --_margin: var(--layout-stack-margin);
+
+        display: flex;
+        flex-direction: var(--_flex-direction);
+        gap: var(--_gap);
+        flex-wrap: var(--_wrap);
+        justify-content: var(--_justify);
+        align-items: var(--_align);
+        text-align: var(--_align);
+        margin: var(--_margin);
+        padding: 0;
+        list-style: none;
+
+        ::slotted(*) {
+          max-width: 100%;
+        }
+      }
+    </style>
+    {% render 'utility.breakpoint-style', property: '_gap', selector: '.layout-stack', value_type: 'property', value_prefix: '--layout-stack-gap-size-', values: gap_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_row-gap', selector: '.layout-stack', value_type: 'property', value_prefix: '--layout-stack-gap-size-', values: gap_row_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_column-gap', selector: '.layout-stack', value_type: 'property', value_prefix: '--layout-stack-gap-size-', values: gap_col_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_flex-direction', selector: '.layout-stack', values: flex_direction_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_justify', selector: '.layout-stack', values: justify_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_align', selector: '.layout-stack', values: align_breakpoint_map %}
+    {% render 'utility.breakpoint-style', property: '_wrap', selector: '.layout-stack', values: wrap_breakpoint_map %}
+
+    <{{ as }} class="layout-stack" style="{{ style }}" {{ attributes }}>
+      <slot></slot>
+    </{{ as }}>
+  </template>
+
+  {{ slot }}
+</layout-stack>
+
+{% javascript %}
+  class LayoutStack extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.attachShadowRoots(this);
+    }
+
+    attachShadowRoots(element) {
+      if (this.shadowRoot) {
+        return;
+      }
+      
+      element.querySelectorAll("template[shadowrootmode]").forEach(template => {
+        const mode = template.getAttribute("shadowrootmode");
+        const shadowRoot = template.parentNode.attachShadow({ mode });
+
+        shadowRoot.appendChild(template.content);
+        template.remove();
+        this.attachShadowRoots(shadowRoot);
+      });
+    }
+  }
+
+  customElements.define('layout-stack', LayoutStack);
+{% endjavascript %}

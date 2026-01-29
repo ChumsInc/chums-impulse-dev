@@ -43,7 +43,7 @@
           "type": "question",
           "settings": {
             "title": "Do you ship internationally?",
-            "text": "<p>Yes, we do ship internationally with an additional fee. Orders to Canada have a $10.00 shipping charge and all other international orders have a $40.00 shipping charge. We ship free to US military PO boxes.</p>"
+            "text": "<p>Yes, we do ship internationally to many countries around the world. The list of available countries can be found in checkout. International shipping charges vary by country and are calculated in checkout based on the contents (weight) of your order. We ship free to US military PO boxes.</p>"
           }
         },
         "f05182a2-e19e-4116-82f7-cd059587e099": {

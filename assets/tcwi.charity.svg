@@ -1,0 +1,21 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-charity element-icon--line element-icon-charity"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="m63.41 68 21-10.58a4.16 4.16 0 0 1 5.67 2 4.17 4.17 0 0 1-1.93 5.39L54 82a3.35 3.35 0 0 1-2.16.25L39 75.82l-7.31 3.06m-8.93 7.79L9.6 55.92l10.24-4.64 13.17 30.75z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="m23.17 58.17 8.79-4a9.51 9.51 0 0 1 6.88-.37l22.25 7.31A4.52 4.52 0 0 1 63.41 68a4.51 4.51 0 0 1-5 1.77L43.8 65.32m35.57-48.38a12.34 12.34 0 0 0-17.44 0l-.79.79-.78-.79a12.34 12.34 0 1 0-17.44 17.45l.78.78 17.44 17.45 17.45-17.45.78-.78a12.34 12.34 0 0 0 0-17.45"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

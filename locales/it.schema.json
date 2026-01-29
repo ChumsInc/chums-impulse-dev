@@ -4214,6 +4214,184 @@
       }
     }
   },
+  "flex_pdp": {
+    "section": {
+      "high_variant": {
+        "name": "Prodotto: 250+ varianti",
+        "settings": {
+          "padding": {
+            "label": "Riempimento",
+            "options": {
+              "none": {
+                "label": "Nessuno"
+              },
+              "top": {
+                "label": "Superiore"
+              },
+              "bottom": {
+                "label": "Inferiore"
+              },
+              "both": {
+                "label": "Entrambi"
+              }
+            }
+          }
+        },
+        "presets": {
+          "high_variant": {
+            "name": "Prodotto (250+ Varianti)"
+          }
+        }
+      }
+    },
+    "blocks": {
+      "buy_buttons": {
+        "name": "Pulsanti di acquisto",
+        "settings": {
+          "show_dynamic_checkout": {
+            "label": "Mostra pulsante di checkout accelerato",
+            "info": "Ogni cliente vedrà il suo metodo di pagamento preferito tra quelli disponibili nel tuo negozio, come PayPal o Apple Pay. [Scopri di più](https://help.shopify.com/en/manual/online-store/dynamic-checkout)"
+          }
+        },
+        "presets": {
+          "buy_buttons": {
+            "name": "Pulsanti di acquisto"
+          }
+        }
+      },
+      "description": {
+        "name": "Descrizione"
+      },
+      "divider": {
+        "name": "Divisore"
+      },
+      "installments": {
+        "name": "Pagamenti rateali",
+        "settings": {
+          "content": "Per visualizzare i pagamenti rateali, il tuo negozio deve supportare Pagamenti Rateali Shop Pay. [Scopri di più](https://help.shopify.com/en/manual/payments/shop-pay-installments)."
+        }
+      },
+      "inventory": {
+        "name": "Inventario",
+        "settings": {
+          "content": "Mostra lo stato dell'inventario per il prodotto basato sulla soglia di inventario, inclusi avvisi di scorte basse e inventario in arrivo.",
+          "inventory_threshold": {
+            "label": "Soglia di inventario basso"
+          }
+        }
+      },
+      "media_gallery": {
+        "name": "Galleria multimediale",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Rapporto d'aspetto",
+            "options": {
+              "initial": {
+                "label": "Naturale"
+              },
+              "portrait": {
+                "label": "Verticale"
+              },
+              "square": {
+                "label": "Quadrato"
+              },
+              "landscape": {
+                "label": "Orizzontale"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Riproduzione in loop del video"
+          },
+          "enable_video_autoplay": {
+            "label": "Riproduzione automatica del video",
+            "info": "I video con riproduzione automatica sono muti per l'accessibilità."
+          }
+        }
+      },
+      "media_grid": {
+        "name": "Griglia multimediale",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Rapporto d'aspetto",
+            "options": {
+              "initial": {
+                "label": "Naturale"
+              },
+              "portrait": {
+                "label": "Verticale"
+              },
+              "square": {
+                "label": "Quadrato"
+              },
+              "landscape": {
+                "label": "Orizzontale"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Riproduzione in loop del video"
+          },
+          "enable_video_autoplay": {
+            "label": "Riproduzione automatica del video",
+            "info": "I video con riproduzione automatica sono muti per l'accessibilità."
+          }
+        }
+      },
+      "pick_up": {
+        "name": "Disponibilità ritiro",
+        "settings": {
+          "content": "Mostra la disponibilità al dettaglio quando il ritiro locale è abilitato. [Scopri di più](https://help.shopify.com/en/manual/fulfillment/setup/delivery-methods/pickup-in-store)."
+        }
+      },
+      "policies": {
+        "name": "Politiche",
+        "settings": {
+          "content": "Mostra se le tasse sono incluse nel prezzo e collega alla tua politica di spedizione (se impostata). [Impara a configurare prezzi con tasse incluse](https://help.shopify.com/en/manual/taxes) e [impara ad aggiungere una politica di spedizione](https://help.shopify.com/en/manual/fulfillment/setup/shipping-profiles#create-a-shipping-policy)."
+        }
+      },
+      "price": {
+        "name": "Prezzo"
+      },
+      "quantity_picker": {
+        "name": "Selettore quantità",
+        "settings": {
+          "show_inventory_status": {
+            "label": "Mostra stato inventario"
+          },
+          "inventory_threshold": {
+            "label": "Soglia scorte basse"
+          }
+        }
+      },
+      "sku": {
+        "name": "SKU"
+      },
+      "title": {
+        "name": "Titolo"
+      },
+      "variant_picker": {
+        "name": "Selettore varianti",
+        "settings": {
+          "variant_selector_type": {
+            "label": "Stile",
+            "options": {
+              "radio": {
+                "label": "Pulsanti"
+              },
+              "select": {
+                "label": "Menu a tendina"
+              }
+            },
+            "info": "Mostra le opzioni del prodotto come pulsanti e campioni di colore o menu a tendina. [Impara come configurare i campioni di colore](https://help.shopify.com/en/manual/custom-data/metafields/category-metafields/using-category-metafields)."
+          }
+        }
+      },
+      "vendor": {
+        "name": "Fornitore"
+      }
+    }
+  },
   "common": {
   "color_scheme": {
     "label": "Schema colori",

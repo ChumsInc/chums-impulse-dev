@@ -1,0 +1,26 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders inventory status information for the product.
+  
+  This component displays inventory-related messages including low stock warnings, 
+  incoming inventory notifications, and general availability status. It uses the 
+  internal inventory text component to determine the appropriate message to display.
+  
+  @param {number} [inventory_threshold] - The inventory level at which to show low stock warning (default: 10)
+  
+  @example
+  {% render 'section.flex-pdp.inventory', inventory_threshold: 5, product: closest.product %}
+{% enddoc %}
+
+{%- liquid
+  assign inventory_threshold = inventory_threshold | default: block.settings.inventory_threshold | default: 10
+-%}
+
+{%  capture inventory_text %}
+  {% render 'section.flex-pdp._inventory-text', product: product, inventory_threshold: inventory_threshold %}
+{% endcapture %}
+
+{% if inventory_text != blank %}
+  {% render 'element.text', variant: 'body-sm', text: inventory_text %}
+{% endif %}

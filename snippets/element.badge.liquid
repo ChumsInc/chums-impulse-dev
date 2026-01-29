@@ -1,0 +1,109 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A badge component for displaying status indicators, labels, and tags.
+  Features customizable styling with support for inverted colors and different badge types
+  including sale badges and custom variants.
+
+  @param {string} [label] - Label text
+  @param {string} [type] - Badge type (sale, custom, or custom type)
+  @param {boolean} [inverted] - Inverted colors
+  @param {string} [classlist] - Class list
+  @param {string} [style] - Style attribute
+
+  @example
+  {% render 'element.badge', label: 'Sale', type: 'sale', inverted: true %}
+{% enddoc %}
+
+{% liquid
+  assign element = 'div'
+  assign classlist = classlist | default: '' | append: ' element-badge' | strip
+  assign style = style | default: ''
+  assign inverted = inverted | default: false
+  assign type = type | default: ''
+
+  if inverted
+    assign classlist = classlist | append: ' element-badge--inverted'
+  endif
+
+  if type == 'sale'
+    assign classlist = classlist | append: ' element-badge--sale'
+  elsif type == 'custom'
+    assign classlist = classlist | append: ' element-badge--custom'
+  elsif type != blank
+    assign classlist = classlist | append: ' element-badge--' | append: type
+  endif
+%}
+
+<{{ element }}
+  class="{{ classlist }}"
+
+  {%- if style != blank -%}
+    style="{{ style }}"
+  {%- endif -%}
+>
+  {{- label }}
+</{{ element }}>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-badge {
+    /* Layout & Typography */
+    --_radius: var(--element-badge-radius, var(--chip-radius, var(--radius-xs)));
+    --_px: var(--element-badge-px, var(--size-3));
+    --_py: var(--element-badge-py, var(--size-1));
+    --_border-width: var(--element-badge-border-width, var(--size-0-25));
+    --_font-family: var(
+      --element-badge-font-family,
+      var(--element-text-font-family--body),
+      var(--element-text-font-family-fallback--body)
+    );
+    --_font-size: var(--element-badge-font-size, var(--element-text-font-size--body-sm));
+    --_letter-spacing: var(--element-badge-letter-spacing, var(--element-text-letter-spacing--body-sm));
+    --_line-height: var(--element-badge-line-height, var(--element-text-line-height--body-sm));
+
+    /* Colors */
+    --_base-primary: var(--color-secondary);
+    --_base-secondary: var(--color-primary);
+    --_color-primary: var(--_base-primary);
+    --_color-secondary: var(--_base-secondary);
+    --_color-background: var(--_color-primary);
+    --_color-text: var(--_color-secondary);
+    --_color-border: var(--_color-secondary);
+    --_shade-inset-box-shadow: var(--element-badge-shade-inset-box-shadow, 12%);
+    --_inset-box-shadow: inset 0 0 0 var(--_border-width)
+      color-mix(in srgb, var(--_color-border) var(--_shade-inset-box-shadow), transparent);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--_radius);
+    padding-inline: var(--_px);
+    padding-block: var(--_py);
+    font-family: var(--_font-family);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    background-color: var(--_color-background);
+    color: var(--_color-text);
+    box-shadow: var(--_inset-box-shadow);
+    text-transform: uppercase;
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .element-badge--inverted {
+    --_color-primary: var(--_base-secondary);
+    --_color-secondary: var(--_base-primary);
+
+    & > * {
+      --color-primary: currentColor;
+    }
+  }
+
+  .element-badge--sale {
+    --_base-primary: var(--color-sale-tag-text);
+    --_base-secondary: var(--color-sale-tag);
+  }
+{% endstylesheet %}

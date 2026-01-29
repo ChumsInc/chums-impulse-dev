@@ -1,0 +1,26 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-plant element-icon--line element-icon-plant"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="M15.33 86.58h69.34s-30.67-40.37-69.34 0Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M43.15 46.69s9 8.83 9.27 22m29.64-55.26s-27.38-1.32-25.37 25.16c0 0 23 5.54 25.37-25.16m0 0L56.69 38.59m6.5-6.42 13.16-.45m-6.3-6.37 9.7-.34m-16.56 7.16.45-13.07m6.41 6.25.34-9.91"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M50.64 59.11a32.68 32.68 0 0 1 6-20.52M18 21.31S16.67 48.7 43.15 46.69c0 0 5.54-23-25.15-25.38m-.01 0 25.16 25.38m-6.42-6.5-.45-13.16m-6.37 6.3-.34-9.7m7.16 16.56-13.08-.45m6.26-6.41L20 32.99"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

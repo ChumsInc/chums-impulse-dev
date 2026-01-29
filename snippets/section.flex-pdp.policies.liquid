@@ -1,0 +1,32 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders tax and shipping policy information.
+  
+  This component displays relevant policy information including tax inclusion status 
+  and shipping policy details. It only renders when there is relevant information 
+  to display (taxes included or shipping policy exists).
+  
+  @example
+  {% render 'section.flex-pdp.policies' %}
+{% enddoc %}
+
+{%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+  {%- if cart.taxes_included -%}
+    {% render 'element.text', locale: 'info.tax_included', text: 'Tax included.' %}
+  {%- endif -%}
+
+  {%- if shop.shipping_policy.body != blank -%}
+    {% assign info_shipping_policy_html = 'info.shipping_policy_html' | t: link: shop.shipping_policy.url %}
+    
+    {%- capture fallback_info_shipping_policy_html -%}
+      <a href='{{ shop.shipping_policy.url }}'>Shipping</a> calculated at checkout.
+    {%- endcapture -%}
+
+    {% capture info_shipping_policy_text %}
+      {% render 'utility.translate', t: info_shipping_policy_html, fallback: fallback_info_shipping_policy_html %}
+    {% endcapture %}
+
+    {% render 'element.text', variant: 'body-sm', text: info_shipping_policy_text %}
+  {%- endif -%}
+{%- endif -%}

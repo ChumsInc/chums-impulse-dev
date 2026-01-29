@@ -1,0 +1,148 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product-high-variant",
+      "blocks": {
+        "title": {
+          "type": "_section-flex-pdp-title",
+          "settings": {}
+        },
+        "vendor": {
+          "type": "_section-flex-pdp-vendor",
+          "settings": {}
+        },
+        "price": {
+          "type": "_section-flex-pdp-price",
+          "settings": {}
+        },
+        "installments": {
+          "type": "_section-flex-pdp-installments",
+          "disabled": true,
+          "settings": {}
+        },
+        "divider": {
+          "type": "_section-flex-pdp-divider",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "_section-flex-pdp-variant-picker",
+          "settings": {}
+        },
+        "quantity_picker": {
+          "type": "_section-flex-pdp-quantity-picker",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "_section-flex-pdp-buy-buttons",
+          "settings": {}
+        },
+        "pick_up": {
+          "type": "_section-flex-pdp-pick-up",
+          "disabled": true,
+          "settings": {}
+        },
+        "description": {
+          "type": "_section-flex-pdp-description",
+          "settings": {}
+        },
+        "section-flex-pdp-media-gallery": {
+          "type": "_section-flex-pdp-media-gallery",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "vendor",
+        "price",
+        "installments",
+        "divider",
+        "variant_picker",
+        "quantity_picker",
+        "buy_buttons",
+        "pick_up",
+        "description"
+      ],
+      "settings": {}
+    },
+    "sub": {
+      "type": "product-full-width",
+      "disabled": true,
+      "settings": {}
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {}
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": {}
+    },
+    "collection-return": {
+      "type": "collection-return",
+      "settings": {}
+    },
+    "background-image-text": {
+      "type": "background-image-text",
+      "settings": {
+        "title": "About your brand",
+        "parallax": false
+      }
+    },
+    "text-and-image": {
+      "type": "text-and-image",
+      "settings": {
+        "title": "About your brand"
+      }
+    },
+    "text-and-image2": {
+      "type": "text-and-image",
+      "settings": {
+        "title": "About your brand",
+        "layout": "left"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonials-0": {
+          "type": "testimonial",
+          "settings": {}
+        },
+        "testimonials-1": {
+          "type": "testimonial",
+          "settings": {}
+        },
+        "testimonials-2": {
+          "type": "testimonial",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "testimonials-0",
+        "testimonials-1",
+        "testimonials-2"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "sub",
+    "background-image-text",
+    "text-and-image",
+    "text-and-image2",
+    "testimonials",
+    "product-recommendations",
+    "recently-viewed",
+    "collection-return"
+  ]
+}

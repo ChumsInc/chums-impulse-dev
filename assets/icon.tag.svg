@@ -1,0 +1,18 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tag element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="m46.69 10.34-10.55.07-25.8 25.8 17.45 17.45 25.8-25.8.07-10.55z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <circle cx="43.95" cy="20.05" r="3.53" fill="none" stroke="currentColor" />
+  <path d="M14.4 32.15 31.85 49.6" fill="none" stroke="currentColor" />
+</svg>

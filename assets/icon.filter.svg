@@ -1,0 +1,25 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-filter element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path d="M48 42h10" fill="none" stroke="currentColor">.</path>
+  <path
+    d="M48 42a5 5 0 1 1-5-5 5 5 0 0 1 5 5"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path d="M7 42h31" fill="none" stroke="currentColor">.</path>
+  <path d="M16 22H6" fill="none" stroke="currentColor">.</path>
+  <path
+    d="M16 22a5 5 0 1 1 5 5 5 5 0 0 1-5-5"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path d="M57 22H26" fill="none" stroke="currentColor">.</path>
+</svg>

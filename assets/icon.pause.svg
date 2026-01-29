@@ -1,0 +1,13 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-pause element-icon--line"
+  viewbox="0 0 10 13"
+  fill="currentColor"
+  width="20"
+  height="20"
+>
+  <path fill-rule="evenodd" d="M0 0h3v13H0zm7 0h3v13H7z" />
+</svg>

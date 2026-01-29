@@ -1,0 +1,155 @@
+{%- comment -%}
+  Renders the list of CSS variables. Typically, this is referenced inside of a
+  theme's layout file.
+
+  Usage:
+  {% render 'css-variables' %}
+{%- endcomment -%}
+
+{%- stylesheet -%}
+  :root {
+    /* Core Sizes */
+    --size-0-25: 0.0625rem; /* 1px */
+    --size-0-5: 0.125rem; /* 2px */
+    --size-1: 0.25rem; /* 4px */
+    --size-1-5: 0.375rem; /* 6px */
+    --size-2: 0.5rem; /* 8px */
+    --size-2-5: 0.625rem; /* 10px */
+    --size-3: 0.75rem; /* 12px */
+    --size-3-5: 0.875rem; /* 14px */
+    --size-4: 1rem; /* 16px */
+    --size-4-5: 1.125rem; /* 18px */
+    --size-5: 1.25rem; /* 20px */
+    --size-5-5: 1.375rem; /* 22px */
+    --size-6: 1.5rem; /* 24px */
+    --size-6-5: 1.625rem; /* 26px */
+    --size-7: 1.75rem; /* 28px */
+    --size-7-5: 1.875rem; /* 30px */
+    --size-8: 2rem; /* 32px */
+    --size-8-5: 2.125rem; /* 34px */
+    --size-9: 2.25rem; /* 36px */
+    --size-9-5: 2.375rem; /* 38px */
+    --size-10: 2.5rem; /* 40px */
+    --size-11: 2.75rem; /* 44px */
+    --size-12: 3rem; /* 48px */
+    --size-14: 3.5rem; /* 56px */
+    --size-16: 4rem; /* 64px */
+    --size-18: 4.5rem; /* 72px */
+    --size-20: 5rem; /* 80px */
+    --size-24: 6rem; /* 96px */
+    --size-28: 7rem; /* 112px */
+    --size-32: 8rem; /* 128px */
+
+    /* Text Sizes */
+    --text-size-2: 0.5rem; /* 8px */
+    --text-size-2-5: 0.625rem; /* 10px */
+    --text-size-3: 0.75rem; /* 12px */
+    --text-size-3-5: 0.875rem; /* 14px */
+    --text-size-4: 1rem; /* 16px */
+    --text-size-4-5: 1.125rem; /* 18px */
+    --text-size-5: 1.25rem; /* 20px */
+    --text-size-5-5: 1.375rem; /* 22px */
+    --text-size-6: 1.5rem; /* 24px */
+    --text-size-6-5: 1.625rem; /* 26px */
+    --text-size-7: 1.75rem; /* 28px */
+    --text-size-7-5: 1.875rem; /* 30px */
+    --text-size-8: 2rem; /* 32px */
+    --text-size-8-5: 2.125rem; /* 34px */
+    --text-size-9: 2.25rem; /* 36px */
+    --text-size-9-5: 2.375rem; /* 38px */
+    --text-size-10: 2.5rem; /* 40px */
+    --text-size-11: 2.75rem; /* 44px */
+    --text-size-12: 3rem; /* 48px */
+    --text-size-14: 3.5rem; /* 56px */
+    --text-size-16: 4rem; /* 64px */
+    --text-size-18: 4.5rem; /* 72px */
+    --text-size-20: 5rem; /* 80px */
+    --text-size-24: 6rem; /* 96px */
+    --text-size-28: 7rem; /* 112px */
+    --text-size-32: 8rem; /* 128px */
+
+    /* Line */
+    --line-size-none: 0px;
+    --line-size-xs: 0.5px;
+    --line-size-sm: 1px;
+    --line-size-md: 2px;
+    --line-size-lg: 4px;
+    --line-size-xl: 8px;
+
+    /* Gap */
+    --gap-size-none: 0px;
+    --gap-size-3xs: var(--size-0-5);
+    --gap-size-2xs: var(--size-1);
+    --gap-size-xs: var(--size-2);
+    --gap-size-sm: var(--size-4);
+    --gap-size-md: var(--size-8);
+    --gap-size-lg: var(--size-12);
+    --gap-size-xl: var(--size-16);
+    --gap-size-2xl: var(--size-24);
+
+    /* Radius */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+    --radius-none: 0px;
+    --radius-full: 999px;
+
+    /* Dropshadow */
+    --shadow-none: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+    --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0px 2px 4px -1px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0px 16px 32px -6px rgba(0, 0, 0, 0.12);
+    --shadow-2xl: 0px 16px 64px -12px rgba(0, 0, 0, 0.22);
+
+    /* Font Weights */
+    --font-weight-100: 100;
+    --font-weight-200: 200;
+    --font-weight-300: 300;
+    --font-weight-400: 400;
+    --font-weight-500: 500;
+    --font-weight-600: 600;
+    --font-weight-700: 700;
+    --font-weight-800: 800;
+    --font-weight-900: 900;
+
+    /* Letter Spacings */
+    --letter-space-2xs: -0.05em;
+    --letter-space-xs: -0.03em;
+    --letter-space-sm: -0.015em;
+    --letter-space-md: 0em;
+    --letter-space-lg: 0.015em;
+    --letter-space-xl: 0.03em;
+    --letter-space-2xl: 0.05em;
+    --letter-space-3xl: 0.08em;
+    --letter-space-4xl: 0.12em;
+
+    /* Line Heights */
+    --line-height-2xs: 0.9;
+    --line-height-xs: 1;
+    --line-height-sm: 1.1;
+    --line-height-md: 1.2;
+    --line-height-lg: 1.5;
+    --line-height-xl: 1.7;
+    --line-height-2xl: 2;
+
+    /* Color Shades */
+    --shade-0: 0%;
+    --shade-4: 4%;
+    --shade-8: 8%;
+    --shade-12: 12%;
+    --shade-16: 16%;
+    --shade-20: 20%;
+    --shade-30: 30%;
+    --shade-40: 40%;
+    --shade-50: 50%;
+    --shade-60: 60%;
+    --shade-70: 70%;
+    --shade-80: 80%;
+    --shade-90: 90%;
+    --shade-100: 100%;
+  }
+{%- endstylesheet -%}

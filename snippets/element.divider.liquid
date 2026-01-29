@@ -1,0 +1,82 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A horizontal divider component for creating visual separation between content.
+  Features include configurable custom colors with semantic sizing options
+  for small, medium, and large spacing requirements.
+
+  @param {string} [classlist] - Class list
+  @param {string} [style] - Style attribute
+  @param {string} [size] - Margin size (small, medium, large)
+  @param {string} [color] - Divider color
+
+  @example
+  {% render 'element.divider', size: 'medium', color: '#000000' %}
+{% enddoc %}
+
+{% liquid
+  assign classlist = classlist | default: '' | append: ' element-divider' | strip
+  assign style = style | default: ''
+  assign size = size | default: ''
+  assign color = color | default: ''
+
+  if color != blank
+    capture style
+      echo style | append: ' --element-divider-border-color: ' | append: color | append: ';'
+    endcapture
+  endif
+
+  if size != blank
+    assign classlist = classlist | append: ' element-divider--' | append: size
+  endif
+%}
+
+<hr
+  class="{{ classlist }}"
+  {% if style != blank %}
+    style="{{ style }}"
+  {% endif %}
+  aria-hidden="true"
+>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-divider {
+    /* Layout & Typography */
+    --_width: var(--element-divider-width, 100%);
+    --_margin: var(--element-divider-margin, 0);
+    --_border-width: var(--element-divider-border-width, var(--size-0-25));
+
+    /* Colors */
+    --_color-primary: var(--color-primary);
+    --_color-secondary: var(--color-secondary);
+    --_shade-border: var(--element-divider-border-shade, var(--shade-12));
+    --_border-color: var(
+      --element-divider-border-color,
+      color-mix(in srgb, var(--_color-primary) var(--_shade-border), var(--_color-secondary))
+    );
+
+    width: var(--_width);
+    margin: var(--_margin) auto;
+    border: 0;
+    border-top: var(--_border-width) solid var(--_border-color);
+  }
+
+  .element-divider--small {
+    --_margin: var(--size-4);
+  }
+
+  .element-divider--medium {
+    --_margin: var(--size-7-5);
+  }
+
+  .element-divider--large {
+    --_margin: var(--size-7-5);
+
+    @media (min-width: 769px) {
+      --_margin: calc(var(--size-7-5) * 1.5);
+    }
+  }
+{% endstylesheet %}

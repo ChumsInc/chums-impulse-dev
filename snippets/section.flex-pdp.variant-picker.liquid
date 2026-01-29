@@ -1,0 +1,139 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders the variant picker for the product, allowing customers to select
+  different product options (such as size, color, etc.) using either radio
+  buttons or a select dropdown, depending on the specified
+  'variant_selector_type'.
+
+  This snippet dynamically generates option labels and values, handles
+  swatches and button styles for each value, and ensures unavailable
+  options are disabled.
+
+  It is designed to work with products that have multiple variants and
+  adapts its UI based on the product's available options and the chosen
+  selector type.
+
+  @param {string} [variant_selector_type] ('radio'|'select') - The type of variant selector to render.
+
+  @example
+  {% render 'section.flex-pdp.variant-picker', variant_selector_type: 'radio', product: closest.product %}
+{% enddoc %}
+
+{% liquid
+  assign variant_selector_type = variant_selector_type | default: block.settings.variant_selector_type | default: 'radio'
+%}
+
+{% capture variant_selector %}
+  {%- unless product.has_only_default_variant -%}
+    {% for option in product.options_with_values %}
+      {% case variant_selector_type %}
+        {% when 'radio' %}
+          {% capture option_name_content %}
+            {% assign option_name = option.name | append: ':' %}
+            {% render 'element.text', as: 'span', text: option_name, style: 'font-weight: 600;' %}
+            {% render 'element.text', as: 'span', text: product.selected_or_first_available_variant.options[forloop.index0], style: 'opacity: 0.75;' %}
+          {% endcapture %}
+
+          {% capture option_name %}
+            {% render 'element.text', variant: 'body-sm', text: option_name_content %}
+          {% endcapture %}
+
+          {% capture option_values %}
+            {% for value in option.values %}
+              {% unless value.available %}
+                {%- assign classlist = 'disabled' -%}
+              {% else %}
+                {%- assign classlist = '' -%}
+              {% endunless %}
+
+              {%- capture input_id -%}
+                {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+              {%- endcapture -%}
+
+              {% assign input_value = value | escape %}
+
+              {%- capture input_label -%}
+                {% if value.swatch %}
+                  {% assign swatch_disabled = false %}
+                  {% if value.available == false %}
+                    {% assign swatch_disabled = true %}
+                  {% endif %}
+
+                  {%- render 'element.text', text: value, visually_hidden: true -%}
+                  {%- render 'element.swatch', swatch: value.swatch, large: true, selected: value.selected, disabled: swatch_disabled -%}
+                {% else %}
+                  {% if value.selected %}
+                    {%- render 'element.button', as: 'span', text: value, size: 'sm', style: '--element-button-color-primary: var(--color-primary); --element-button-color-secondary: var(--color-secondary);' -%}
+                  {% else %}
+                    {%- render 'element.button', as: 'span', text: value, inverted: true, size: 'sm', style: '--element-button-color-primary: var(--color-primary); --element-button-color-secondary: var(--color-secondary);' -%}
+                  {% endif %}
+                {% endif %}
+              {%- endcapture -%}
+
+              {%- capture input_attributes -%}
+                {% render 'product.hot-reload.radio-attributes', value: value %}
+              {%- endcapture -%}
+
+              {%- render 'element.radio',
+                id: input_id,
+                name: option.name,
+                value: input_value,
+                slot: input_label,
+                checked: value.selected,
+                display_icon: false,
+                classlist: classlist,
+                attributes: input_attributes
+              -%}
+            {% endfor %}
+          {% endcapture %}
+
+          {% capture option_stack %}
+            {{ option_name }}
+            {% render 'layout.stack', horizontal: true, gap: 'xs', slot: option_values %}
+          {% endcapture %}
+
+          {% render 'layout.stack', gap: 'xs', horizontal: false, slot: option_stack %}
+        {% when 'select' %}
+          {%- capture input_id -%}
+            {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+          {%- endcapture -%}
+
+          {% capture options %}
+            {% for value in option.values %}
+              {%- capture option_input_attributes -%}
+                {% if value.available == false %}
+                  disabled
+                {% endif %}
+                {% if value.selected %}
+                  selected
+                {% endif %}
+                {% render 'product.hot-reload.select-attributes', value: value, element: 'option' %}
+              {%- endcapture -%}
+
+              <option value="{{ value | escape }}" {{ option_input_attributes }}>{{ value }}</option>
+            {% endfor %}
+          {% endcapture %}
+
+          {% capture select_attributes %}
+            {% render 'product.hot-reload.select-attributes', element: 'select' %}
+          {% endcapture %}
+
+          {% capture option_stack %}
+            {% render 'element.text', as: 'label', variant: 'body-sm', text: option.name, style: 'font-weight: 600;' %}
+            {% render 'element.select',
+              name: option.name,
+              slot: options,
+              id: input_id,
+              placeholder: option.selected_value,
+              attributes: select_attributes
+            %}
+          {% endcapture %}
+
+          {% render 'layout.stack', gap: 'xs', horizontal: false, slot: option_stack %}
+      {% endcase %}
+    {% endfor %}
+  {%- endunless -%}
+{% endcapture %}
+
+{% render 'layout.stack', gap: 'sm', slot: variant_selector %}

@@ -1,0 +1,18 @@
+{% render 'section.flex-pdp.policies', product: closest.product %}
+
+{% schema %}
+{
+  "name": "t:flex_pdp.blocks.policies.name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:flex_pdp.blocks.policies.settings.content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:flex_pdp.blocks.policies.name"
+    }
+  ]
+}
+{% endschema %}

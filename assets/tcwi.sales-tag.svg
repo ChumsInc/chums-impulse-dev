@@ -1,0 +1,22 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-sales-tag element-icon--line element-icon-sales-tag"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="m69.33 23.02-16.5.11L12.5 63.46l27.35 27.22 40.33-40.33.04-16.43z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <circle cx="65.05" cy="38.2" r="5.51" fill="none" stroke="currentColor" />
+  <path
+    d="M71 24.67c3.46-6 7.64-11.82 10.22-13.91a4.93 4.93 0 0 1 3.52-1.42 3.38 3.38 0 0 1 2.78 3.14c.21 8.33-17.56 23.19-17.56 23.19M19.09 56.91l27.34 27.22"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

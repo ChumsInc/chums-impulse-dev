@@ -1,0 +1,123 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Renders a responsive media gallery for product images and videos.
+
+  This component displays all product media in a horizontal scrolling grid layout.
+  It supports images, videos, external videos, and 3D models. The variant image is
+  displayed first, followed by all other media. Images can be opened in a lightbox
+  overlay for better viewing.
+
+  @param {object} product - A product object
+  @param {string} [image_aspect_ratio] - The aspect ratio for media containers (default: '1/1')
+  @param {boolean} [autoplay] - Autoplay the video (default: false)
+  @param {boolean} [loop] - Loop the video (default: false)
+
+  @example
+  {% render 'section.flex-pdp.media-grid', image_aspect_ratio: '4/3', product: closest.product %}
+{% enddoc %}
+
+{% liquid
+  assign image_aspect_ratio = image_aspect_ratio | default: block.settings.image_aspect_ratio | default: '1/1'
+  assign autoplay = autoplay | default: block.settings.enable_video_autoplay, allow_false: true | default: false, allow_false: true
+  assign loop = loop | default: block.settings.enable_video_looping, allow_false: true | default: false, allow_false: true
+
+  if image_aspect_ratio == '1/1'
+    assign video_aspect_ratio = 'square'
+  elsif image_aspect_ratio == '16/9'
+    assign video_aspect_ratio = 'landscape'
+  elsif image_aspect_ratio == '9/16'
+    assign video_aspect_ratio = 'portrait'
+  else
+    assign video_aspect_ratio = 'landscape'
+  endif
+%}
+
+{%- capture id -%}{% render 'utility.id', prefix: 'media-gallery' %}{%- endcapture -%}
+
+{% capture product_images %}
+  {% if product.selected_or_first_available_variant.image != blank %}
+    {% capture image_content %}
+      {{ product.selected_or_first_available_variant.image | image_url: width: 2400 | image_tag }}
+    {% endcapture %}
+
+    <div class="media-grid__container media-grid__container--image">
+      {%- assign group = 'product-gallery-' | append: id -%}
+      {% render 'overlay.lightbox', slot: image_content, group: group %}
+    </div>
+  {% endif %}
+
+  {% for media in product.media %}
+    {% case media.media_type %}
+      {% when 'image' %}
+        {% unless media == product.selected_or_first_available_variant.image %}
+          {% capture image_content %}
+            {{ media | image_url: width: 2400 | image_tag }}
+          {% endcapture %}
+
+          <div class="media-grid__container media-grid__container--image">
+            {%- assign group = 'product-gallery-' | append: id -%}
+            {% render 'overlay.lightbox', slot: image_content, group: group %}
+          </div>
+        {% endunless %}
+      {% when 'video' %}
+        <div class="media-grid__container media-grid__container--video">
+          {% render 'element.video', video: media, media_crop: video_aspect_ratio, autoplay: autoplay, loop: loop %}
+        </div>
+      {% when 'external_video' %}
+        <div class="media-grid__container media-grid__container--video">
+          {% render 'element.video', external_video: media, media_crop: video_aspect_ratio, autoplay: autoplay, loop: loop %}
+        </div>
+      {% when 'model' %}
+        <div class="media-grid__container media-grid__container--model">
+          {% render 'element.model', media: media, autoplay: autoplay %}
+        </div>
+    {% endcase %}
+  {% endfor %}
+{% endcapture %}
+
+<div class="media-grid" id="{{ id }}">
+  {% render 'layout.stack', horizontal: true, gap: '2xs', wrap_xs: 'nowrap', wrap_sm: 'wrap', slot: product_images %}
+</div>
+
+{% stylesheet %}
+  .media-grid {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .media-grid__container {
+    min-width: 350px;
+    flex: 1 1 300px;
+
+    & img:not(.overlay-lightbox__overlay img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .media-grid .shopify-model-viewer-ui,
+  .media-grid .shopify-model-viewer-ui model-viewer {
+    width: 100%;
+    height: 100%;
+  }
+{% endstylesheet %}
+
+{% style %}
+  #{{ id }} {
+    & .media-grid__container {
+      aspect-ratio: {{ image_aspect_ratio }};
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+    #{{ id }} {
+      & .media-grid__container {
+        flex: 1 1 420px;
+        min-width: 250px;
+      }
+    }
+
+  }
+{% endstyle %}

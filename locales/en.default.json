@@ -380,5 +380,41 @@
   },
   "date_formats": {
     "month_day_year": "%b %d, %Y"
+  },
+  "info": {
+    "unable_to_add_item_to_cart": "Unable to add item to cart",
+    "item_added_to_cart_html": "{{ product_title }} added to cart!",
+    "low_stock_count": {
+      "one": "Low stock - {{ count }} item left",
+      "other": "Low stock - {{ count }} items left"
+    },
+    "back_in_stock_on": "Back in stock {{ date }}",
+    "backordered": "Backordered, shipping soon",
+    "in_stock": "In stock",
+    "sold_out": "Sold out",
+    "tax_included": "Tax included.",
+    "shipping_policy_html": "<a href='{{ link }}'>Shipping</a> calculated at checkout.",
+    "pick_up_available": "Pickup available",
+    "pick_up_currently_unavailable": "Pick up currently unavailable",
+    "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}</strong>",
+    "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}</strong>"
+  },
+  "labels": {
+    "quantity": "Quantity",
+    "search": "Search",
+    "close": "Close",
+    "get_directions": "Get directions",
+    "view_store_info": "View store information",
+    "check_availability": "Check availability at other stores",
+    "show_all_results": "Show all results for \"{{ terms }}\"",
+    "from_price": "from {{ price }}"
+  },
+  "actions": {
+    "add_to_cart": "Add to Cart",
+    "close": "Close",
+    "get_directions": "Get directions",
+    "view_store_info": "View store information",
+    "check_availability": "Check availability at other stores",
+    "show_all_results": "Show all results for \"{{ terms }}\""
   }
 }

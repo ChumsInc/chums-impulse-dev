@@ -1,0 +1,30 @@
+
+
+
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the product vendor as a clickable link.
+  
+  This component displays the product vendor name as a clickable link that navigates 
+  to either the vendor's collection page (if it exists) or the vendor's URL. The link 
+  is styled with an underline to indicate it's clickable.
+  
+  @param {object} product - A product object
+  
+  @example
+  {% render 'section.flex-pdp.vendor', product: closest.product %}
+{% enddoc %}
+
+{%  liquid
+  assign collection_handle = product.vendor | handleize
+  assign collection_for_vendor = collections[collection_handle]
+  assign vendor_url_default = product.vendor | url_for_vendor
+  assign vendor_url = collection_for_vendor.url | default: vendor_url_default
+%}
+
+{% if product.vendor != blank and vendor_url != blank %}
+<a href="{{ vendor_url }}">
+  {%- render 'element.text', as: 'p', text: product.vendor, text_decoration: 'underline', variant: 'body-sm' -%}
+</a>
+{% endif %}

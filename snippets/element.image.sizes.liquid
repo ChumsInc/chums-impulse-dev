@@ -1,0 +1,118 @@
+{% comment %}
+  Renders an image's sizes attribute based on the sizeVariable and fallback.
+
+  Accepts:
+  - sizeVariable {string}: The size variable
+  - fallback {string}: The fallback size
+
+  Usage:
+  {% render 'sizes-explicit', sizeVariable: '50vw', fallback: '25vw' %}
+{% endcomment %}
+
+{%- liquid
+  assign sizeVariable = sizeVariable | append: '' | remove: '%'
+  assign fallback = fallback
+
+  if sizeVariable != blank
+    if sizeVariable contains 'px' or sizeVariable contains 'vw'
+      assign desktopImageSize = sizeVariable
+    else
+      case sizeVariable
+        when 'small--one-half medium-up--one-third'
+          assign desktopImageSize = '33vw'
+        when 'small--one-half medium-up--one-quarter'
+          assign desktopImageSize = '25vw'
+        when 'small--one-half medium-up--one-fifth'
+          assign desktopImageSize = '20vw'
+        when 'medium-up--two-fifths'
+          assign desktopImageSize = '40vw'
+        when 'medium-up--three-fifths'
+          assign desktopImageSize = '60vw'
+        when 'medium-up--one-half'
+          assign desktopImageSize = '50vw'
+        when 'medium-up--one-third'
+          assign desktopImageSize = '33vw'
+        when 'medium-up--one-quarter'
+          assign desktopImageSize = '25vw'
+        when 'medium-up--one-fifth'
+          assign desktopImageSize = '20vw'
+        when 'medium-up--one-sixth'
+          assign desktopImageSize = 'calc(100vw / 6)'
+        when 'list'
+          assign desktopImageSize = '200px'
+        when 'medium'
+          assign desktopImageSize = '33vw'
+        when 'large'
+          assign desktopImageSize = '50vw'
+        when '25'
+          assign desktopImageSize = '25vw'
+        when '30'
+          assign desktopImageSize = '30vw'
+        when '33'
+          assign desktopImageSize = '33vw'
+        when '40'
+          assign desktopImageSize = '40vw'
+        when '50'
+          assign desktopImageSize = '50vw'
+        when '60'
+          assign desktopImageSize = '60vw'
+        when '66'
+          assign desktopImageSize = '66vw'
+        when '75'
+          assign desktopImageSize = '75vw'
+        when '100'
+          assign desktopImageSize = '100vw'
+        else
+          assign sizeVariable = sizeVariable | times: 1
+          assign desktopImageSize = 100 | divided_by: sizeVariable | append: 'vw'
+      endcase
+    endif
+
+    # Fallback
+    # sometimes its fixed based on setting (mobile_scrollable), value ends up being 75% or 100%
+    # sometimes its variable based on setting (products_per_row)
+
+    if fallback != blank
+      # if fallback is specified use that value
+      assign fallbackSize = fallback
+      assign sizeVariable = sizeVariable | append: ''
+
+      if fallback == 'small--one-half'
+        assign fallbackSize = '50vw'
+      endif
+
+      if fallback == 'variable'
+        case sizeVariable
+          when '1'
+            assign fallbackSize = '100vw'
+          when '3'
+            assign fallbackSize = '33vw'
+          when '6'
+            assign fallbackSize = '33vw'
+          when 'list'
+            assign fallbackSize = '45vw'
+          when 'medium'
+            assign fallbackSize = '33vw'
+          when 'large'
+            assign fallbackSize = '50vw'
+          when 'small--one-half medium-up--one-third'
+            assign fallbackSize = '50vw'
+          when 'small--one-half medium-up--one-quarter'
+            assign fallbackSize = '50vw'
+          when 'small--one-half medium-up--one-fifth'
+            assign fallbackSize = '50vw'
+          when 'medium-up--one-half'
+            assign fallbackSize = '100vw'
+          else
+            assign fallbackSize = '50vw'
+        endcase
+      endif
+
+      assign sizes = '(min-width: 769px) ' | append: desktopImageSize | append: ', ' | append: fallbackSize
+    else
+      assign sizes = '(min-width: 769px) ' | append: desktopImageSize | append: ', ' | append: '100vw'
+    endif
+
+    echo sizes
+  endif
+-%}

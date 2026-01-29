@@ -1,0 +1,28 @@
+{% doc %}
+  This snippet is used to add attributes to a select element to support the product hot reload.
+  
+  @param {string} element - The element type (option or select)
+  @param {object} [value] - A product option value object (https://shopify.dev/docs/api/liquid/objects/product_option_value)
+
+  @example
+  {% capture attributes %}
+    {% render 'product.hot-reload.select-attributes', value: value %}
+  {% endcapture %}
+
+  {% render 'element.select', attributes: attributes %}
+
+{% enddoc %}
+
+
+
+{% case element %}
+  {% when 'option' %}
+    {%- liquid
+      assign product_url = value.product_url | default: blank
+      assign option_value_id = value.id | default: blank
+    -%}
+    data-product-url="{{ product_url }}"
+    data-option-value-id="{{ option_value_id }}"
+  {% when 'select' %}
+    data-product-hot-reload-trigger
+{% endcase %}

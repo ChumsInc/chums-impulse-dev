@@ -1,0 +1,20 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the product title as a heading element.
+  
+  This component displays the product title using the element.text component with 
+  heading styling. The size can be customized to fit different design requirements.
+  
+  @param {object} product - A product object
+  @param {string} [size] - The heading size variant ('sm', 'md', 'lg', 'xl', '2xl') (default: 'xl')
+  
+  @example
+  {% render 'section.flex-pdp.title', size: '2xl', product: closest.product %}
+{% enddoc %}
+
+{% liquid
+  assign size = size | default: block.settings.size | default: 'xl'
+%}
+
+{% render 'element.text', as: 'h1 ', variant: 'heading', size: size, text: product.title %}

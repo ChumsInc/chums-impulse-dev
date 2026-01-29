@@ -1,0 +1,291 @@
+{% doc %}
+  Renders a product form that emits events for other components to subscribe to.
+  
+  Events emitted:
+  - product-form:submit:before - Fired before form submission, allows modification of formData
+  - product-form:cart:request - Fired before cart/add.js request, cancellable to handle cart request externally
+  - product-form:submit:success - Fired on successful cart addition
+  - product-form:submit:error - Fired on cart addition error
+  - product-form:cart:update - Fired when cart state changes after form submission
+  
+  @param {object} product - Product object
+  @param {string} id - Form id
+  @param {string} slot - Slot for product form content
+  
+  @example
+  {% render 'form.product', product: product, slot: product_form_stack %}
+  
+  @example
+  // Listen for cart updates
+  document.addEventListener('product-form:cart:update', (event) => {
+    console.log('Cart updated:', event.detail.cart);
+  });
+  
+  @example
+  // Handle cart request externally (e.g., custom cart logic)
+  document.addEventListener('product-form:cart:request', async (event) => {
+    event.preventDefault(); // Cancel default cart request
+    
+    try {
+      // Custom cart logic here
+      const responseData = await customCartAdd(event.detail.form, event.detail.config);
+      
+      // Use the resolve method provided in the event detail
+      event.detail.resolve(responseData);
+    } catch (error) {
+      // Use the reject method provided in the event detail
+      event.detail.reject(error);
+    }
+  });
+{% enddoc %}
+
+<product-form class="product-form">
+  {% form 'product', product, id: id %}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {{ slot }}
+  {% endform %}
+</product-form>
+
+{% stylesheet %}
+  .product-form__submit-button--pulsing {
+    animation: product-form-pulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  @keyframes product-form-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ProductForm extends HTMLElement {
+    constructor() {
+      super();
+      this.form = this.querySelector('form');
+      this.submitButton = this.findSubmitButton();
+      this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
+    }
+
+    findSubmitButton() {
+      // Look for submit button in the form
+      const submitButton = this.form.querySelector('button[type="submit"], input[type="submit"]');
+      return submitButton;
+    }
+
+    disableSubmitButton() {
+      if (this.submitButton) {
+        this.submitButton.disabled = true;
+        this.submitButton.classList.add('product-form__submit-button--pulsing');
+      }
+    }
+
+    enableSubmitButton() {
+      if (this.submitButton) {
+        this.submitButton.disabled = false;
+        this.submitButton.classList.remove('product-form__submit-button--pulsing');
+      }
+    }
+
+    async onSubmitHandler(evt) {
+      evt.preventDefault();
+
+      // Disable submit button and start pulsing
+      this.disableSubmitButton();
+
+      // Get cart state before form submission
+      let cartBeforeSubmission;
+      try {
+        const cartResponse = await fetch(`${window.Shopify.routes.root}cart.js`);
+        cartBeforeSubmission = await cartResponse.json();
+      } catch (error) {
+        console.error('Failed to get cart state before submission:', error);
+        cartBeforeSubmission = null;
+      }
+
+      const config = {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      };
+
+      const formData = new FormData(this.form);
+
+      // Dispatch event allowing subscribers to modify formData
+      this.dispatchEvent(
+        new CustomEvent('product-form:submit:before', {
+          bubbles: true,
+          detail: {
+            form: formData,
+          },
+          cancelable: true
+        })
+      );
+
+      // Wait for the next tick to allow async event listeners to complete
+      // This ensures all synchronous and microtask listeners have finished
+      await new Promise(resolve => {
+        // Use queueMicrotask for better performance than setTimeout
+        queueMicrotask(resolve);
+      });
+
+      config.body = formData;
+
+      // Dispatch event allowing subscribers to handle cart request themselves
+      const cartRequestEvent = new CustomEvent('product-form:cart:request', {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+          form: formData,
+          config: config,
+          cartBefore: cartBeforeSubmission,
+          resolve: (responseData) => this.resolveCartRequest(responseData),
+          reject: (error) => this.rejectCartRequest(error)
+        }
+      });
+
+      const cartRequestHandled = !this.dispatchEvent(cartRequestEvent);
+      let responseData;
+
+      try {
+        if (cartRequestHandled) {
+          // Event was cancelled, meaning a subscriber handled the cart request
+          // We need to wait for them to provide the response data
+          responseData = await this.waitForCartResponse();
+        } else {
+          // No subscriber handled it, proceed with default behavior
+          const response = await fetch(`${window.Shopify.routes.root}cart/add.js`, config);       
+          responseData = await response.json();
+
+          if (!response.ok) {
+            throw responseData;
+          }
+        }
+
+        // Get updated cart state after form submission
+        const cartResponse = await fetch(`${window.Shopify.routes.root}cart.js`);
+        const cartAfterSubmission = await cartResponse.json();
+
+        this.dispatchEvent(
+          new CustomEvent('product-form:submit:success', {
+            bubbles: true,
+            detail: {
+              form: formData,
+              response: responseData,
+              cart: cartAfterSubmission
+            },
+          })
+        );
+
+        // Only fire cart:update if there's a change from this specific submission
+        if (this.hasCartChanged(cartBeforeSubmission, cartAfterSubmission)) {
+          this.dispatchEvent(
+            new CustomEvent('product-form:cart:update', {
+              bubbles: true,
+              detail: {
+                cart: cartAfterSubmission,
+                form: formData,
+                response: responseData
+              },
+            })
+          );
+        }
+
+        // Navigate to cart unless prevented by another event handler
+        const cartNavigationEvent = new CustomEvent('product-form:cart:navigate', {
+          bubbles: true,
+          cancelable: true,
+          detail: {
+            form: formData,
+            response: responseData,
+            cart: cartAfterSubmission
+          }
+        });
+
+        const navigationPrevented = !this.dispatchEvent(cartNavigationEvent);
+        
+        if (!navigationPrevented) {
+          window.location.href = `${window.Shopify.routes.root}cart`;
+        }
+      } catch (error) {
+        this.dispatchEvent(
+          new CustomEvent('product-form:submit:error', {
+            bubbles: true,
+            detail: {
+              form: formData,
+              cart: cartBeforeSubmission,
+              error: error
+            },
+          })
+        );
+      } finally {
+        // Re-enable submit button and stop pulsing
+        this.enableSubmitButton();
+      }
+    }
+
+    /**
+     * Waits for a subscriber to provide cart response data after handling the cart request
+     * @returns {Promise<Object>} The cart response data
+     */
+    waitForCartResponse() {
+      return new Promise((resolve, reject) => {
+        // Store the resolver for this request
+        this._cartRequestResolver = { resolve, reject };
+        
+        // Set a timeout to prevent hanging
+        const timeout = setTimeout(() => {
+          if (this._cartRequestResolver) {
+            delete this._cartRequestResolver;
+            reject(new Error('Cart request timeout - no response received from subscriber'));
+          }
+        }, 30000); // 30 second timeout
+        
+        // Store timeout reference for cleanup
+        this._cartRequestResolver.timeout = timeout;
+      });
+    }
+
+    /**
+     * Resolves a pending cart request with response data
+     * Called by subscribers who handle the cart request
+     * @param {string} requestId - The request ID from the waiting event
+     * @param {Object} responseData - The cart response data
+     */
+    resolveCartRequest(responseData) {
+      if (this._cartRequestResolver) {
+        clearTimeout(this._cartRequestResolver.timeout);
+        this._cartRequestResolver.resolve(responseData);
+        delete this._cartRequestResolver;
+      }
+    }
+
+    /**
+     * Rejects a pending cart request with an error
+     * Called by subscribers who handle the cart request
+     * @param {string} requestId - The request ID from the waiting event
+     * @param {Error} error - The error that occurred
+     */
+    rejectCartRequest(error) {
+      if (this._cartRequestResolver) {
+        clearTimeout(this._cartRequestResolver.timeout);
+        this._cartRequestResolver.reject(error);
+        delete this._cartRequestResolver;
+      }
+    }
+
+    hasCartChanged(cartBefore, cartAfter) {
+      if (!cartBefore || !cartAfter) {
+        return true; // If we can't compare, assume there's a change
+      }
+
+      // Deep comparison using JSON.stringify for simplicity
+      // This handles all nested changes automatically
+      return JSON.stringify(cartBefore) !== JSON.stringify(cartAfter);
+    }
+  }
+
+  customElements.define('product-form', ProductForm);
+{% endjavascript %}

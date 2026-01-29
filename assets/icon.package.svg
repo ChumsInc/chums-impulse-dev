@@ -1,0 +1,21 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-package element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M32 54.52 10 41.95v-19.9L32 9.48l22 12.57v19.9z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M32 54.52v-19.9l22-12.57M32 34.62 10 22.05m31.7-7.03L21 28.33v8.38"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

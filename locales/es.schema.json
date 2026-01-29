@@ -4214,6 +4214,184 @@
       }
     }
   },
+  "flex_pdp": {
+    "section": {
+      "high_variant": {
+        "name": "Producto: 250+ variantes",
+        "settings": {
+          "padding": {
+            "label": "Relleno",
+            "options": {
+              "none": {
+                "label": "Ninguno"
+              },
+              "top": {
+                "label": "Superior"
+              },
+              "bottom": {
+                "label": "Inferior"
+              },
+              "both": {
+                "label": "Ambos"
+              }
+            }
+          }
+        },
+        "presets": {
+          "high_variant": {
+            "name": "Producto (250+ Variantes)"
+          }
+        }
+      }
+    },
+    "blocks": {
+      "buy_buttons": {
+        "name": "Botones de compra",
+        "settings": {
+          "show_dynamic_checkout": {
+            "label": "Mostrar botón de pago acelerado",
+            "info": "Cada cliente verá su método de pago preferido de los disponibles en tu tienda, como PayPal o Apple Pay. [Más información](https://help.shopify.com/en/manual/online-store/dynamic-checkout)"
+          }
+        },
+        "presets": {
+          "buy_buttons": {
+            "name": "Botones de compra"
+          }
+        }
+      },
+      "description": {
+        "name": "Descripción"
+      },
+      "divider": {
+        "name": "Divisor"
+      },
+      "installments": {
+        "name": "Pagos a plazos",
+        "settings": {
+          "content": "Para mostrar pagos a plazos, tu tienda necesita soportar Pagos a Plazos de Shop Pay. [Más información](https://help.shopify.com/en/manual/payments/shop-pay-installments)."
+        }
+      },
+      "inventory": {
+        "name": "Inventario",
+        "settings": {
+          "content": "Muestra el estado del inventario para el producto basado en el umbral de inventario, incluyendo advertencia de stock bajo e inventario entrante.",
+          "inventory_threshold": {
+            "label": "Umbral de inventario bajo"
+          }
+        }
+      },
+      "media_gallery": {
+        "name": "Galería de medios",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Proporción de aspecto",
+            "options": {
+              "initial": {
+                "label": "Natural"
+              },
+              "portrait": {
+                "label": "Vertical"
+              },
+              "square": {
+                "label": "Cuadrado"
+              },
+              "landscape": {
+                "label": "Horizontal"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Bucle de video"
+          },
+          "enable_video_autoplay": {
+            "label": "Reproducción automática de video",
+            "info": "Los videos con reproducción automática están silenciados para accesibilidad."
+          }
+        }
+      },
+      "media_grid": {
+        "name": "Cuadrícula de medios",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Proporción de aspecto",
+            "options": {
+              "initial": {
+                "label": "Natural"
+              },
+              "portrait": {
+                "label": "Vertical"
+              },
+              "square": {
+                "label": "Cuadrado"
+              },
+              "landscape": {
+                "label": "Horizontal"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Bucle de video"
+          },
+          "enable_video_autoplay": {
+            "label": "Reproducción automática de video",
+            "info": "Los videos con reproducción automática están silenciados para accesibilidad."
+          }
+        }
+      },
+      "pick_up": {
+        "name": "Disponibilidad de recogida",
+        "settings": {
+          "content": "Muestra la disponibilidad minorista cuando la recogida local está habilitada. [Más información](https://help.shopify.com/en/manual/fulfillment/setup/delivery-methods/pickup-in-store)."
+        }
+      },
+      "policies": {
+        "name": "Políticas",
+        "settings": {
+          "content": "Muestra si los impuestos están incluidos en el precio y enlaza a tu política de envío (si está configurada). [Aprende a configurar precios con impuestos incluidos](https://help.shopify.com/en/manual/taxes) y [aprende a añadir una política de envío](https://help.shopify.com/en/manual/fulfillment/setup/shipping-profiles#create-a-shipping-policy)."
+        }
+      },
+      "price": {
+        "name": "Precio"
+      },
+      "quantity_picker": {
+        "name": "Selector de cantidad",
+        "settings": {
+          "show_inventory_status": {
+            "label": "Mostrar estado del inventario"
+          },
+          "inventory_threshold": {
+            "label": "Umbral de stock bajo"
+          }
+        }
+      },
+      "sku": {
+        "name": "SKU"
+      },
+      "title": {
+        "name": "Título"
+      },
+      "variant_picker": {
+        "name": "Selector de variantes",
+        "settings": {
+          "variant_selector_type": {
+            "label": "Estilo",
+            "options": {
+              "radio": {
+                "label": "Botones"
+              },
+              "select": {
+                "label": "Menús desplegables"
+              }
+            },
+            "info": "Muestra las opciones del producto como botones y muestras de color o menús desplegables. [Aprende cómo configurar muestras de color](https://help.shopify.com/en/manual/custom-data/metafields/category-metafields/using-category-metafields)."
+          }
+        }
+      },
+      "vendor": {
+        "name": "Proveedor"
+      }
+    }
+  },
   "common": {
   "color_scheme": {
     "label": "Esquema de colores",

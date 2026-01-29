@@ -1,0 +1,252 @@
+{% doc %}
+  Renders product form error messages that automatically display based on form events.
+  
+  This snippet listens for product-form error events and displays appropriate error messages.
+  It should be included in your layout where you want error messages to appear.
+  
+  @param {string} [id] - Unique ID for the error messages container (defaults to 'product-form-messages')
+  @param {string} [classlist] - Additional CSS classes
+  @param {string} [product] - Product (defaults to 'Product')
+  
+  @example
+  {% render 'form.product.messages', id: form_id %}
+  
+  @example
+  {% render 'form.product.messages', classlist: 'my-custom-messages' %}
+  
+  @example
+  // Cancel error messages for specific forms
+  document.addEventListener('product-form:message:error', (e) => {
+    e.preventDefault(); // Cancel the error message
+  });
+  
+  @example
+  // Modify error message content
+  document.addEventListener('product-form:message:error', (e) => {
+    e.detail.message = `Custom Error: ${e.detail.message}`;
+  });
+  
+  @example
+  // Cancel success messages and show custom notification
+  document.addEventListener('product-form:message:success', (e) => {
+    e.preventDefault(); // Cancel the default success message
+    
+    // Show custom notification instead
+    showCustomNotification('Item added to cart!', 'success');
+  });
+  
+  @example
+  // Modify success message based on cart contents
+  document.addEventListener('product-form:message:success', (e) => {
+    const itemCount = e.detail.cart.item_count;
+    e.detail.message = `Added to cart! You now have ${itemCount} item${itemCount !== 1 ? 's' : ''}.`;
+  });
+  
+  @example
+  // Handle both error and success messages with custom styling
+  document.addEventListener('product-form:message:error', (e) => {
+    e.detail.message = `<span class="error-icon">⚠️</span> ${e.detail.message}`;
+  });
+  
+  document.addEventListener('product-form:message:success', (e) => {
+    e.detail.message = `<span class="success-icon">✅</span> ${e.detail.message}`;
+  });
+
+  
+{% enddoc %}
+
+{% unless slot_error != blank %}
+  {% capture slot_error %}  
+    {% render 'utility.translate', key: 'info.unable_to_add_item_to_cart', fallback: 'Unable to add item to cart' %}
+  {% endcapture %}  
+{% endunless %}
+
+{% unless slot_success != blank %}
+  {% assign success_message_html = 'info.item_added_to_cart_html'
+    | t: product_title: product.title
+  %}
+
+  {%- capture fallback_success_message_html -%}
+    {{ product.title | escape }} added to cart!
+  {%- endcapture -%}
+
+  {% capture slot_success %}  
+    {% render 'utility.translate',
+      t: success_message_html,
+      fallback: fallback_success_message_html
+    %}
+  {% endcapture %}  
+{% endunless %}
+
+{%  unless slot_template != blank %}
+  {% capture slot_template %}
+    {% render 'element.text', variant: 'body-sm', text: '<slot></slot>', style: 'opacity: 0.7;' %}
+  {% endcapture %}
+{% endunless %}
+
+<product-form-messages 
+  class="hide"
+  data-form-id="{{ id }}"
+  data-error="{{ slot_error }}"
+  data-success="{{ slot_success }}"
+  role="alert"
+  aria-live="polite"
+  aria-atomic="true">
+  <template>
+    {{ slot_template }}
+  </template>
+</product-form-messages>
+
+{% javascript %}
+  class ProductFormMessages extends HTMLElement {
+    constructor() {
+      super();
+      
+      // Pull localized error message from data attributes
+      this.formId = this.dataset.formId;
+      this.defaultErrorMessage = this.dataset.error;
+      this.defaultSuccessMessage = this.dataset.success;
+      
+      // Create abort controller for event cleanup
+      this.abortController = new AbortController();
+    }
+
+    connectedCallback() {
+      // Cache the template content for better performance
+      this.cacheTemplate();
+      this.bindEvents();
+    }
+
+    disconnectedCallback() {
+      // Clean up event listeners when component is removed
+      this.abortController.abort();
+    }
+
+    cacheTemplate() {
+      const template = this.querySelector('template');
+      if (template) {
+        this.template = template.innerHTML;
+        this.templateElement = template;
+      }
+    }
+
+    bindEvents() {
+      const { signal } = this.abortController;
+      
+      // Listen for form submission start to clear error messages
+      document.addEventListener('product-form:submit:before', this.handleSubmitStart.bind(this), { signal });
+      
+      // Listen for form errors
+      document.addEventListener('product-form:submit:error', this.handleError.bind(this), { signal });
+
+      // Listen for form success
+      document.addEventListener('product-form:submit:success', this.handleSuccess.bind(this), { signal });
+    }
+
+    handleSubmitStart(e) {
+      if (e.target.form.getAttribute('id') !== this.formId) {
+        return;
+      }
+
+      this.clearMessages();
+    }
+
+    handleSuccess(e) {
+      if (e.target.form.getAttribute('id') !== this.formId) {
+        return;
+      }
+
+      let message = this.defaultSuccessMessage;
+
+      const successMessageEvent = new CustomEvent('product-form:message:success', {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+          form: e.target.form,
+          response: e.detail.response,
+          cart: e.detail.cart,
+          message: message
+        }
+      });
+
+      // Dispatch the event and check if it was cancelled
+      const eventCancelled = !this.dispatchEvent(successMessageEvent);
+
+      if (eventCancelled) {
+        return;
+      }
+
+      this.showMessage(successMessageEvent.detail.message);
+    }
+
+    handleError(e) { 
+      if (e.target.form.getAttribute('id') !== this.formId) {
+        return;
+      }
+
+      const error = e.detail.error;
+      let message = this.defaultErrorMessage;
+      
+      // Use server response message if available (already localized)
+      if (error.description) {
+        message = error.description;
+      } else if (error.message) {
+        message = error.message;
+      }
+
+      const errorMessageEvent = new CustomEvent('product-form:message:error', {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+          form: e.target.form,
+          response: e.detail.response,
+          cart: e.detail.cart,
+          message: message
+        }
+      });
+
+      const eventCancelled = !this.dispatchEvent(errorMessageEvent);
+
+      if (eventCancelled) {
+        return;
+      }
+
+      this.showMessage(errorMessageEvent.detail.message);
+    }
+
+    showMessage(message) {
+      // Clear existing error messages
+      this.clearMessages();
+      this.classList.remove('hide');
+      
+      // Use cached template content and replace <slot> with the error message
+      if (this.template) {
+        const messageContent = this.template.replace('<slot></slot>', message);
+        
+        // Insert the error message content
+        this.innerHTML = messageContent;
+      }
+    }
+
+    clearMessages() {
+      this.classList.add('hide');
+
+      // Restore the original template structure using cached template
+      if (this.templateElement) {
+        this.innerHTML = this.templateElement.outerHTML;
+      }
+    }
+  }
+
+  customElements.define('product-form-messages', ProductFormMessages);
+{% endjavascript %}
+
+{% stylesheet %}
+  product-form-messages {
+    display: inline;
+  }
+
+  product-form-messages.hide {
+    display: none;
+  }
+{% endstylesheet %}

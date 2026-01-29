@@ -4214,6 +4214,184 @@
       }
     }
   },
+  "flex_pdp": {
+    "section": {
+      "high_variant": {
+        "name": "Produkt: 250+ Varianten",
+        "settings": {
+          "padding": {
+            "label": "Polsterung",
+            "options": {
+              "none": {
+                "label": "Keine"
+              },
+              "top": {
+                "label": "Oben"
+              },
+              "bottom": {
+                "label": "Unten"
+              },
+              "both": {
+                "label": "Beide"
+              }
+            }
+          }
+        },
+        "presets": {
+          "high_variant": {
+            "name": "Produkt (250+ Varianten)"
+          }
+        }
+      }
+    },
+    "blocks": {
+      "buy_buttons": {
+        "name": "Kauf-Schaltflächen",
+        "settings": {
+          "show_dynamic_checkout": {
+            "label": "Beschleunigte Checkout-Schaltfläche anzeigen",
+            "info": "Jeder Kunde sieht seine bevorzugte Zahlungsmethode aus den in Ihrem Shop verfügbaren, wie PayPal oder Apple Pay. [Mehr erfahren](https://help.shopify.com/en/manual/online-store/dynamic-checkout)"
+          }
+        },
+        "presets": {
+          "buy_buttons": {
+            "name": "Kauf-Schaltflächen"
+          }
+        }
+      },
+      "description": {
+        "name": "Beschreibung"
+      },
+      "divider": {
+        "name": "Trenner"
+      },
+      "installments": {
+        "name": "Zahlungsraten",
+        "settings": {
+          "content": "Um Zahlungsraten anzuzeigen, muss Ihr Shop Shop Pay Ratenzahlungen unterstützen. [Mehr erfahren](https://help.shopify.com/en/manual/payments/shop-pay-installments)."
+        }
+      },
+      "inventory": {
+        "name": "Inventar",
+        "settings": {
+          "content": "Zeigt den Inventarstatus für das Produkt basierend auf dem Inventarschwellenwert an, einschließlich Niedrigbestandswarnung und eingehendes Inventar.",
+          "inventory_threshold": {
+            "label": "Niedrige Inventarschwelle"
+          }
+        }
+      },
+      "media_gallery": {
+        "name": "Mediengalerie",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Seitenverhältnis",
+            "options": {
+              "initial": {
+                "label": "Natürlich"
+              },
+              "portrait": {
+                "label": "Hochformat"
+              },
+              "square": {
+                "label": "Quadratisch"
+              },
+              "landscape": {
+                "label": "Querformat"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Videoschleife"
+          },
+          "enable_video_autoplay": {
+            "label": "Video automatisch abspielen",
+            "info": "Automatisch abgespielte Videos sind stummgeschaltet für Barrierefreiheit."
+          }
+        }
+      },
+      "media_grid": {
+        "name": "Medienraster",
+        "settings": {
+          "image_aspect_ratio": {
+            "label": "Seitenverhältnis",
+            "options": {
+              "initial": {
+                "label": "Natürlich"
+              },
+              "portrait": {
+                "label": "Hochformat"
+              },
+              "square": {
+                "label": "Quadratisch"
+              },
+              "landscape": {
+                "label": "Querformat"
+              }
+            }
+          },
+          "enable_video_looping": {
+            "label": "Videoschleife"
+          },
+          "enable_video_autoplay": {
+            "label": "Video automatisch abspielen",
+            "info": "Automatisch abgespielte Videos sind stummgeschaltet für Barrierefreiheit."
+          }
+        }
+      },
+      "pick_up": {
+        "name": "Abholverfügbarkeit",
+        "settings": {
+          "content": "Zeigt die Einzelhandelsverfügbarkeit an, wenn die lokale Abholung aktiviert ist. [Mehr erfahren](https://help.shopify.com/en/manual/fulfillment/setup/delivery-methods/pickup-in-store)."
+        }
+      },
+      "policies": {
+        "name": "Richtlinien",
+        "settings": {
+          "content": "Zeigt an, ob Steuern im Preis enthalten sind und verlinkt zu Ihrer Versandrichtlinie (falls gesetzt). [Erfahren Sie, wie Sie steuerinklusive Preise einrichten](https://help.shopify.com/en/manual/taxes) und [erfahren Sie, wie Sie eine Versandrichtlinie hinzufügen](https://help.shopify.com/en/manual/fulfillment/setup/shipping-profiles#create-a-shipping-policy)."
+        }
+      },
+      "price": {
+        "name": "Preis"
+      },
+      "quantity_picker": {
+        "name": "Mengenauswahl",
+        "settings": {
+          "show_inventory_status": {
+            "label": "Inventarstatus anzeigen"
+          },
+          "inventory_threshold": {
+            "label": "Niedrige Bestandsschwelle"
+          }
+        }
+      },
+      "sku": {
+        "name": "SKU"
+      },
+      "title": {
+        "name": "Titel"
+      },
+      "variant_picker": {
+        "name": "Variantenauswahl",
+        "settings": {
+          "variant_selector_type": {
+            "label": "Stil",
+            "options": {
+              "radio": {
+                "label": "Schaltflächen"
+              },
+              "select": {
+                "label": "Dropdowns"
+              }
+            },
+            "info": "Zeigen Sie Produktoptionen als Schaltflächen und Swatches oder Dropdowns an. [Erfahren Sie, wie Sie Farbfelder einrichten](https://help.shopify.com/en/manual/custom-data/metafields/category-metafields/using-category-metafields)."
+          }
+        }
+      },
+      "vendor": {
+        "name": "Anbieter"
+      }
+    }
+  },
   "common": {
   "color_scheme": {
     "label": "Farbschema",

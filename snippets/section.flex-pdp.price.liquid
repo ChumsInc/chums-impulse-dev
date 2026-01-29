@@ -1,0 +1,29 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+  
+  Renders the product price with proper formatting.
+  
+  This component displays the product price using the product.price component, 
+  which handles price formatting, compare-at pricing, and currency display. 
+  The price is rendered with a large body text variant for prominence.
+  
+  @param {object} product - A product object
+  @param {boolean} [superscript_decimals] - Whether to use superscript decimals for the price (default: true)
+  @param {boolean} [product_save_amount] - Whether to show the product save amount (default: false)
+  @param {string} [product_save_type] ('dollar', 'percentage') - The type of product save amount to show (default: 'dollar')
+  
+  @example
+  {% render 'section.flex-pdp.price', product: closest.product %}
+{% enddoc %}
+
+{%- liquid
+  assign superscript_decimals = superscript_decimals | default: block.settings.superscript_decimals, allow_false: true | default: settings.superscript_decimals, allow_false: true | default: true, allow_false: true
+  assign product_save_amount = product_save_amount | default: block.settings.product_save_amount, allow_false: true | default: true, allow_false: true
+  assign product_save_type = product_save_type | default: block.settings.product_save_type | default: 'dollar'
+-%}
+
+{% capture product_price_content %}
+  {% render 'product.price', product: product, superscript_decimals: superscript_decimals, product_save_amount: product_save_amount, product_save_type: product_save_type %}
+{% endcapture %}
+
+{% render 'element.text', variant: 'body-lg', text: product_price_content %}

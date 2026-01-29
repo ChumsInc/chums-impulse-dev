@@ -1,0 +1,370 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile button component that can be rendered as either a button or anchor element.
+  Supports various states (hover, focus, active, disabled), color schemes (default, inverted, transparent),
+  and can include optional icons with configurable positioning. The component is highly customizable
+  through props while maintaining consistent styling and behavior.
+
+  Element
+  @param {string} [as] ('button'|'a') - HTML element to use (default: 'button' or 'a' if href provided)
+  @param {string} [id] - Button ID attribute
+  @param {string} [classlist] - Additional classes to class attribute
+  @param {string} [attributes] - Additional HTML attributes
+  @param {string} [style] - Inline styles to apply to style attribute
+  @param {string} [type] ('button'|'submit'|'reset') - Button type attribute
+  @param {string} [href] - URL for anchor buttons
+  @param {string} [name] - Button name attribute
+  @param {boolean} [disabled] - Whether button is disabled
+
+  Variants
+  @param {boolean} [inverted] - Use inverted color scheme
+  @param {boolean} [full] - Make button full width
+  @param {boolean} [transparent] - Use transparent background
+  @param {boolean} [shopify_payment] - Use Shopify payment button styles
+  @param {string} [size] ('sm'|'md'|'lg') - Button size (default: 'md')
+
+  Content
+  @param {string} [slot] - Custom content slot
+  @param {string} [text] - Text content for the button
+  @param {string} undefined - Icon name to display
+  @param {string} undefined ('start'|'end') - Position of icon relative to text (default: 'end')
+
+  @example
+  {% render 'element.button', text: 'Click me', href: '/products', icon: 'arrow-right' %}
+{% enddoc %}
+
+{% liquid
+  # Element Defaults
+  assign as = as | default: 'button'
+  assign id = id | default: ''
+  assign classlist = classlist | default: '' | append: ' element-button' | strip
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+  assign type = type | default: ''
+  assign href = href | default: ''
+  assign name = name | default: ''
+  assign disabled = disabled | default: false
+
+  # Variants
+  assign inverted = inverted | default: false
+  assign full = full | default: false
+  assign transparent = transparent | default: false
+  assign size = size | default: 'md'
+
+  # Content
+  assign slot = slot | default: ''
+  assign text = text | default: ''
+  assign icon = icon | default: ''
+  assign icon_position = icon_position | default: 'end'
+
+  if href != blank
+    assign as = 'a'
+  endif
+
+  if inverted
+    assign classlist = classlist | append: ' element-button--inverted'
+  endif
+
+  if transparent
+    assign classlist = classlist | append: ' element-button--transparent'
+  endif
+
+  if full
+    assign style = '--element-button-width: 100%; ' | append: style
+  endif
+
+  if icon_position == 'start'
+    assign style = '--element-button-flex-direction: row-reverse; ' | append: style
+  endif
+
+  if size != blank and size != 'md'
+    assign classlist = classlist | append: ' element-button--size-' | append: size
+  endif
+%}
+
+{% if slot == blank %}
+  {% capture slot %}
+    {%- if text != blank -%}
+      {%- render 'element.text', text: text, variant: 'body', size: size -%}
+    {%- endif -%}
+
+    {%- if icon != blank -%}
+      {%- render 'element.icon', name: icon -%}
+    {%- endif -%}
+  {% endcapture %}
+{% endif %}
+
+{% if shopify_payment %}
+  <div class="element-button--shopify-payment-wrapper">
+    {{ slot }}
+  </div>
+{% else %}
+  <{{ as }}
+    {% if id != blank %}
+      id="{{ id }}"
+    {% endif %}
+
+    class="{{ classlist }}"
+
+    {% if type != blank %}
+      type="{{ type }}"
+    {% endif %}
+
+    {% if href != blank %}
+      href="{{ href }}"
+    {% endif %}
+
+    {% if disabled %}
+      disabled
+    {% endif %}
+
+    {% if name != blank %}
+      name="{{ name }}"
+    {% endif %}
+
+    {% if attributes != blank %}
+      {{ attributes }}
+    {% endif %}
+
+    {%- if style != blank -%}
+      style="{{ style }}"
+    {%- endif -%}
+  >
+    {{ slot }}
+  </{{ as }}>
+{% endif %}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    /* Base Layout Variables */
+    --element-button-display: inline-flex;
+    --element-button-width: fit-content;
+    --element-button-height: auto;
+    --element-button-radius: var(--radius-xs);
+    --element-button-flex-direction: row;
+    --element-button-gap: var(--size-2);
+    --element-button-justify-content: center;
+    --element-button-align-items: center;
+    --element-button-white-space: nowrap;
+
+    /* Base Spacing Variables */
+    --element-button-padding-block: var(--size-3);
+    --element-button-padding-inline: var(--size-5);
+    --element-button-border-width: var(--size-0-25);
+
+    /* Base Color Variables */
+    --element-button-color-primary: initial;
+    --element-button-color-secondary: initial;
+    --element-button-shade-background: 0%;
+    --element-button-shade-text: 0%;
+    --element-button-shade-border: 20%;
+
+    /* Typography Overrides */
+    /* By default, the button will inherit the typography styles from element.text. Set these to other values to override. */
+    /* --element-button-font-family: initial; */
+    /* --element-button-font-family-fallback: initial; */
+    /* --element-button-font-weight: initial; */
+    /* --element-button-letter-spacing: initial; */
+    /* --element-button-text-transform: initial; */
+    /* --element-button-line-height: initial; */
+    /* --element-button-color: initial; */
+
+    /* Base Effect Variables */
+    --element-button-box-shadow: initial;
+    --element-button-transition-duration: 200ms;
+    --element-button-transition-timing: ease;
+    --element-button-transform: none;
+    --element-button-backdrop-filter: none;
+    --element-button-opacity: 1;
+
+    /* Hover State Variables */
+    --element-button-shade-background--hover: 8%;
+    --element-button-shade-border--hover: 30%;
+
+    /* Focus State Variables */
+    --element-button-color-focus: var(--color-focus);
+    --element-button-border-width--focus: var(--size-0-5);
+
+    /* Active State Variables */
+    --element-button-shade-background--active: 16%;
+    --element-button-shade-border--active: var(--element-button-shade-border);
+
+    /* Disabled State Variables */
+    --element-button-shade-background--disabled: 12%;
+    --element-button-shade-text--disabled: 70%;
+    --element-button-shade-border--disabled: 12%;
+  }
+
+  /* Component Implementation */
+  .element-button,
+  .element-button--shopify-payment-wrapper .shopify-payment-button .shopify-payment-button__button--unbranded {
+    /* Base Layout */
+    --_display: var(--element-button-display);
+    --_width: var(--element-button-width);
+    --_height: var(--element-button-height);
+    --_radius: var(--element-button-radius);
+    --_flex-direction: var(--element-button-flex-direction);
+    --_gap: var(--element-button-gap);
+    --_justify-content: var(--element-button-justify-content);
+    --_align-items: var(--element-button-align-items);
+    --_white-space: var(--element-button-white-space);
+
+    /* Base Spacing */
+    --_padding-block: var(--element-button-padding-block);
+    --_padding-inline: var(--element-button-padding-inline);
+    --_border-width: var(--element-button-border-width);
+
+    /* Base Colors */
+    --_color-primary: var(--element-button-color-primary, var(--color-primary));
+    --_color-secondary: var(--element-button-color-secondary, var(--color-secondary));
+    --_color-focus: var(--element-button-color-focus, var(--color-focus, #4a9afc));
+    --_color-text: var(--_color-secondary);
+    --_color-background: var(--_color-primary);
+    --_outline: none;
+    --_border: none;
+    --_shade-background: var(--element-button-shade-background);
+    --_shade-text: var(--element-button-shade-text);
+    --_shade-border: var(--element-button-shade-border);
+    --_box-shadow: var(--element-button-box-shadow, inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-text) var(--_shade-border), transparent));
+
+    /* Base Effects */
+    --_transition-duration: var(--element-button-transition-duration);
+    --_transition-timing: var(--element-button-transition-timing);
+    --_transform: var(--element-button-transform);
+    --_backdrop-filter: var(--element-button-backdrop-filter);
+    --_opacity: var(--element-button-opacity);
+
+    /* Text Styles */
+    --element-text-font-family: var(--element-button-font-family);
+    --element-text-font-family-fallback: var(--element-button-font-family-fallback);
+    --element-text-font-weight: var(--element-button-font-weight);
+    --element-text-letter-spacing: var(--element-button-letter-spacing);
+    --element-text-text-transform: var(--element-button-text-transform);
+    --element-text-line-height: var(--element-button-line-height);
+    --element-text-color: var(--element-button-color);
+    --element-text-font-size: var(--element-button-font-size);
+
+    /* Icon Styles */
+    --element-icon-size: var(--element-text-font-size--body-md);
+
+    /* Base Styles */
+    display: var(--_display);
+    width: var(--_width);
+    height: var(--_height);
+    justify-content: var(--_justify-content);
+    align-items: var(--_align-items);
+    white-space: var(--_white-space);
+    flex-direction: var(--_flex-direction);
+    gap: var(--_gap);
+    padding-block: var(--_padding-block);
+    padding-inline: var(--_padding-inline);
+    border-radius: var(--_radius);
+    background-color: color-mix(in srgb, var(--_color-text) var(--_shade-background), var(--_color-background));
+    color: color-mix(in srgb, var(--_color-background) var(--_shade-text), var(--_color-text));
+    box-shadow: var(--_box-shadow);
+    outline: var(--_outline);
+    border: var(--_border);
+    transform: var(--_transform);
+    backdrop-filter: var(--_backdrop-filter);
+    opacity: var(--_opacity);
+    transition: all var(--_transition-duration) var(--_transition-timing);
+    cursor: pointer;
+
+    &:is(button.shopify-payment-button__button--unbranded) {
+      width: 100%;
+      line-height: var(--element-text-line-height--body-md);
+      min-height: 32px;
+    }
+
+    &:has(> svg:only-child) {
+      --_padding-inline: var(--_padding-block);
+      --_display: flex;
+    }
+
+    /* Hover State */
+    &:hover {
+      --_shade-background: var(--element-button-shade-background--hover);
+      --_shade-border: var(--element-button-shade-border--hover);
+    }
+
+    /* Focus State */
+    &:focus-visible,
+    input[type='radio']:focus-visible + & {
+      --_border-width: var(--element-button-border-width--focus);
+      --_box-shadow: inset 0 0 0 var(--_border-width) var(--_color-focus);
+    }
+
+    /* Disabled State */
+    &:disabled,
+    input[type='radio']:disabled + &,
+    .disabled > input[type='radio'] + &,
+    shopify-buy-it-now-button[disabled] > & {
+      --_shade-background: var(--element-button-shade-background--disabled);
+      --_shade-text: var(--element-button-shade-text--disabled);
+      --_shade-border: var(--element-button-shade-border--disabled);
+
+      &:is(:disabled),
+      shopify-buy-it-now-button[disabled] > & {
+        cursor: not-allowed;
+      }
+    }
+
+    /* Active State */
+    &:active,
+    input[type='radio']:checked + & {
+      --_shade-background: var(--element-button-shade-background--active);
+      --_shade-border: var(--element-button-shade-border--active);
+    }
+
+    /* Variants */
+    &.element-button--size-sm {
+      --_padding-block: var(--size-2);
+      --_padding-inline: var(--size-4);
+    }
+
+    &.element-button--size-lg {
+      --_padding-block: var(--size-4);
+      --_padding-inline: var(--size-6);
+    }
+
+    &.element-button--inverted {
+      --_color-text: var(--_color-primary);
+      --_color-background: var(--_color-secondary);
+    }
+
+    &.element-button--transparent {
+      --_color-background: transparent;
+
+      &:disabled {
+        --_shade-border: var(--element-button-shade-border--disabled);
+        --_shade-background: 0%;
+      }
+
+      &:disabled:active {
+        --_border-width: var(--element-button-border-width);
+        --_shade-border: var(--element-button-shade-border--disabled);
+      }
+    }
+
+    &:is(.shopify-payment-button__button--unbranded):hover:not([disabled]) {
+      background-color: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
+      color: color-mix(in srgb, var(--_color-background) var(--_shade-text), var(--_color-text));
+    }
+  }
+
+  .element-button--shopify-payment-wrapper {
+    --_radius: var(--element-button-radius);
+    --_padding-block: var(--element-button-padding-block);
+    --_line-height: var(--element-button-line-height, var(--element-text-line-height--body));
+    --_font-size: var(--element-button-font-size, var(--element-text-font-size--body-md));
+
+    --shopify-accelerated-checkout-button-border-radius: var(--_radius);
+    --shopify-accelerated-checkout-button-block-size: calc((2 * var(--_padding-block)) + (var(--_line-height) * var(--_font-size)));
+
+    font-family: var(--element-button-font-family, var(--element-text-font-family));
+  }
+{% endstylesheet %}

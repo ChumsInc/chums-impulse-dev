@@ -1,0 +1,23 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-bag-minimal element-icon--line"
+  viewbox="0 0 64 64"
+  width="20"
+  height="20"
+>
+  <path
+    d="M22.53 16.61c0-7.1 4.35-9 9.75-9s9.75 1.9 9.75 9"
+    data-name="svg 2"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M11.66 16.65h41.25V53.4H11.66z"
+    data-name="svg 4"
+    fill="none"
+    stroke="currentColor"
+  />
+</svg>

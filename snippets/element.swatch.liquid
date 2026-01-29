@@ -1,0 +1,160 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  Color or pattern swatch with various sizes and states for product selection.
+
+  @param {boolean} [large] - Whether the swatch is large
+  @param {boolean} [selected] - Whether the swatch is selected
+  @param {string} [classlist] - Additional CSS classes
+  @param {object} [swatch] - Swatch object
+  @param {string} [style] - Style attribute
+  @param {string} [href] - Link (only works if element is 'a')
+  @param {boolean} [disabled] - Whether the swatch is disabled
+  @param {string} [attributes] - Additional attributes
+
+  @example
+  {% render 'element.swatch', color: '#000000', selected: true %}
+{% enddoc %}
+
+{% liquid
+  assign large = large | default: false
+  assign selected = selected | default: false
+  assign classlist = classlist | default: '' | append: ' element-swatch' | strip
+  assign color = color | default: ''
+  assign style = style | default: ''
+  assign element = element | default: 'span'
+  assign href = href | default: ''
+  assign disabled = disabled | default: false
+  assign attributes = attributes | default: ''
+
+  if element == 'a' and href != blank
+    assign classlist = classlist | append: ' element-swatch--link'
+  endif
+
+  if selected
+    assign classlist = classlist | append: ' element-swatch--selected'
+  endif
+
+  if large
+    assign classlist = classlist | append: ' element-swatch--large'
+  endif
+
+  if disabled
+    assign classlist = classlist | append: ' element-swatch--disabled'
+  endif
+
+  if swatch != null
+    assign swatch_image = swatch.image | image_url: width: 50
+    capture swatch_style
+      if swatch.color != blank
+        echo '--element-swatch-color-background: ' | append: swatch.color | append: ';'
+      endif
+
+      if swatch_image != blank
+        echo '--element-swatch-color-background-image: url(' | append: swatch_image | append: ');'
+      endif
+    endcapture
+    assign style = style | append: swatch_style
+  endif
+%}
+
+<{{ element }}
+  class="{{ classlist }}"
+  
+  {% if element == 'a' and href != blank %}
+    href="{{ href }}"
+  {% endif %}
+
+  {%- if style != blank -%}
+    style="{{ style }}"
+  {%- endif -%}
+
+  {%- if attributes != blank -%}
+    {{ attributes }}
+  {%- endif -%}
+></{{ element }}>
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  .element-swatch {
+    /* Layout */
+    --_size-small: var(--element-swatch-size-small, var(--size-4));
+    --_size-large: var(--element-swatch-size-large, var(--size-8));
+    --_size-mobile-ratio: var(--element-swatch-size-mobile-ratio, 0.875); /* 3.5/4 for small, 6/8 for large (0.75) */
+    --_size: var(--_size-small);
+    --_radius: var(--element-swatch-radius, var(--radius-full));
+    --_border-width: var(--element-swatch-border-width, var(--size-0-25));
+    --_outline-width: var(--element-swatch-outline-width, 3px);
+    --_line-disabled-width: var(
+      --element-swatch-line-disabled-width,
+      max(var(--size-0-25), calc(var(--_size) * 0.0625))
+    );
+
+    /* Colors */
+    --_color-primary: var(--color-primary, #000);
+    --_color-secondary: var(--color-secondary, #fff);
+    --_color-background: var(--element-swatch-color-background, var(--_color-primary));
+    --_color-background-image: var(--element-swatch-color-background-image, none);
+    --_color-border: var(--element-swatch-color-border, var(--_color-primary));
+    --_color-disabled: var(--element-swatch-color-disabled, none);
+    --_color-focus: var(--element-swatch-color-focus, var(--color-focus, #4a9afc));
+    --_shade-inset: var(--element-swatch-shade-inset, 16%);
+    --_shade-outer: var(--element-swatch-shade-outer, 0%);
+    --_shade-outer-hover: var(--element-swatch-shade-outer-hover, 20%);
+    --_shade-outer-selected: var(--element-swatch-shade-outer-selected, 100%);
+
+    display: inline-block;
+    background: var(--_color-disabled), var(--_color-background-image) center / cover, var(--_color-background);
+    width: var(--_size);
+    height: var(--_size);
+    border-radius: var(--_radius);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--_color-secondary) 100%, transparent),
+      0 0 0 var(--_outline-width) color-mix(in srgb, var(--_color-primary) var(--_shade-outer), transparent),
+      inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-border) var(--_shade-inset), transparent);
+    outline: 0;
+
+    @media only screen and (max-width: 768px) {
+      --_size: calc(var(--_size-small) * var(--_size-mobile-ratio));
+    }
+
+    label:hover &,
+    &:hover {
+      --_outline-width: 4px;
+      --_shade-outer: var(--_shade-outer-hover);
+    }
+
+    &:focus,
+    input:checked ~ &,
+    .element-swatch--selected {
+      --_shade-outer: var(--_shade-outer-selected);
+    } 
+
+    /* Focus State */
+    &:focus-visible,
+    input[type='radio']:focus-visible ~ & {
+      --_color-primary: var(--_color-focus);
+      --_outline-width: 4px;
+    }
+  }
+
+  .element-swatch--large {
+    --_size: var(--_size-large);
+
+    @media only screen and (max-width: 768px) {
+      --_size: calc(var(--_size-large) * var(--_size-mobile-ratio));
+    }
+  }
+
+  .element-swatch--disabled,
+  .disabled > input[type='radio'] ~ &,
+  input:disabled + & {
+    --_color-disabled: linear-gradient(
+      to bottom right,
+      transparent calc(50% - var(--_line-disabled-width)),
+      var(--color-secondary) calc(50% - var(--_line-disabled-width)) calc(50% + var(--_line-disabled-width)),
+      transparent calc(50% + var(--_line-disabled-width))
+    );
+  }
+{% endstylesheet %}

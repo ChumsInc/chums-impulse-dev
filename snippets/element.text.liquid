@@ -1,0 +1,262 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile text component that can be rendered as any HTML text element.
+  Supports various text styles (body, heading, RTE), sizes, alignments and decorations.
+  The component handles text truncation, word breaking, and visual hiding. It's highly customizable
+  through props while maintaining consistent typography and behavior across the theme.
+
+  @param {string} [text] - Text content for the element
+  @param {string} [as] - HTML element to use (default: 'span')
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [id] - Element ID attribute
+  @param {string} [variant] - Variant to use (default: 'body-md'), options: 'rte', 'body[-lg,-md,-sm,-xs]', 'heading[-2xl,-xl,-lg,-md,-sm,-xs]'
+  @param {string} [size] - Size to use, overrides size passed in variant (default: ''), options: '2xl', 'xl', 'lg', 'md', 'sm', 'xs'
+  @param {string} [style] - Inline styles to apply
+  @param {boolean} [break_word] - Whether to break words (default: false)
+  @param {boolean} [truncate] - Whether to truncate the text (default: false)
+  @param {boolean} [visually_hidden] - Whether to use visually hidden text (default: false)
+  @param {string} [text_decoration] - Text decoration to use (default: 'none'), options: 'none', 'underline', 'line-through'
+  @param {string} [text_transform] - Text transform to use (default: 'none'), options: 'none', 'uppercase', 'lowercase', 'capitalize'
+  @param {string} [alignment] - Alignment to use (default: 'start'), options: 'start', 'center', 'end'
+  @param {boolean} [accent] - Whether to use accent font (default: false)
+  @param {string} [locale] - Will use the contents of a locale file to determine the correct text content. Will use text value if locale is not found
+  @param {boolean} [price] - Whether to format the text as a price (default: false)
+  @param {boolean} [superscript_decimals] - Whether to use superscript decimals for the price (default: true)
+
+  @example
+  {% render 'element.text', text: 'Hello, world!', as: 'p', classlist: 'text-center' %}
+{% enddoc %}
+
+{% liquid
+  assign text = text | default: ''
+  assign as = as | default: 'span'
+  assign classlist = classlist | default: '' | append: ' element-text' | strip
+  assign id = id | default: ''
+  assign variant = variant | default: ''
+  assign size = size | default: ''
+  assign style = style | default: ''
+  assign attributes = attributes | default: ''
+  assign break_word = break_word | default: false, allow_false: true
+  assign truncate = truncate | default: false, allow_false: true
+  assign visually_hidden = visually_hidden | default: false, allow_false: true
+  assign alignment = alignment | default: ''
+  assign text_transform = text_transform | default: 'none'
+  assign text_decoration = text_decoration | default: 'none'
+  assign accent = accent | default: false, allow_false: true
+  assign price = price | default: false, allow_false: true
+  assign superscript_decimals = superscript_decimals | default: settings.superscript_decimals, allow_false: true | default: true, allow_false: true
+
+  if variant != blank
+    assign variant_class = 'element-text--' | append: variant
+    if size != blank
+      assign variant_pieces = variant | split: '-'
+      assign variant_class = 'element-text--' | append: variant_pieces[0] | append: '-' | append: size
+    endif
+    assign classlist = classlist | append: ' ' | append: variant_class
+  endif
+
+  if variant == 'rte'
+    assign as = 'element-text-rte'
+  endif
+
+  if price 
+    assign classlist = classlist | append: ' element-text--price'
+    assign formatted_price = text | money
+    if superscript_decimals
+      assign classlist = classlist | append: ' element-text--price-superscript'
+      unless shop.money_format contains 'money' or shop.money_format contains '.'
+        if shop.money_format contains '{{amount}}' or shop.money_format contains '{{ amount }}'
+          assign price_parts = formatted_price | split: '.'
+          assign main_price = price_parts[0]
+          assign decimal_price = price_parts[1]
+          assign formatted_price = '<span>' | append: main_price | append: '</span><sup>' | append: decimal_price | append: '</sup>'
+        elsif shop.money_format contains '{{amount_with_comma_separator}}' or shop.money_format contains '{{ amount_with_comma_separator }}'
+          assign price_parts = formatted_price | split: ','
+          assign main_price = price_parts[0]
+          assign decimal_price = price_parts[1]
+          assign formatted_price = '<span>' | append: main_price | append: '</span><sup>' | append: decimal_price | append: '</sup>'
+        endif
+      endunless
+    endif
+    assign text = formatted_price
+  endif
+
+  if accent
+    assign classlist = classlist | append: ' element-text--accent'
+  endif
+
+  if alignment != blank
+    assign classlist = classlist | append: ' element-text--align-' | append: alignment
+  endif
+
+  if break_word
+    assign classlist = classlist | append: ' element-text--break-word'
+  endif
+
+  if truncate
+    assign classlist = classlist | append: ' element-text--truncate'
+  endif
+
+  if visually_hidden
+    assign classlist = classlist | append: ' element-text--visually-hidden'
+  endif
+
+  if text_decoration != 'none'
+    assign classlist = classlist | append: ' element-text--' | append: text_decoration
+  endif
+
+  if text_transform != 'none'
+    assign classlist = classlist | append: ' element-text--' | append: text_transform
+  endif
+%}
+
+<{{ as }}
+  {%- if id != blank -%}
+    id="{{ id }}"
+  {%- endif -%}
+
+  class="{{ classlist }}"
+
+  {% if attributes != blank %}
+    {{ attributes }}
+  {% endif %}
+
+  {%- if style != blank -%}
+    style="{{ style }}"
+  {%- endif -%}
+>
+  {% if locale != blank %}
+    {%- render 'utility.translate', key: locale, fallback: text -%}
+  {% else %}
+    {{ text }}
+  {% endif %}
+</{{ as }}>
+
+{% if variant == 'rte' %}
+  <script type="module">
+    import 'element.text.rte'
+  </script>
+{% endif %}
+
+{% render 'style.primitive-tokens' %}
+{% render 'style.normalize' %}
+
+{% stylesheet %}
+  :root {
+    --element-text-font-family: initial;
+    --element-text-font-family-fallback: initial;
+    --element-text-font-weight: initial;
+    --element-text-letter-spacing: initial;
+    --element-text-text-transform: initial;
+    --element-text-line-height: initial;
+    --element-text-color: initial;
+    --element-text-font-size: initial;
+  }
+
+  .element-text {
+    /* Base Typography Variables */
+    --_font-family: var(--element-text-font-family);
+    --_font-family-fallback: var(--element-text-font-family-fallback);
+    --_font-weight: var(--element-text-font-weight);
+    --_letter-spacing: var(--element-text-letter-spacing);
+    --_text-transform: var(--element-text-text-transform);
+    --_line-height: var(--element-text-line-height);
+    --_color: var(--element-text-color, currentColor);
+    --_font-size: var(--element-text-font-size);
+
+    font-family: var(--_font-family), var(--_font-family-fallback);
+    font-weight: var(--_font-weight);
+    letter-spacing: var(--_letter-spacing);
+    text-transform: var(--_text-transform);
+    line-height: var(--_line-height);
+    color: var(--_color);
+    font-size: var(--_font-size);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+
+    &.element-text--price {
+      sup {
+        top: -0.5em;
+        font-size: 60%;
+      }
+    }
+
+    &.element-text--align-start {
+      text-align: start;
+    }
+
+    &.element-text--align-center {
+      text-align: center;
+    }
+
+    &.element-text--align-end {
+      text-align: end;
+    }
+
+    &.element-text--align-justify {
+      text-align: justify;
+    }
+
+    &.element-text--break-word {
+      word-break: break-word;
+    }
+
+    &.element-text--truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &.element-text--visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    &.element-text--line-through {
+      text-decoration: line-through;
+    }
+
+    &.element-text--line-through.element-text--price-superscript {
+      text-decoration: none;
+
+      span {
+        text-decoration: line-through;
+      }
+      
+      sup {
+        text-decoration: line-through;
+        position: relative;
+        top: -0.5em;
+        font-size: 60%;
+      }
+    }
+
+    &.element-text--underline {
+      text-decoration: underline;
+    }
+
+    &.element-text--uppercase {
+      text-transform: uppercase;
+    }
+
+    &.element-text--lowercase {
+      text-transform: lowercase;
+    }
+
+    &.element-text--capitalize {
+      text-transform: capitalize;
+    }
+  }
+
+{% endstylesheet %}
+
+{% render 'element.text--body' %}
+{% render 'element.text--heading' %}
+{% render 'element.text--rte' %}

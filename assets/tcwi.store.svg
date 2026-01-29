@@ -1,0 +1,52 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+  class="element-icon element-icon-tcwi-store element-icon--line element-icon-store"
+  viewbox="0 0 100 100"
+  width="20"
+  height="20"
+>
+  <path
+    d="M83 50.49a6.61 6.61 0 0 1-6.61-6.61 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15v34.81h6.55V57.57H40v27.58h44.43V50.34a7 7 0 0 1-1.43.15m-4.31 25.08H46.56v-18h32.13Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M22.11 57.57h17.9v27.58h-17.9zm24.45 0H78.7v18H46.56z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M22.11 57.57h17.9v27.58h-17.9zm24.45 0H78.7v18H46.56zM27 14.84l-3.43 19.37v9.67A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15 6.62 6.62 0 0 1-5.21-6.46v-9.67l5.21-19.37Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M36.78 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-9.67L27 14.84h11.52Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M50 14.84v29a6.61 6.61 0 1 1-13.21 0v-9.63l1.74-19.37Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M63.22 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-29h11.48Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M76.43 34.21v9.67a6.61 6.61 0 1 1-13.21 0v-9.67l-1.74-19.37H73Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <path
+    d="M89.65 34.21v9.67a6.62 6.62 0 0 1-5.22 6.46 7 7 0 0 1-1.39.15 6.61 6.61 0 0 1-6.61-6.61v-9.67L73 14.84h11.44Z"
+    fill="none"
+    stroke="currentColor"
+  />
+  <circle cx="34.86" cy="74.25" r="1.52" fill="none" stroke="currentColor" />
+</svg>
