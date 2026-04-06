@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "categories": {
+      "banners": "Banner",
+      "collections": "Collezioni",
+      "forms": "Moduli",
+      "info_trust": "Info e fiducia",
+      "products": "Prodotti",
+      "storytelling": "Storytelling"
+    },
     "header-group": {
       "name": "Gruppo di intestazione"
     },
@@ -245,11 +253,10 @@
         },
         "video_url": {
           "label": "Link al video in background",
-          "info": "Supporta YouTube, .MP4 e Vimeo. Non tutte le caratteristiche sono supportate da Vimeo. [Per saperne di più](https://archetypethemes.co/blogs/impulse/how-do-i-add-background-videos)"
+          "info": "Supporta YouTube, .MP4 e Vimeo. Non tutte le caratteristiche sono supportate da Vimeo. [Per saperne di più](https://archetype-themes.zendesk.com/hc/en-us/articles/46028061508115-How-do-I-add-background-videos)"
         },
         "color_border": {
-          "label": "Colore video",
-          "info": "Utilizzato per il bordo mobile"
+          "label": "Colore bordo mobile"
         },
         "layout": {
           "label": "Layout",
@@ -509,7 +516,7 @@
       }
     },
     "featured-collections": {
-      "name": "Elenco delle collezioni",
+      "name": "Elenco collezioni",
       "settings": {
         "title": {
           "label": "Titolo"
@@ -518,15 +525,12 @@
           "label": "Mostra il divisore di sezione"
         },
         "per_row": {
-          "label": "Collezioni per riga"
-        },
-        "enable_gutter": {
-          "label": "Aggiungi spaziatura"
+          "label": "Collezioni per riga su desktop"
         }
       },
       "presets": {
         "collection_list": {
-          "name": "Elenco delle collezioni"
+          "name": "Elenco collezioni"
         }
       },
       "blocks": {
@@ -537,6 +541,7 @@
               "label": "Collezione"
             },
             "title": {
+              "info": "Predefinito: titolo della collezione",
               "label": "Titolo"
             },
             "focal_point": {
@@ -741,6 +746,7 @@
       "name": "Footer",
       "settings": {
         "header_language_selector": "Per aggiungere una lingua, vai alle [impostazioni lingua.](/admin/settings/languages)",
+        "header_localization": "Localizzazione",
         "show_locale_selector": {
           "label": "Mostra il selettore della lingua"
         },
@@ -859,7 +865,7 @@
         },
         "mega_menu_images": {
           "label": "Mostra le immagini del mega menu",
-          "info": "[Come creare un mega menu](https://archetypethemes.co/blogs/impulse/how-do-i-create-a-mega-menu)"
+          "info": "[Come creare un mega menu](https://archetype-themes.zendesk.com/hc/en-us/articles/45003102816147-How-do-I-create-a-mega-menu)"
         },
         "main_menu_alignment": {
           "label": "Disposizione dell'intestazione",
@@ -921,6 +927,7 @@
           "label": "Mostra le icone sociali"
         },
         "header_language_selector": "Per aggiungere una lingua, vai alle [impostazioni lingua.](/admin/settings/languages)",
+        "header_localization": "Localizzazione",
         "show_locale_selector": {
           "label": "Mostra il selettore della lingua"
         },
@@ -1015,11 +1022,11 @@
         },
         "video_url": {
           "label": "Link al video in background",
-          "info": "Supporta YouTube, .MP4 e Vimeo. Non tutte le caratteristiche sono supportate da Vimeo. [Per saperne di più](https://archetypethemes.co/blogs/impulse/how-do-i-add-background-videos)"
+          "info": "Supporta YouTube, .MP4 e Vimeo. Non tutte le caratteristiche sono supportate da Vimeo. [Per saperne di più](https://archetype-themes.zendesk.com/hc/en-us/articles/46028061508115-How-do-I-add-background-videos)"
         },
         "overlay_opacity": {
           "label": "Protezione del testo",
-          "info": "Scurisce la tua immagine per assicurare che il tuo testo sia leggibile"
+          "info": "Scurisce i tuoi contenuti multimediali per assicurare che il tuo testo sia leggibile"
         },
         "section_height": {
           "label": "Altezza del desktop",
@@ -1181,7 +1188,7 @@
           }
         },
         "grid": {
-          "label": "Collezioni per riga"
+          "label": "Collezioni per riga su desktop"
         }
       },
       "blocks": {
@@ -1414,7 +1421,7 @@
         "header_filtering_and_sorting": "Filtri e ordinamento",
         "enable_sidebar": {
           "label": "Abilita filtro",
-          "info": "Permetti ai tuoi clienti di filtrare le collezioni e i risultati della ricerca in base alla disponibilità del prodotto, al prezzo, al colore e altro. [Personalizza filtri](/admin/menus)"
+          "info": "Permetti ai tuoi clienti di filtrare le collezioni e i risultati della ricerca in base alla disponibilità del prodotto, al prezzo, al colore e altro. [Personalizza filtri](https://archetype-themes.zendesk.com/hc/en-us/articles/45209441960595-How-can-I-enable-product-filtering)"
         },
         "collapsed": {
           "label": "Comprimere i filtri"
@@ -1432,7 +1439,7 @@
         },
         "enable_color_swatches": {
           "label": "Abilita i campioni di colore",
-          "info": "[Visualizza le istruzioni di configurazione](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "[Visualizza le istruzioni di configurazione](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "enable_swatch_labels": {
           "label": "Mostra le etichette dei campioni"
@@ -1465,7 +1472,7 @@
         "subcollections": {
           "name": "Sottocollezioni",
           "settings": {
-            "content": "I collegamenti alle collezioni dal tuo menu appariranno qui. [Per saperne di più](https://archetypethemes.co/blogs/impulse/how-do-i-create-subcollections)",
+            "content": "I collegamenti alle collezioni dal tuo menu appariranno qui. [Per saperne di più](https://archetype-themes.zendesk.com/hc/en-us/articles/45209066180115-How-do-I-create-subcollections)",
             "subcollections_per_row": {
               "label": "Sottocollezioni per riga"
             }
@@ -1575,7 +1582,7 @@
         "header_filtering_and_sorting": "Filtri e ordinamento",
         "enable_sidebar": {
           "label": "Abilita filtro",
-          "info": "Permetti ai tuoi clienti di filtrare le collezioni e i risultati della ricerca in base alla disponibilità del prodotto, al prezzo, al colore e altro. [Personalizza filtri](/admin/menus)"
+          "info": "Permetti ai tuoi clienti di filtrare le collezioni e i risultati della ricerca in base alla disponibilità del prodotto, al prezzo, al colore e altro. [Personalizza filtri](https://archetype-themes.zendesk.com/hc/en-us/articles/45209441960595-How-can-I-enable-product-filtering)"
         },
         "collapsed": {
           "label": "Comprimere i filtri"
@@ -1593,7 +1600,7 @@
         },
         "enable_color_swatches": {
           "label": "Abilita i campioni di colore",
-          "info": "[Visualizza le istruzioni di configurazione](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "[Visualizza le istruzioni di configurazione](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "enable_swatch_labels": {
           "label": "Mostra le etichette dei campioni"
@@ -2599,7 +2606,7 @@
         },
         "round_images": {
           "label": "Immagini circolari",
-          "info": "Richiede immagini quadrate"
+          "info": "Immagini quadrate consigliate"
         },
         "color_background": {
           "label": "Sfondo"
@@ -3203,7 +3210,15 @@
           "label": "Capitalizzare"
         },
         "type_headers_align_text": {
-          "label": "Centrare i titoli"
+          "label": "Allineamento",
+          "options": {
+            "left": {
+              "label": "Sinistra"
+            },
+            "center": {
+              "label": "Centro"
+            }
+          }
         },
         "header_body_text": "Corpo del testo",
         "type_base_font_family": {
@@ -3219,7 +3234,15 @@
           "label": "Altezza della linea"
         },
         "type_body_align_text": {
-          "label": "Centrare il testo"
+          "label": "Allineamento",
+          "options": {
+            "left": {
+              "label": "Sinistra"
+            },
+            "center": {
+              "label": "Centro"
+            }
+          }
         },
         "header_extras": "Extra",
         "type_navigation_style": {
@@ -3332,7 +3355,7 @@
           "label": "Stile di visualizzazione del risparmio",
           "options": {
             "dollar": {
-              "label": "Dollaro"
+              "label": "Importo"
             },
             "percent": {
               "label": "Percentuale"
@@ -3353,8 +3376,9 @@
         "quick_shop_text": {
           "label": "Testo del pulsante del negozio rapido"
         },
+        "header_media": "Media",
         "product_grid_image_size": {
-          "label": "Forza la dimensione dell'immagine",
+          "label": "Dimensione immagine",
           "options": {
             "natural": {
               "label": "Naturale"
@@ -3393,7 +3417,7 @@
           }
         },
         "header_product_reviews": "Recensioni del prodotto",
-        "content": "Aggiungi le recensioni abilitando l'impostazione qui sotto e installando [l'applicazione Shopify Product Reviews](https://apps.shopify.com/product-reviews) e seguendo la nostra [guida alla configurazione](https://archetypethemes.co/blogs/support/installing-shopifys-product-reviews-app)",
+        "content": "Aggiungi le recensioni abilitando l'impostazione qui sotto e installando l'[app Shopify Product Reviews](https://apps.shopify.com/product-reviews).",
         "enable_product_reviews": {
           "label": "Abilita le recensioni dei prodotti"
         }
@@ -3402,7 +3426,6 @@
     "collection_tiles": {
       "name": "Piastrelle della collezione",
       "settings": {
-        "header_collection_tiles": "Piastrelle della collezione",
         "collection_grid_style": {
           "label": "Stile",
           "options": {
@@ -3417,8 +3440,8 @@
             }
           }
         },
-        "collection_grid_shape": {
-          "label": "Forma",
+        "collection_grid_size": {
+          "label": "Dimensione",
           "options": {
             "square": {
               "label": "Quadrato (1:1)"
@@ -3529,10 +3552,19 @@
         }
       }
     },
+    "customer_accounts": {
+      "name": "Account cliente",
+      "settings": {
+        "info_customer_accounts": "I conti cliente devono essere abilitati nell'admin di Shopify per visualizzare questa opzione.",
+        "customer_accounts_menu": {
+          "label": "Menu",
+          "info": "I link di questo menu vengono visualizzati quando i clienti interagiscono con il pulsante dell'account."
+        }
+      }
+    },
     "social_media": {
       "name": "Social media",
       "settings": {
-        "header_accounts": "Account",
         "social_facebook_link": {
           "label": "Facebook",
           "info": "https://www.facebook.com/shopify"
@@ -3548,6 +3580,10 @@
         "social_instagram_link": {
           "label": "Instagram",
           "info": "https://instagram.com/shopify"
+        },
+        "social_threads_link": {
+          "label": "Threads",
+          "info": "https://www.threads.net/@shopify"
         },
         "social_snapchat_link": {
           "label": "Snapchat",
@@ -3590,7 +3626,7 @@
       "settings": {
         "favicon": {
           "label": "Immagine favicon",
-          "info": "Verrà ridimensionata a 32 x 32 pixel"
+          "info": "32 × 32 px PNG o più consigliato"
         }
       }
     },
@@ -3947,9 +3983,9 @@
     },
     "home_page": {
       "onboarding": {
-        "product_title": "Esempio di prodotto",
-        "product_description": "Questa area è utilizzata per descrivere i dettagli del tuo prodotto. Racconta ai clienti l'aspetto, le caratteristiche e lo stile del tuo prodotto. Aggiungi dettagli sul colore, i materiali utilizzati, le dimensioni e dove è stato realizzato.",
-        "collection_title": "Esempio di collezione",
+        "product_title": "Titolo del prodotto",
+        "product_description": "Un prodotto progettato con cura, realizzato con materiali di qualità e attenzione ai dettagli. Versatile, affidabile e fatto per durare, si integra perfettamente nella tua routine quotidiana.",
+        "collection_title": "Collezione",
         "no_content": "Questa sezione non include attualmente alcun contenuto. Aggiungi contenuti a questa sezione utilizzando la barra laterale."
       }
     },
@@ -4064,7 +4100,7 @@
         },
         "color_swatches": {
           "label": "Abilita i campioni di colore",
-          "info": "Il tipo deve essere impostato su \"Varianti\". [Maggiori informazioni sulla configurazione dei campioni di colore](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "Il tipo deve essere impostato su \"Varianti\". [Maggiori informazioni sulla configurazione dei campioni di colore](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "product_dynamic_variants_enable": {
           "label": "Abilita opzioni di prodotto dinamiche"
@@ -4415,7 +4451,7 @@
   },
   "lazyload_images": {
     "label": "Caricamento pigro delle immagini",
-    "info": "Il caricamento lento dovrebbe essere abilitato quando le immagini della sezione sono below the fold. [Per saperne di più](https://archetypethemes.co/blogs/support/what-is-lazyloading)"
+    "info": "Il caricamento lento dovrebbe essere abilitato quando le immagini della sezione sono below the fold. [Per saperne di più](https://archetype-themes.zendesk.com/hc/en-us/articles/45268146038035-What-is-lazy-loading)"
   },
   "subheading": {
     "label": "Sottotitolo"
@@ -4647,7 +4683,7 @@
         "label": "Titolo"
       },
       "align_text": {
-        "label": "Allineamento testo",
+        "label": "Allineamento del contenuto",
         "options": {
           "left": {
             "label": "A sinistra"

@@ -57,6 +57,8 @@
         class="site-header__logo-link{% if block.settings.logo-inverted %} logo--has-inverted{% endif %}"
         style="padding-top: {{ 100 | divided_by: block.settings.logo.aspect_ratio }}%">
 
+        {%- assign logo_alt = block.settings.logo.alt | default: shop.name -%}
+
         {% comment %} Desktop logo {% endcomment %}
         {%- assign width = block.settings.desktop_logo_width | times: 2 -%}
         {%- assign height = block.settings.desktop_logo_width | divided_by: block.settings.logo.aspect_ratio -%}
@@ -78,7 +80,7 @@
           widths: widths,
           classes: 'small--hide',
           loading: 'eager',
-          alt: block.settings.logo.alt | default: shop.name,
+          alt: logo_alt,
           itemprop: 'logo',
         -%}
         {%- render 'image-element',
@@ -90,7 +92,7 @@
           widths: mobile_widths,
           classes: 'medium-up--hide',
           loading: 'eager',
-          alt: block.settings.logo.alt | default: shop.name,
+          alt: logo_alt,
         -%}
       </a>
       {%- if block.settings.logo-inverted -%}
@@ -99,6 +101,8 @@
           itemprop="url"
           class="site-header__logo-link logo--inverted"
           style="padding-top: {{ 100 | divided_by: block.settings.logo-inverted.aspect_ratio }}%">
+
+          {%- assign logo_inverted_alt = block.settings.logo-inverted.alt | default: shop.name -%}
 
           {% comment %} Desktop logo {% endcomment %}
           {%- assign width = block.settings.desktop_logo_width | times: 2 -%}
@@ -121,7 +125,7 @@
             widths: widths,
             classes: 'small--hide',
             loading: 'eager',
-            alt: block.settings.logo-inverted.alt | default: shop.name,
+            alt: logo_inverted_alt,
             itemprop: 'logo',
           -%}
           {%- render 'image-element',
@@ -133,7 +137,7 @@
             widths: mobile_widths,
             classes: 'medium-up--hide',
             loading: 'eager',
-            alt: block.settings.logo-inverted.alt | default: shop.name,
+            alt: logo_inverted_alt,
           -%}
         </a>
       {%- endif -%}

@@ -5,7 +5,7 @@
 <div class="page-width">
 
   {%- if section.settings.title != blank -%}
-    <header class="section-header{% if section.settings.view_all %}{% unless settings.type_headers_align_text %} section-header--with-link{% endunless %}{% endif %}">
+    <header class="section-header{% if section.settings.view_all %}{% unless settings.type_headers_align_text == 'center' %} section-header--with-link{% endunless %}{% endif %}">
       <h2 class="section-header__title">
         {{ section.settings.title | escape }}
       </h2>
@@ -161,6 +161,7 @@
   "presets": [
     {
       "name": "t:sections.blog-posts.presets.blog_posts.name",
+      "category": "t:sections.categories.storytelling",
       "settings": {
         "blog": "News",
         "post_limit": 3

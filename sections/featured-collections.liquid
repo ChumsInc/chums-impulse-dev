@@ -7,7 +7,7 @@
     </div>
   {%- endif -%}
 
-  <div class="grid grid--uniform{% unless section.settings.enable_gutter %} grid--no-gutters{% endunless %}">
+  <div class="grid grid--uniform{% unless settings.collection_grid_gutter %} grid--no-gutters{% endunless %}">
     {%- liquid
       assign isEmpty = true
       if section.blocks.size > 0
@@ -68,7 +68,7 @@
       "type": "text",
       "id": "title",
       "label": "t:sections.featured-collections.settings.title.label",
-      "default": "Collection list"
+      "default": "Collections"
     },
     {
       "type": "checkbox",
@@ -84,17 +84,12 @@
       "min": 2,
       "max": 5,
       "step": 1
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_gutter",
-      "label": "t:sections.featured-collections.settings.enable_gutter.label",
-      "default": true
     }
   ],
   "presets": [
     {
       "name": "t:sections.featured-collections.presets.collection_list.name",
+      "category": "t:sections.categories.collections",
       "blocks": [
         {
           "type": "collection"
@@ -124,7 +119,8 @@
         {
           "type": "text",
           "id": "title",
-          "label": "t:sections.featured-collections.blocks.collection.settings.title.label"
+          "label": "t:sections.featured-collections.blocks.collection.settings.title.label",
+          "info": "t:sections.featured-collections.blocks.collection.settings.title.info"
         },
         {
           "type": "select",

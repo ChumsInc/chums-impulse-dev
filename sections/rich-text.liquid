@@ -84,7 +84,7 @@
           "type": "text",
           "id": "title",
           "label": "t:sections.rich-text.blocks.heading.settings.title.label",
-          "default": "Rich text"
+          "default": "Made to last"
         }
       ]
     },
@@ -102,7 +102,7 @@
           "id": "text",
           "type": "richtext",
           "label": "t:sections.rich-text.blocks.text.settings.text.label",
-          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          "default": "<p>We choose quality materials and sweat the small stuff, so what you get feels solid from day one.</p>"
         }
       ]
     },
@@ -111,15 +111,15 @@
       "name": "t:sections.rich-text.blocks.button.name",
       "settings": [
         {
-          "type": "url",
-          "id": "link",
-          "label": "t:sections.rich-text.blocks.button.settings.link.label"
-        },
-        {
           "type": "text",
           "id": "link_text",
           "label": "t:sections.rich-text.blocks.button.settings.link_text.label",
-          "default": "Button"
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.rich-text.blocks.button.settings.link.label"
         }
       ]
     },
@@ -138,12 +138,16 @@
   "presets": [
     {
       "name": "t:sections.rich-text.presets.rich_text.name",
+      "category": "t:sections.categories.storytelling",
       "blocks": [
         {
           "type": "heading"
         },
         {
           "type": "text"
+        },
+        {
+          "type": "button"
         }
       ]
     }

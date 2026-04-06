@@ -286,9 +286,9 @@
   },
   "home_page": {
     "onboarding": {
-      "product_title": "Esempio di prodotto",
-      "product_description": "Questa area è utilizzata per descrivere i dettagli del tuo prodotto. Racconta ai clienti l'aspetto, le caratteristiche e lo stile del tuo prodotto. Aggiungi dettagli sul colore, i materiali utilizzati, le dimensioni e dove è stato realizzato.",
-      "collection_title": "Esempio di collezione",
+      "product_title": "Titolo del prodotto",
+      "product_description": "Un prodotto progettato con cura, realizzato con materiali di qualità e attenzione ai dettagli. Versatile, affidabile e fatto per durare, si integra perfettamente nella tua routine quotidiana.",
+      "collection_title": "Collezione",
       "no_content": "Questa sezione non include attualmente alcun contenuto. Aggiungi contenuti a questa sezione utilizzando la barra laterale."
     }
   },

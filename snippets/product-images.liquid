@@ -6,6 +6,8 @@
   fallback
   mobile_layout
   current_variant_sku - current sku being rendered
+
+  Includes CHUMS customizations for showing current sku and accessibility fixes
 {% endcomment %}
 
 {%- liquid
@@ -127,10 +129,11 @@
                     {%- capture image_classes -%}
                       appear-delay-{{ forloop.index | times: 3 }}
                     {%- endcapture -%}
+                    {%- assign media_alt = media.alt | escape | split: '#' | first -%}
 
                     {%- render 'image-element',
                       img: media.preview_image,
-                      alt: media.alt | escape | split: '#' | first,
+                      alt: media_alt,
                       widths: '120, 360, 540, 720',
                       sizeVariable: '80px',
                       loading: loading,

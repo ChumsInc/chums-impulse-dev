@@ -28,9 +28,9 @@
 
     {%- if collection == blank or collection_image == blank -%}
       {%- capture placeholder -%}collection-{% cycle 1, 2, 3, 4, 5, 6 %}{%- endcapture -%}
-      <div class="collection-image collection-image--{{ settings.collection_grid_shape }} collection-image--placeholder">{{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      <div class="collection-image collection-image--{{ settings.collection_grid_size }} collection-image--placeholder">{{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}</div>
     {%- else -%}
-      <div class="collection-image collection-image--{{ settings.collection_grid_shape }} image-wrap">
+      <div class="collection-image collection-image--{{ settings.collection_grid_size }} image-wrap">
         {% assign indicator = block.id %}
         {% if block == blank %}
           {% assign indicator = collection.id %}

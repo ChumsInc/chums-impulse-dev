@@ -51,7 +51,7 @@
             </div>
 
           {% when 'question' %}
-            <div>
+            <div class="faq-item">
               <button
                 type="button"
                 class="collapsible-trigger collapsible-trigger--inline collapsible--auto-height text-left"
@@ -139,13 +139,13 @@
           "type": "text",
           "id": "title",
           "label": "t:sections.faq.blocks.question.settings.title.label",
-          "default": "Frequently asked question"
+          "default": "How long does shipping take?"
         },
         {
           "type": "richtext",
           "id": "text",
           "label": "t:sections.faq.blocks.question.settings.text.label",
-          "default": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          "default": "<p>Orders are typically processed within 1–2 business days. Delivery times vary by location, but most orders arrive within 3–7 business days. You’ll receive tracking details once your order ships.</p>"
         }
       ]
     }
@@ -153,12 +153,28 @@
   "presets": [
     {
       "name": "t:sections.faq.presets.faq.name",
+      "category": "t:sections.categories.info_trust",
       "blocks": [
         {
-          "type": "question"
+          "type": "question",
+          "settings": {
+            "title": "How long does shipping take?",
+            "text": "<p>Orders are typically processed within 1–2 business days. Delivery times vary by location, but most orders arrive within 3–7 business days. You’ll receive tracking details once your order ships.</p>"
+          }
         },
         {
-          "type": "question"
+          "type": "question",
+          "settings": {
+            "title": "What is your return policy?",
+            "text": "<p>We accept returns within 30 days of delivery on unused items in original condition. To start a return, contact our support team and we’ll guide you through the process.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Can I change or cancel my order?",
+            "text": "<p>If your order hasn’t shipped yet, we’ll do our best to accommodate changes or cancellations. Reach out to our support team as soon as possible for assistance.</p>"
+          }
         }
       ]
     }

@@ -132,8 +132,23 @@
           </li>
         {%- endfor -%}
 
+        {%- if shop.customer_accounts_enabled -%}
+          {%- assign animation_row = animation_row | plus: 1 -%}
+          <li class="mobile-nav__item appear-animation appear-delay-{{ animation_row }}">
+            <div class="mobile-nav__child-item">
+              {% if customer %}
+                <span class="mobile-nav__link mobile-nav__link--top-level">
+                  {%- render 'customer-account' -%}
+                </span>
+              {% else %}
+                {%- render 'customer-account', show_text: true -%}
+              {% endif %}
+            </div>
+          </li>
+        {%- endif -%}
+
         {%- assign have_secondary_list = false -%}
-        {%- if section.settings.toolbar_menu != blank or shop.customer_accounts_enabled -%}
+        {%- if section.settings.toolbar_menu != blank -%}
           {%- assign have_secondary_list = true -%}
         {%- endif -%}
 
@@ -147,19 +162,6 @@
                     <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
                   </div>
                 {%- endfor -%}
-              {%- endif -%}
-
-              {%- if shop.customer_accounts_enabled -%}
-                {%- assign animation_row = animation_row | plus: 1 -%}
-                <div class="grid__item one-half appear-animation appear-delay-{{ animation_row }}">
-                  <a href="{{ routes.account_url }}" class="mobile-nav__link">
-                    {%- if customer -%}
-                      {{ 'layout.customer.account' | t }}
-                    {%- else -%}
-                      {{ 'layout.customer.log_in' | t }}
-                    {%- endif -%}
-                  </a>
-                </div>
               {%- endif -%}
             </div>
           </li>

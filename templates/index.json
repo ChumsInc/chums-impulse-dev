@@ -25,8 +25,8 @@
             "link_text_2": "",
             "color_accent": "#000000",
             "text_align": "vertical-center horizontal-center",
-            "image": "shopify://shop_images/MatchSomeRays_DesktopHero_6e837be6-81bb-42c3-96ed-2f0bd944c38b.jpg",
-            "image_mobile": "shopify://shop_images/MatchSomeRays_MobileHero_7bb1ecff-66e6-4892-82f6-ed720c8bb8a4.jpg",
+            "image": "shopify://shop_images/2026NewProducts_DesktopHero.jpg",
+            "image_mobile": "shopify://shop_images/2026NewProducts_MobileHero.jpg",
             "parallax_direction": "top",
             "overlay_opacity": 0
           }

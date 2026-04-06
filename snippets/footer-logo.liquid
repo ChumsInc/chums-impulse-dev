@@ -11,6 +11,7 @@
       {%- capture sizes -%}{{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio }}px{%- endcapture -%}
       {%- capture widths -%}{{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio }}, {{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio | times: 2 }}{%- endcapture -%}
       {%- capture style -%}max-width: {{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio }}px;max-height: {{ block.settings.desktop_logo_height }}px;{%- endcapture -%}
+      {%- assign logo_alt = block.settings.logo.alt | default: shop.name -%}
 
       {%- render 'image-element',
         img: block.settings.logo,
@@ -19,7 +20,7 @@
         sizes: sizes,
         widths: widths,
         style: style,
-        alt: block.settings.logo.alt | default: shop.name,
+        alt: logo_alt,
       -%}
     </a>
   </div>

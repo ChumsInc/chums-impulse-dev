@@ -86,10 +86,10 @@
             "container_width": 25
           }
         },
-        "page_link_VYQWEA": {
+        "page_link_pa7Bww": {
           "type": "page_link",
           "settings": {
-            "page_link_text": "Find a store",
+            "page_link_text": "Find A Store",
             "page_link_url": "shopify://pages/find-a-store",
             "container_width": 25
           }
@@ -99,12 +99,12 @@
         "footer-1",
         "805620e5-f428-499f-aefa-d5b94c442f56",
         "footer2",
-        "page_link_VYQWEA"
+        "page_link_pa7Bww"
       ],
       "settings": {
-        "show_locale_selector": false,
         "show_currency_selector": false,
         "show_currency_flags": false,
+        "show_locale_selector": false,
         "show_payment_icons": false,
         "show_copyright": false,
         "copyright_text": ""

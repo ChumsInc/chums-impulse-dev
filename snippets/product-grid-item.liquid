@@ -4,6 +4,8 @@ Arguments
 - [per_row]: number of items per row
 - [quick_shop_enable]: boolean
 - [collection]: collection object
+
+Includes CHUMS customizations for "New" badge and "New Colors" badge
 {% endcomment %}
 
 {%- liquid
@@ -45,10 +47,10 @@ Arguments
     endfor
   endif
 
-    # chums customization for new item
-    assign new_item = false
- assign has_new_colors = false
- for tag in product.tags
+  # chums customization for new item
+  assign new_item = false
+  assign has_new_colors = false
+  for tag in product.tags
      assign _tag = tag | lowercase
      if _tag == 'new'
          assign new_item = true
@@ -56,9 +58,7 @@ Arguments
      if _tag == 'new-colors'  or _tag == 'new-color'
          assign has_new_colors = true
      endif
- endfor
-
-
+  endfor
 -%}
 {% style %}
     .grid-product__tag.grid-product__tag--new {
@@ -96,10 +96,10 @@ Arguments
           {{ 'products.general.sale' | t }}
         </div>
       {%- endif -%}
-        {% if new_item == true and product.available %}
-            <div class="grid-product__tag grid-product__tag--new" role="img" aria-label="New Item">
-            </div>
-        {% endif %}
+      {% if new_item == true and product.available %}
+          <div class="grid-product__tag grid-product__tag--new" role="img" aria-label="New Item">
+          </div>
+      {% endif %}
     {%- endif -%}
 
     {%- liquid

@@ -1,7 +1,7 @@
 <div class="page-width page-content">
 
   {% if settings.show_breadcrumbs %}
-    <nav class="breadcrumb{% if settings.type_headers_align_text %} text-center{% endif %}" role="navigation" aria-label="breadcrumbs">
+    <nav class="breadcrumb{% if settings.type_headers_align_text == 'center' %} text-center{% endif %}" role="navigation" aria-label="breadcrumbs">
       <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t }}</a>
       <span class="divider" aria-hidden="true">/</span>
       {{ 'customer.orders.title' | t }}

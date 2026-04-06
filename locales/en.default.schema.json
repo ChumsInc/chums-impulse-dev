@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "categories": {
+      "banners": "Banners",
+      "collections": "Collections",
+      "forms": "Forms",
+      "info_trust": "Info & trust",
+      "products": "Products",
+      "storytelling": "Storytelling"
+    },
     "header-group": {
       "name": "Header group"
     },
@@ -245,11 +253,10 @@
         },
         "video_url": {
           "label": "Background video link",
-          "info": "Supports YouTube, .MP4 and Vimeo. Not all features supported by Vimeo. [Learn more](https://archetypethemes.co/blogs/impulse/how-do-i-add-background-videos)"
+          "info": "Supports YouTube, .MP4 and Vimeo. Not all features supported by Vimeo. [Learn more](https://archetype-themes.zendesk.com/hc/en-us/articles/46028061508115-How-do-I-add-background-videos)"
         },
         "color_border": {
-          "label": "Video color",
-          "info": "Used for mobile border"
+          "label": "Mobile border color"
         },
         "layout": {
           "label": "Layout",
@@ -518,10 +525,7 @@
           "label": "Show section divider"
         },
         "per_row": {
-          "label": "Collections per row"
-        },
-        "enable_gutter": {
-          "label": "Add spacing"
+          "label": "Collections per row on desktop"
         }
       },
       "presets": {
@@ -537,6 +541,7 @@
               "label": "Collection"
             },
             "title": {
+              "info": "Defaults to collection title",
               "label": "Title"
             },
             "focal_point": {
@@ -741,6 +746,7 @@
       "name": "Footer",
       "settings": {
         "header_language_selector": "To add a language, go to your [language settings.](/admin/settings/languages)",
+        "header_localization": "Localization",
         "show_locale_selector": {
           "label": "Show language selector"
         },
@@ -859,7 +865,7 @@
         },
         "mega_menu_images": {
           "label": "Show mega menu images",
-          "info": "[How to create a mega menu](https://archetypethemes.co/blogs/impulse/how-do-i-create-a-mega-menu)"
+          "info": "[How to create a mega menu](https://archetype-themes.zendesk.com/hc/en-us/articles/45003102816147-How-do-I-create-a-mega-menu)"
         },
         "main_menu_alignment": {
           "label": "Header layout",
@@ -921,6 +927,7 @@
           "label": "Show social icons"
         },
         "header_language_selector": "To add a language, go to your [language settings.](/admin/settings/languages)",
+        "header_localization": "Localization",
         "show_locale_selector": {
           "label": "Show language selector"
         },
@@ -1015,11 +1022,11 @@
         },
         "video_url": {
           "label": "Background video link",
-          "info": "Supports YouTube, .MP4 and Vimeo. Not all features supported by Vimeo. [Learn more](https://archetypethemes.co/blogs/impulse/how-do-i-add-background-videos)"
+          "info": "Supports YouTube, .MP4 and Vimeo. Not all features supported by Vimeo. [Learn more](https://archetype-themes.zendesk.com/hc/en-us/articles/46028061508115-How-do-I-add-background-videos)"
         },
         "overlay_opacity": {
           "label": "Text protection",
-          "info": "Darkens your image to ensure your text is readable"
+          "info": "Darkens your media to ensure your text is readable"
         },
         "section_height": {
           "label": "Desktop height",
@@ -1181,7 +1188,7 @@
           }
         },
         "grid": {
-          "label": "Collections per row"
+          "label": "Collections per row on desktop"
         }
       },
       "blocks": {
@@ -1414,7 +1421,7 @@
         "header_filtering_and_sorting": "Filtering and sorting",
         "enable_sidebar": {
           "label": "Enable filter",
-          "info": "Allow your customers to filter collections and search results by product availability, price, color, and more. [Customize filters](/admin/menus)"
+          "info": "Allow your customers to filter collections and search results by product availability, price, color, and more. [Customize filters](https://archetype-themes.zendesk.com/hc/en-us/articles/45209441960595-How-can-I-enable-product-filtering)"
         },
         "collapsed": {
           "label": "Collapse filters"
@@ -1432,7 +1439,7 @@
         },
         "enable_color_swatches": {
           "label": "Enable color swatches",
-          "info": "[View setup instructions](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "[View setup instructions](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "enable_swatch_labels": {
           "label": "Show swatch labels"
@@ -1465,7 +1472,7 @@
         "subcollections": {
           "name": "Subcollections",
           "settings": {
-            "content": "Links to collections from your menu will appear here. [Learn more](https://archetypethemes.co/blogs/impulse/how-do-i-create-subcollections)",
+            "content": "Links to collections from your menu will appear here. [Learn more](https://archetype-themes.zendesk.com/hc/en-us/articles/45209066180115-How-do-I-create-subcollections)",
             "subcollections_per_row": {
               "label": "Subcollections per row"
             }
@@ -1575,7 +1582,7 @@
         "header_filtering_and_sorting": "Filtering and sorting",
         "enable_sidebar": {
           "label": "Enable filter",
-          "info": "Allow your customers to filter collections and search results by product availability, price, color, and more. [Customize filters](/admin/menus)"
+          "info": "Allow your customers to filter collections and search results by product availability, price, color, and more. [Customize filters](https://archetype-themes.zendesk.com/hc/en-us/articles/45209441960595-How-can-I-enable-product-filtering)"
         },
         "collapsed": {
           "label": "Collapse filters"
@@ -1593,7 +1600,7 @@
         },
         "enable_color_swatches": {
           "label": "Enable color swatches",
-          "info": "[View setup instructions](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "[View setup instructions](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "enable_swatch_labels": {
           "label": "Show swatch labels"
@@ -2602,7 +2609,7 @@
         },
         "round_images": {
           "label": "Circular images",
-          "info": "Requires square images"
+          "info": "Square images recommended"
         },
         "color_background": {
           "label": "Background"
@@ -2800,7 +2807,7 @@
       }
     },
     "age-verification-popup": {
-      "name": "Age Verification Popup",
+      "name": "Age verification popup",
       "settings": {
         "enable_age_verification_popup": {
           "label": "Show age verification pop up"
@@ -3206,7 +3213,15 @@
           "label": "Capitalize"
         },
         "type_headers_align_text": {
-          "label": "Center headings"
+          "label": "Alignment",
+          "options": {
+            "left": {
+              "label": "Left"
+            },
+            "center": {
+              "label": "Center"
+            }
+          }
         },
         "header_body_text": "Body text",
         "type_base_font_family": {
@@ -3222,7 +3237,15 @@
           "label": "Line height"
         },
         "type_body_align_text": {
-          "label": "Center text"
+          "label": "Alignment",
+          "options": {
+            "left": {
+              "label": "Left"
+            },
+            "center": {
+              "label": "Center"
+            }
+          }
         },
         "header_extras": "Extras",
         "type_navigation_style": {
@@ -3335,7 +3358,7 @@
           "label": "Savings display style",
           "options": {
             "dollar": {
-              "label": "Dollar"
+              "label": "Amount"
             },
             "percent": {
               "label": "Percent"
@@ -3351,13 +3374,14 @@
       "name": "Product tiles",
       "settings": {
         "quick_shop_enable": {
-          "label": "Enable quick shop feature"
+          "label": "Show quick shop"
         },
         "quick_shop_text": {
           "label": "Quick shop button text"
         },
+        "header_media": "Media",
         "product_grid_image_size": {
-          "label": "Force image size",
+          "label": "Image size",
           "options": {
             "natural": {
               "label": "Natural"
@@ -3382,7 +3406,7 @@
         },
         "header_color_swatches": "Color swatches",
         "enable_swatches": {
-          "label": "Enable color swatches"
+          "label": "Show color swatches"
         },
         "swatch_style": {
           "label": "Swatch style",
@@ -3396,7 +3420,7 @@
           }
         },
         "header_product_reviews": "Product reviews",
-        "content": "Add reviews by enabling the setting below and installing the [Shopify Product Reviews app](https://apps.shopify.com/product-reviews) and following our [setup guide](https://archetypethemes.co/blogs/support/installing-shopifys-product-reviews-app)",
+        "content": "Add reviews by enabling the setting below and installing the [Shopify Product Reviews app](https://apps.shopify.com/product-reviews).",
         "enable_product_reviews": {
           "label": "Enable product reviews"
         }
@@ -3405,7 +3429,6 @@
     "collection_tiles": {
       "name": "Collection tiles",
       "settings": {
-        "header_collection_tiles": "Collection tiles",
         "collection_grid_style": {
           "label": "Style",
           "options": {
@@ -3420,8 +3443,8 @@
             }
           }
         },
-        "collection_grid_shape": {
-          "label": "Shape",
+        "collection_grid_size": {
+          "label": "Size",
           "options": {
             "square": {
               "label": "Square (1:1)"
@@ -3532,10 +3555,19 @@
         }
       }
     },
+    "customer_accounts": {
+      "name": "Customer accounts",
+      "settings": {
+        "info_customer_accounts": "Customer accounts must be enabled in Shopify admin for this to appear.",
+        "customer_accounts_menu": {
+          "label": "Menu",
+          "info": "Links from this menu appear when customers interact with the account button."
+        }
+      }
+    },
     "social_media": {
       "name": "Social media",
       "settings": {
-        "header_accounts": "Accounts",
         "social_facebook_link": {
           "label": "Facebook",
           "info": "https://www.facebook.com/shopify"
@@ -3551,6 +3583,10 @@
         "social_instagram_link": {
           "label": "Instagram",
           "info": "https://instagram.com/shopify"
+        },
+        "social_threads_link": {
+          "label": "Threads",
+          "info": "https://www.threads.net/@shopify"
         },
         "social_snapchat_link": {
           "label": "Snapchat",
@@ -3593,7 +3629,7 @@
       "settings": {
         "favicon": {
           "label": "Favicon image",
-          "info": "Will be scaled down to 32 x 32px"
+          "info": "32 × 32px PNG or larger recommended"
         }
       }
     },
@@ -3950,9 +3986,9 @@
     },
     "home_page": {
       "onboarding": {
-        "product_title": "Example product",
-        "product_description": "This area is used to describe your product’s details. Tell customers about the look, feel, and style of your product. Add details on color,  materials used, sizing, and where it was made.",
-        "collection_title": "Example collection",
+        "product_title": "Product title",
+        "product_description": "A thoughtfully designed product made with quality materials and attention to detail. Versatile, reliable, and built to last, it's made to fit seamlessly into your everyday routine.",
+        "collection_title": "Collection",
         "no_content": "This section doesn’t currently include any content. Add content to this section using the sidebar."
       }
     },
@@ -4067,7 +4103,7 @@
         },
         "color_swatches": {
           "label": "Enable color swatches",
-          "info": "Requires type to be set to 'Buttons'. [Learn how to set up swatches](https://archetypethemes.co/blogs/impulse/how-do-i-set-up-color-swatches)"
+          "info": "Requires type to be set to 'Buttons'. [Learn how to set up swatches](https://archetype-themes.zendesk.com/hc/en-us/articles/45004834394003-How-do-I-set-up-color-swatches)"
         },
         "product_dynamic_variants_enable": {
           "label": "Enable dynamic product options"
@@ -4418,7 +4454,7 @@
   },
   "lazyload_images": {
     "label": "Lazy load images",
-    "info": "Lazy loading should be enabled when section images are below the fold. [Learn more](https://archetypethemes.co/blogs/support/what-is-lazyloading)"
+    "info": "Lazy loading should be enabled when section images are below the fold. [Learn more](https://archetype-themes.zendesk.com/hc/en-us/articles/45268146038035-What-is-lazy-loading)"
   },
   "subheading": {
     "label": "Subheading"
@@ -4650,7 +4686,7 @@
         "label": "Heading"
       },
       "align_text": {
-        "label": "Text alignment",
+        "label": "Content alignment",
         "options": {
           "left": {
             "label": "Left"

@@ -286,9 +286,9 @@
   },
   "home_page": {
     "onboarding": {
-      "product_title": "Beispielhafter Produkttitel",
-      "product_description": "Diesen Abschnitt können Sie nutzen, um die Details Ihres Produkts zu beschreiben. Erzählen Sie den Kunden, wie Ihr Produkt aussieht, sich anfühlt und designt ist. Fügen Sie Einzelheiten zu Farbe, verwendeten Materialien, Größe und Produktionsort hinzu.",
-      "collection_title": "Beispielhafter Zusammenstellungstitel",
+      "product_title": "Produkttitel",
+      "product_description": "Ein durchdacht gestaltetes Produkt aus hochwertigen Materialien und mit Liebe zum Detail. Vielseitig, zuverlässig und langlebig – es fügt sich nahtlos in deinen Alltag ein.",
+      "collection_title": "Kollektion",
       "no_content": "Dieser Bereich hat zur Zeit keinen Inhalt. Füge diesem Bereich über die Seitenleiste Inhalte hinzu."
     }
   },
@@ -331,7 +331,7 @@
       "add_to_cart": "In den Einkaufswagen legen",
       "preorder": "Vorbestellung",
       "include_taxes": "inkl. MwSt.",
-      "shipping_policy_html": "zzgl. <a href='{{ link }}'>Versandkosten<\/a>",
+      "shipping_policy_html": "zzgl. <a href='{{ link }}'>Versandkosten</a>",
       "will_not_ship_until": "Wird nach dem {{ date }} versendet",
       "will_be_in_stock_after": "Wird nach dem {{ date }} auf Lager sein",
       "waiting_for_stock": "Nachbestellt, bald verfügbar",
@@ -339,14 +339,14 @@
       "view_in_space_label": "„Ansicht in Ihrem Raum“ lädt den Artikel im Augmented-Reality-Fenster"
     }
   },
-  "store_availability":{
-    "general":{
+  "store_availability": {
+    "general": {
       "view_store_info": "Ansicht speichern Informationen",
       "check_other_stores": "Prüfen Sie die Verfügbarkeit von anderen Shops",
       "pick_up_available": "Pickup verfügbar",
       "pick_up_currently_unavailable": "Pickup derzeit nicht verfügbar",
-      "pick_up_available_at_html": "Pickup verfügbar unter <strong> {{location_name}} <\/strong>",
-      "pick_up_unavailable_at_html": "Pickup derzeit nicht verfügbar unter <strong> {{location_name}} <\/strong>"
+      "pick_up_available_at_html": "Pickup verfügbar unter <strong> {{location_name}} </strong>",
+      "pick_up_unavailable_at_html": "Pickup derzeit nicht verfügbar unter <strong> {{location_name}} </strong>"
     }
   },
   "gift_cards": {
@@ -375,7 +375,7 @@
       "send_on_label": "Senden an (optional)"
     }
   },
-  "date_formats":{
+  "date_formats": {
     "month_day_year": "%B %d, %Y"
   },
   "info": {

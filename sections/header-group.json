@@ -55,9 +55,9 @@
         "sticky_collection": false,
         "toolbar_menu": "",
         "toolbar_social": false,
-        "show_locale_selector": false,
         "show_currency_selector": false,
-        "show_currency_flags": true
+        "show_currency_flags": true,
+        "show_locale_selector": false
       }
     }
   },

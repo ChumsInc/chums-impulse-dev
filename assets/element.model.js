@@ -6,21 +6,30 @@ export class ModelMedia extends BaseMedia {
     return new Promise((resolve) => {
       this.setAttribute('loaded', '')
 
-      window.Shopify.loadFeatures([
-        {
-          name: 'shopify-xr',
-          version: '1.0',
-          onLoad: this.setupShopifyXr.bind(this)
-        },
-        {
-          name: 'model-viewer-ui',
-          version: '1.0',
-          onLoad: () => {
-            const modelViewerUi = this.setupModelViewerUi()
-            resolve(modelViewerUi)
+      const initWhenReady = () => {
+        window.Shopify.loadFeatures([
+          {
+            name: 'shopify-xr',
+            version: '1.0',
+            onLoad: this.setupShopifyXr.bind(this)
+          },
+          {
+            name: 'model-viewer-ui',
+            version: '1.0',
+            onLoad: () => {
+              const modelViewerUi = this.setupModelViewerUi()
+              resolve(modelViewerUi)
+            }
           }
-        }
-      ])
+        ])
+      };
+
+      // Ensure model-viewer custom element is defined (fix for Safari)
+      if (typeof customElements !== 'undefined' && customElements.whenDefined) {
+        customElements.whenDefined('model-viewer').then(initWhenReady);
+      } else {
+        initWhenReady();
+      }
     })
   }
 
@@ -42,6 +51,7 @@ export class ModelMedia extends BaseMedia {
 
   setupModelViewerUi() {
     const modelViewer = this.querySelector('model-viewer')
+    if (!modelViewer) return null
 
     modelViewer.addEventListener('shopify_model_viewer_ui_toggle_play', () => {
       this.setAttribute('playing', '')

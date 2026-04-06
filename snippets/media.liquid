@@ -58,6 +58,7 @@
 <div
   class="product-main-slide {% if is_featured %}starting-slide{% else %}secondary-slide{% endif %}"
   data-index="{{ loopIndex0 }}"
+  data-media-id="{{ media.id }}"
   {% if image_set %}
     data-set-name="{{image_set_group}}"
     data-group="{{image_set_full}}"
@@ -98,12 +99,13 @@
             assign fallback = '75vw'
           endif
         -%}
+        {%- assign media_alt = media.alt | escape | split: '#' | first -%}
 
         {%- render 'image-element',
           img: media.preview_image,
           type: 'photoswipe',
           classes: image_classes,
-          alt: media.alt | escape | split: '#' | first,
+          alt: media_alt,
           widths: '360, 540, 720, 900, 1080',
           product_zoom_size: product_zoom_size,
           loopIndex: loopIndex,

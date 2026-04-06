@@ -61,7 +61,7 @@
     --colorFooterTextAlpha01: {{ settings.color_footer_text | default: "#fff" }};
 
     --colorGridOverlay: {{ settings.collection_grid_tint | default: "#000" }};
-    --colorGridOverlayOpacity: 0.1;
+    --colorGridOverlayOpacity: {{ settings.collection_grid_opacity | divided_by: 100.0 }};
 
     --colorHeaderTextAlpha01: {{ settings.color_header_text | default: '#000' | color_modify: 'alpha', 0.1 }};
 

@@ -286,9 +286,9 @@
   },
   "home_page": {
     "onboarding": {
-      "product_title": "Ejemplo título de producto",
-      "product_description": " Este campo se utiliza para describir los detalles de tu producto. Informa a los clientes acerca de la apariencia, percepción y estilo de tu producto. Incluye detalles sobre el color, los materiales utilizados, el tamaño y donde se hizo.",
-      "collection_title": "Ejemplo título de colección",
+      "product_title": "Título del producto",
+      "product_description": "Un producto diseñado con cuidado, fabricado con materiales de calidad y atención al detalle. Versátil, fiable y hecho para durar, se integra perfectamente en tu día a día.",
+      "collection_title": "Colección",
       "no_content": "Esta secção não inclui de momento qualquer conteúdo. Adicione conteúdo a esta secção através da barra lateral."
     }
   },
@@ -331,7 +331,7 @@
       "add_to_cart": "Agregar al carrito",
       "preorder": "Hacer un pedido",
       "include_taxes": "Impuesto incluido.",
-      "shipping_policy_html": "Los <a href='{{ link }}'>gastos de envío<\/a> se calculan en la pantalla de pagos.",
+      "shipping_policy_html": "Los <a href='{{ link }}'>gastos de envío</a> se calculan en la pantalla de pagos.",
       "will_not_ship_until": "Será enviado después {{ date }}",
       "will_be_in_stock_after": "Estará disponible después {{ date }}",
       "waiting_for_stock": "Pedido pendiente, envío pronto",
@@ -339,14 +339,14 @@
       "view_in_space_label": "Ver en tu espacio, carga el artículo en la ventana de realidad aumentada"
     }
   },
-  "store_availability":{
-    "general":{
+  "store_availability": {
+    "general": {
       "view_store_info": "Información de la tienda",
       "check_other_stores": "Consulte la disponibilidad en otras tiendas",
       "pick_up_available": "Recogida en la",
       "pick_up_currently_unavailable": "Recogida disponible en este momento",
-      "pick_up_available_at_html": "Recogida disponible en <strong> {{location_name}} <\/strong>",
-      "pick_up_unavailable_at_html": "Recogida está disponible en <strong> {{location_name}} <\/strong>"
+      "pick_up_available_at_html": "Recogida disponible en <strong> {{location_name}} </strong>",
+      "pick_up_unavailable_at_html": "Recogida está disponible en <strong> {{location_name}} </strong>"
     }
   },
   "gift_cards": {
@@ -375,7 +375,7 @@
       "send_on_label": "Enviar (opcional)"
     }
   },
-  "date_formats":{
+  "date_formats": {
     "month_day_year": "%d de %B, %Y"
   },
   "info": {

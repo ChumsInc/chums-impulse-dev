@@ -11,7 +11,7 @@
   data-context="featured-collection">
   {%- if section.settings.title != blank or section.settings.view_all -%}
     <div class="page-width">
-      <div class="section-header{% if section.settings.view_all %}{% unless settings.type_headers_align_text %} section-header--with-link{% endunless %}{% endif %}">
+      <div class="section-header{% if section.settings.view_all %}{% unless settings.type_headers_align_text == 'center' %} section-header--with-link{% endunless %}{% endif %}">
         <h2 class="section-header__title">
           {% if section.settings.title == '' and collection != null %}
             <span class="visually-hidden">{{ collection.title }}</span>
@@ -87,14 +87,6 @@
               </div>
             {%- endif -%}
 
-            {%- if section.settings.mobile_scrollable -%}
-              <div class="grid__item grid__item--view-all text-center {{ gridView }} medium-up--hide">
-                <a href="{{ collections[section.settings.home_featured_products].url }}" class="grid-product__see-all">
-                  {{ 'collections.general.view_all_products_html' | t: count: collection.products_count }}
-                </a>
-              </div>
-            {%- endif -%}
-
           {%- endif -%}
 
         {%- endif -%}
@@ -160,7 +152,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.featured-collection.presets.featured_collection.name"
+      "name": "t:sections.featured-collection.presets.featured_collection.name",
+      "category": "t:sections.categories.collections"
     }
   ],
   "blocks": [],

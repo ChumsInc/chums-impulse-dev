@@ -255,34 +255,16 @@
       "name": "t:sections.countdown.blocks.timer.name",
       "settings": [
         {
-          "type": "select",
+          "type": "number",
           "id": "year",
           "label": "t:sections.countdown.blocks.timer.settings.year.label",
-          "default": "2025",
-          "options": [
-            {
-              "value": "2024",
-              "label": "2024"
-            },
-            {
-              "value": "2025",
-              "label": "2025"
-            },
-            {
-              "value": "2026",
-              "label": "2026"
-            },
-            {
-              "value": "2027",
-              "label": "2027"
-            }
-          ]
+          "default": 2026
         },
         {
           "type": "select",
           "id": "month",
           "label": "t:sections.countdown.blocks.timer.settings.month.label",
-          "default": "01",
+          "default": "05",
           "options": [
             {
               "value": "01",
@@ -831,7 +813,8 @@
         {
           "type": "richtext",
           "id": "text",
-          "label": "t:sections.countdown.blocks.timer.settings.text.label"
+          "label": "t:sections.countdown.blocks.timer.settings.text.label",
+          "default": "<p>This promotion has ended. Explore our latest arrivals.</p>"
         }
       ],
       "limit": 1
@@ -844,7 +827,7 @@
           "type": "text",
           "id": "heading",
           "label": "t:sections.countdown.blocks.content.settings.heading.label",
-          "default": "Countdown"
+          "default": "Limited-Time Offer"
         },
         {
           "type": "select",
@@ -870,7 +853,7 @@
           "type": "richtext",
           "id": "text",
           "label": "t:sections.countdown.blocks.content.settings.text.label",
-          "default": "<p>Use this timer to create urgency and boost sales.</p>"
+          "default": "<p>Special pricing on featured items, ending soon.</p>"
         },
         {
           "type": "select",
@@ -933,6 +916,7 @@
   "presets": [
     {
       "name": "t:sections.countdown.presets.countdown.name",
+      "category": "t:sections.categories.banners",
       "blocks": [
         {
           "type": "content"

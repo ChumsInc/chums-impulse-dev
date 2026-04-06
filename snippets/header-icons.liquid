@@ -1,20 +1,13 @@
 <div class="site-nav">
   <div class="site-nav__icons">
     {%- if shop.customer_accounts_enabled -%}
-      <a class="site-nav__link site-nav__link--icon medium--hide" href="{{ routes.account_url }}">
-        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-user" viewBox="0 0 64 64"><title>account</title><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
-        <span class="icon__fallback-text">
-          {%- if customer -%}
-            {{ 'layout.customer.account' | t }}
-          {%- else -%}
-            {{ 'layout.customer.log_in' | t }}
-          {%- endif -%}
-        </span>
-      </a>
+      <span class="site-nav__link site-nav__link--icon small--hide">
+        {%- render 'customer-account' -%}
+      </span>
     {%- endif -%}
 
     {%- if settings.search_enable -%}
-      <a href="{{ routes.search_url }}" class="site-nav__link site-nav__link--icon js-search-header{% if section.settings.main_menu_alignment == 'center' or section.settings.main_menu_alignment == 'center-split' %} large-up--hide{% endif %}">
+      <a href="{{ routes.search_url }}" class="site-nav__link site-nav__link--icon js-search-header{% if section.settings.main_menu_alignment == 'center' or section.settings.main_menu_alignment == 'center-split' %} medium-up--hide{% endif %}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search" viewBox="0 0 64 64"><title>icon-search</title><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
         <span class="icon__fallback-text">{{ 'general.search.title' | t }}</span>
       </a>
@@ -23,7 +16,7 @@
     {%- if section.settings.main_menu_alignment == 'left' or section.settings.main_menu_alignment == 'left-center' or section.settings.main_menu_alignment == 'left-drawer' -%}
       <button
         type="button"
-        class="site-nav__link site-nav__link--icon js-drawer-open-nav{% if section.settings.main_menu_alignment == 'left' or section.settings.main_menu_alignment == 'left-center' %} large-up--hide{% endif %}"
+        class="site-nav__link site-nav__link--icon js-drawer-open-nav{% if section.settings.main_menu_alignment == 'left' or section.settings.main_menu_alignment == 'left-center' %} medium-up--hide{% endif %}"
         aria-controls="NavDrawer">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-hamburger" viewBox="0 0 64 64"><title>icon-hamburger</title><path d="M7 15h51M7 32h43M7 49h51"/></svg>
         <span class="icon__fallback-text">{{ 'general.drawers.navigation' | t }}</span>

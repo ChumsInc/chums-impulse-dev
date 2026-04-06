@@ -4,7 +4,7 @@
   Access unminified JS in assets/theme.js
 
   Use this event listener to run your own JS outside of this file.
-  Documentation - https://archetypethemes.co/blogs/impulse/javascript-events-for-developers
+  Documentation - https://help.archetypethemes.co/hc/en-us/articles/45871298573843-Impulse-JavaScript-events-for-developers
 
   document.addEventListener('page:loaded', function() {
     // Page has loaded and theme assets are ready
@@ -327,6 +327,14 @@ theme.recentlyViewed = {
           break;
         case 'amount_no_decimals_with_comma_separator':
           value = formatWithDelimiters(cents, 0, '.', ',');
+          break;
+        case 'amount_with_space_separator':
+          value = formatWithDelimiters(cents, 2, ' ', ',');
+  
+          if (superScript && value && value.includes(',')) {
+            value = value.replace(',', '<sup>') + '</sup>';
+          }
+  
           break;
         case 'amount_no_decimals_with_space_separator':
           value = formatWithDelimiters(cents, 0, ' ');
@@ -2923,43 +2931,54 @@ theme.recentlyViewed = {
         loaded: false
       };
   
-      modelViewerContainers.forEach(function(container, index) {
-        var mediaId = container.dataset.mediaId;
-        var modelViewerElement = container.querySelector('model-viewer');
-        var modelId = modelViewerElement.dataset.modelId;
+      const initWhenReady = () => {
+        modelViewerContainers.forEach(function(container, index) {
+          var mediaId = container.dataset.mediaId;
+          var modelViewerElement = container.querySelector('model-viewer');
+          var modelId = modelViewerElement.dataset.modelId;
   
-        if (index === 0) {
-          var mediaGroup = container.closest(selectors.mediaGroup);
-          var xrButton = mediaGroup.querySelector(selectors.xrButton);
-          xrButtons[sectionId] = {
-            element: xrButton,
-            defaultId: modelId
+          if (!modelViewerElement) return;
+  
+          if (index === 0) {
+            var mediaGroup = container.closest(selectors.mediaGroup);
+            var xrButton = mediaGroup.querySelector(selectors.xrButton);
+            xrButtons[sectionId] = {
+              element: xrButton,
+              defaultId: modelId
+            };
+          }
+  
+          models[mediaId] = {
+            modelId: modelId,
+            sectionId: sectionId,
+            container: container,
+            element: modelViewerElement
           };
-        }
   
-        models[mediaId] = {
-          modelId: modelId,
-          sectionId: sectionId,
-          container: container,
-          element: modelViewerElement
-        };
+        });
   
-      });
+        window.Shopify.loadFeatures([
+          {
+            name: 'shopify-xr',
+            version: '1.0',
+            onLoad: setupShopifyXr
+          },
+          {
+            name: 'model-viewer-ui',
+            version: '1.0',
+            onLoad: setupModelViewerUi
+          }
+        ]);
   
-      window.Shopify.loadFeatures([
-        {
-          name: 'shopify-xr',
-          version: '1.0',
-          onLoad: setupShopifyXr
-        },
-        {
-          name: 'model-viewer-ui',
-          version: '1.0',
-          onLoad: setupModelViewerUi
-        }
-      ]);
+        theme.LibraryLoader.load('modelViewerUiStyles');
+      };
   
-      theme.LibraryLoader.load('modelViewerUiStyles');
+      // Ensure model-viewer custom element is defined (fix for Safari)
+      if (typeof customElements !== 'undefined' && customElements.whenDefined) {
+        customElements.whenDefined('model-viewer').then(initWhenReady);
+      } else {
+        initWhenReady();
+      }
     }
   
     function setupShopifyXr(errors) {
@@ -3380,8 +3399,15 @@ theme.recentlyViewed = {
       pause: function() {
         this.slideshow.pausePlayer();
       },
-      goToSlide: function(i) {
-        this.slideshow.select(i);
+      goToSlide: function(mediaIdOrIndex) {
+        var slideshow = this.slideshow;
+        var id = String(mediaIdOrIndex);
+        for (var c = 0; slideshow.cells && c < slideshow.cells.length; c++)
+          if (slideshow.cells[c].element.dataset.mediaId === id) {
+            slideshow.selectCell(slideshow.cells[c].element, false, true);
+            return;
+          }
+        slideshow.select(parseInt(mediaIdOrIndex) || 0);
       },
       setDraggable: function(enable) {
         this.slideshow.options.draggable = enable;
@@ -3414,11 +3440,13 @@ theme.recentlyViewed = {
         if (this.arrows.length) {
           this.arrows.forEach(arrow => {
             arrow.addEventListener('click', this.arrowClick.bind(this));
-          });;
+          });
         }
       },
   
       getChildIndex: function(target) {
+        var id = target.dataset.id;
+        if (id) return id;
         return parseInt(target.dataset.index);
       },
   
@@ -4524,11 +4552,31 @@ theme.recentlyViewed = {
   
     function doesMegaMenuFit() {
       var largestMegaNav = 0;
+      var megamenus = [];
       siteHeader.querySelectorAll(selectors.megamenu).forEach(nav => {
+        megamenus.push(nav);
+      });
+  
+      // Open details elements temporarily to get accurate height measurements
+      // Closed details elements don't provide accurate offsetHeight values
+      var openedDetails = [];
+      megamenus.forEach(nav => {
+        var details = nav.closest('details');
+        if (details && !details.hasAttribute('open')) {
+          details.setAttribute('open', '');
+          openedDetails.push(details);
+        }
+      });
+  
+      megamenus.forEach(nav => {
         var h = nav.offsetHeight;
         if (h > largestMegaNav) {
           largestMegaNav = h;
         }
+      });
+  
+      openedDetails.forEach(details => {
+        details.removeAttribute('open');
       });
   
       // 120 ~ space of visible header when megamenu open
@@ -5346,22 +5394,15 @@ theme.recentlyViewed = {
   
         this.items = this.getImageData();
   
-        var image = this.inSlideshow ? this.container.querySelector(selectors.activeImage) : evt.currentTarget;
-  
-        var index = this.inSlideshow ? this.getChildIndex(image) : image.dataset.index;
-  
-        this.initGallery(this.items, index);
-      },
-  
-      // Because of image set feature, need to get index based on location in parent
-      getChildIndex: function(el) {
-        var i = 0;
-        while( (el = el.previousSibling) != null ) {
-          i++;
+        var openIndex = 0;
+        if (this.inSlideshow) {
+          var selectedSlide = this.container.querySelector(selectors.activeImage);
+          for (var i = 0; selectedSlide && i < this.items.length; i++)
+            if (selectedSlide.contains(this.items[i].el)) { openIndex = i + 1; break; }
+        } else {
+          openIndex = (parseInt(evt.currentTarget.dataset.index) || 0) + 1;
         }
-  
-        // 1-based index required
-        return i + 1;
+        this.initGallery(this.items, openIndex);
       },
   
       getImageData: function() {
@@ -5393,6 +5434,7 @@ theme.recentlyViewed = {
   
         var options = {
           allowPanToNext: false,
+          arrowEl: items.length > 1,
           captionEl: false,
           closeOnScroll: false,
           counterEl: false,
@@ -5400,7 +5442,7 @@ theme.recentlyViewed = {
           index: index - 1,
           pinchToClose: false,
           preloaderEl: false,
-          scaleMode: 'zoom',
+          scaleMode: 'fit',
           shareEl: false,
           tapToToggleControls: false,
           getThumbBoundsFn: function(index) {
@@ -5420,6 +5462,8 @@ theme.recentlyViewed = {
   
       afterChange: function() {
         var index = this.gallery.getCurrentIndex();
+        var slide = this.items[index] && this.items[index].el && this.items[index].el.closest('.product-main-slide');
+        if (slide && slide.getAttribute('data-index') != null) index = parseInt(slide.getAttribute('data-index'));
         this.container.dispatchEvent(new CustomEvent('photoswipe:afterChange', {
           detail: {
             index: index
@@ -7621,9 +7665,10 @@ theme.recentlyViewed = {
       },
   
       updateVariantImage: function(evt) {
-        var variant = evt.detail.variant;
-        var sizedImgUrl = theme.Images.getSizedImageUrl(variant.featured_media.preview_image.src, this.settings.imageSize);
+        // Already handled by updateImageSet when there are image sets
+        if (this.settings.imageSetName) return;
   
+        var variant = evt.detail.variant;
         var newImage = this.container.querySelector('.product__thumb[data-id="' + variant.featured_media.id + '"]');
         var imageIndex = this.getThumbIndex(newImage);
   

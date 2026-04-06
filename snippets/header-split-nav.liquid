@@ -5,6 +5,9 @@
   endfor
   assign link_count_half = link_count | divided_by: 2
 -%}
+{% comment %}
+CHUMS, added disable_aria to prevent redundant aria roles.
+{% endcomment %}
 
 <div class="header-item header-item--logo-split" role="navigation" aria-label="Primary">
   <div class="header-item header-item--split-left">

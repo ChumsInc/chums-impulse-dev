@@ -1,7 +1,7 @@
 {%- paginate customer.orders by 20 -%}
 
 <div class="page-width page-content">
-  <header class="section-header{% unless settings.type_headers_align_text %} section-header--with-link{% endunless %}">
+  <header class="section-header{% unless settings.type_headers_align_text == 'center' %} section-header--with-link{% endunless %}">
     <h1 class="section-header__title">{{ 'customer.account.title' | t }}</h1>
     <a href="{{ routes.account_logout_url }}" class="btn btn--secondary btn--small section-header__link">{{ 'layout.customer.log_out'| t }}</a>
   </header>

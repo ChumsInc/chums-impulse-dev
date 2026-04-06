@@ -6,9 +6,9 @@
     assign offset = 0
   endunless
 -%}
-
+{% comment %} Customizations for CHUMS, Images on menu {% endcomment %}
 <ul
-  class="site-nav site-navigation medium--hide"
+  class="site-nav site-navigation small--hide"
 >
   {%- for link in main_menu.links limit: limit offset: offset -%}
     {%- liquid
@@ -119,33 +119,33 @@
         {%- elsif has_dropdown -%}
           <div class="site-nav__dropdown {% if dropdown_image %}site-nav__dropdown-has-image site-nav__dropdown-image-{{ forloop.index0 }}{% endif %}">
             <ul class="text-left ">
-              {%- for childlink in link.links -%}
-                {%- liquid
-                  assign has_sub_dropdown = false
-                  if childlink.links != blank
-                    assign has_sub_dropdown = true
-                  endif
-                -%}
+            {%- for childlink in link.links -%}
+              {%- liquid
+                assign has_sub_dropdown = false
+                if childlink.links != blank
+                  assign has_sub_dropdown = true
+                endif
+              -%}
 
-                <li class="{% if has_sub_dropdown %} site-nav__deep-dropdown-trigger{% endif %}">
-                  <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--second-level{% if has_sub_dropdown %} site-nav__dropdown-link--has-children{% endif %}">
-                    {{ childlink.title | escape }}
-                    {%- if has_sub_dropdown -%}
-                      <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-chevron-down" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="#000" fill="none"/></svg>
-                    {%- endif -%}
-                  </a>
+              <li class="{% if has_sub_dropdown %} site-nav__deep-dropdown-trigger{% endif %}">
+                <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--second-level{% if has_sub_dropdown %} site-nav__dropdown-link--has-children{% endif %}">
+                  {{ childlink.title | escape }}
                   {%- if has_sub_dropdown -%}
-                    <ul class="site-nav__deep-dropdown">
-                      {%- for grandchildlink in childlink.links -%}
-                        <li>
-                          <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">{{ grandchildlink.title | escape }}</a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
+                    <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-chevron-down" viewBox="0 0 28 16"><path d="m1.57 1.59 12.76 12.77L27.1 1.59" stroke-width="2" stroke="#000" fill="none"/></svg>
                   {%- endif -%}
-                </li>
-              {%- endfor -%}
-            </ul>
+                </a>
+                {%- if has_sub_dropdown -%}
+                  <ul class="site-nav__deep-dropdown">
+                    {%- for grandchildlink in childlink.links -%}
+                      <li>
+                        <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">{{ grandchildlink.title | escape }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
             {% if dropdown_image != blank %}
               {% assign defaultAltText = link.title | append: ' Lifestyle' %}
               {% assign altText = dropdown_image.alt | default: defaultAltText %}

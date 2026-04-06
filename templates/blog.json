@@ -68,8 +68,7 @@
       "settings": {
         "title": "You may also like",
         "divider": false,
-        "per_row": 4,
-        "enable_gutter": true
+        "per_row": 4
       }
     }
   },

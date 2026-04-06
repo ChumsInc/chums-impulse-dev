@@ -1,79 +1,100 @@
+{%- liquid
+  assign social_instagram_link = settings.social_instagram_link | default: shop.brand.metafields.social_links.instagram.value
+  assign social_threads_link = settings.social_threads_link | default: shop.brand.metafields.social_links.threads.value
+  assign social_facebook_link = settings.social_facebook_link | default: shop.brand.metafields.social_links.facebook.value
+  assign social_twitter_link = settings.social_twitter_link | default: shop.brand.metafields.social_links.twitter.value
+  assign social_pinterest_link = settings.social_pinterest_link | default: shop.brand.metafields.social_links.pinterest.value
+  assign social_youtube_link = settings.social_youtube_link | default: shop.brand.metafields.social_links.youtube.value
+  assign social_tiktok_link = settings.social_tiktok_link | default: shop.brand.metafields.social_links.tiktok.value
+  assign social_snapchat_link = settings.social_snapchat_link | default: shop.brand.metafields.social_links.snapchat.value
+  assign social_tumblr_link = settings.social_tumblr_link | default: shop.brand.metafields.social_links.tumblr.value
+  assign social_linkedin_link = settings.social_linkedin_link | default: shop.brand.metafields.social_links.linkedin.value
+  assign social_vimeo_link = settings.social_vimeo_link | default: shop.brand.metafields.social_links.vimeo.value
+-%}
 <ul class="no-bullets social-icons {{ additional_classes }}">
-  {%- if settings.social_instagram_link != blank -%}
+  {%- if social_instagram_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_instagram_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+      <a target="_blank" rel="noopener" href="{{ social_instagram_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-instagram" viewBox="0 0 32 32"><title>instagram</title><path fill="#444" d="M16 3.094c4.206 0 4.7.019 6.363.094 1.538.069 2.369.325 2.925.544.738.287 1.262.625 1.813 1.175s.894 1.075 1.175 1.813c.212.556.475 1.387.544 2.925.075 1.662.094 2.156.094 6.363s-.019 4.7-.094 6.363c-.069 1.538-.325 2.369-.544 2.925-.288.738-.625 1.262-1.175 1.813s-1.075.894-1.813 1.175c-.556.212-1.387.475-2.925.544-1.663.075-2.156.094-6.363.094s-4.7-.019-6.363-.094c-1.537-.069-2.369-.325-2.925-.544-.737-.288-1.263-.625-1.813-1.175s-.894-1.075-1.175-1.813c-.212-.556-.475-1.387-.544-2.925-.075-1.663-.094-2.156-.094-6.363s.019-4.7.094-6.363c.069-1.537.325-2.369.544-2.925.287-.737.625-1.263 1.175-1.813s1.075-.894 1.813-1.175c.556-.212 1.388-.475 2.925-.544 1.662-.081 2.156-.094 6.363-.094zm0-2.838c-4.275 0-4.813.019-6.494.094-1.675.075-2.819.344-3.819.731-1.037.4-1.913.944-2.788 1.819S1.486 4.656 1.08 5.688c-.387 1-.656 2.144-.731 3.825-.075 1.675-.094 2.213-.094 6.488s.019 4.813.094 6.494c.075 1.675.344 2.819.731 3.825.4 1.038.944 1.913 1.819 2.788s1.756 1.413 2.788 1.819c1 .387 2.144.656 3.825.731s2.213.094 6.494.094 4.813-.019 6.494-.094c1.675-.075 2.819-.344 3.825-.731 1.038-.4 1.913-.944 2.788-1.819s1.413-1.756 1.819-2.788c.387-1 .656-2.144.731-3.825s.094-2.212.094-6.494-.019-4.813-.094-6.494c-.075-1.675-.344-2.819-.731-3.825-.4-1.038-.944-1.913-1.819-2.788s-1.756-1.413-2.788-1.819c-1-.387-2.144-.656-3.825-.731C20.812.275 20.275.256 16 .256z"/><path fill="#444" d="M16 7.912a8.088 8.088 0 0 0 0 16.175c4.463 0 8.087-3.625 8.087-8.088s-3.625-8.088-8.088-8.088zm0 13.338a5.25 5.25 0 1 1 0-10.5 5.25 5.25 0 1 1 0 10.5zM26.294 7.594a1.887 1.887 0 1 1-3.774.002 1.887 1.887 0 0 1 3.774-.003z"/></svg>
         <span class="icon__fallback-text">Instagram</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_facebook_link != blank -%}
+  {%- if social_threads_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_facebook_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+      <a target="_blank" rel="noopener" href="{{ social_threads_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Threads' }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-threads" viewBox="0 0 20 20"><path d="M14.743 9.27a6.873 6.873 0 0 0-.262-.12c-.154-2.844-1.708-4.472-4.318-4.49h-.036c-1.56 0-2.859.667-3.658 1.88l1.435.984c.597-.905 1.534-1.098 2.224-1.098h.024c.86.005 1.508.255 1.927.742.306.355.51.845.611 1.464a10.98 10.98 0 0 0-2.467-.12c-2.48.144-4.076 1.59-3.969 3.602.054 1.02.563 1.897 1.43 2.47.735.485 1.68.722 2.663.668 1.298-.07 2.316-.566 3.026-1.471.54-.688.88-1.579 1.031-2.701.619.373 1.077.864 1.33 1.455.43 1.003.456 2.652-.89 3.997-1.18 1.178-2.596 1.688-4.738 1.703-2.376-.017-4.173-.78-5.342-2.264C3.67 14.58 3.105 12.57 3.084 10c.021-2.571.586-4.58 1.68-5.97 1.169-1.486 2.966-2.248 5.341-2.265 2.394.017 4.222.783 5.435 2.275.595.732 1.043 1.653 1.339 2.726l1.682-.45c-.358-1.32-.922-2.458-1.69-3.402C15.316 1.001 13.041.02 10.111 0H10.1C7.175.02 4.926 1.004 3.415 2.925c-1.344 1.709-2.037 4.087-2.06 7.068v.014c.023 2.98.716 5.359 2.06 7.068C4.926 18.995 7.175 19.98 10.1 20h.011c2.6-.018 4.433-.699 5.943-2.207 1.975-1.974 1.916-4.447 1.265-5.966-.467-1.089-1.358-1.973-2.576-2.557Zm-4.489 4.22c-1.087.062-2.217-.427-2.273-1.472-.041-.775.552-1.64 2.34-1.743.205-.012.406-.018.603-.018.65 0 1.257.063 1.81.184-.207 2.573-1.415 2.99-2.48 3.05Z"/></svg>
+        <span class="icon__fallback-text">Threads</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if social_facebook_link != blank -%}
+    <li>
+      <a target="_blank" rel="noopener" href="{{ social_facebook_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-facebook" viewBox="0 0 14222 14222"><path d="M14222 7112c0 3549.352-2600.418 6491.344-6000 7024.72V9168h1657l315-2056H8222V5778c0-562 275-1111 1159-1111h897V2917s-814-139-1592-139c-1624 0-2686 984-2686 2767v1567H4194v2056h1806v4968.72C2600.418 13603.344 0 10661.352 0 7112 0 3184.703 3183.703 1 7111 1s7111 3183.703 7111 7111Zm-8222 7025c362 57 733 86 1111 86-377.945 0-749.003-29.485-1111-86.28Zm2222 0v-.28a7107.458 7107.458 0 0 1-167.717 24.267A7407.158 7407.158 0 0 0 8222 14137Zm-167.717 23.987C7745.664 14201.89 7430.797 14223 7111 14223c319.843 0 634.675-21.479 943.283-62.013Z"/></svg>
         <span class="icon__fallback-text">Facebook</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_youtube_link != blank -%}
+  {%- if social_youtube_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_youtube_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+      <a target="_blank" rel="noopener" href="{{ social_youtube_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-youtube" viewBox="0 0 21 20"><path fill="#444" d="M-.196 15.803q0 1.23.812 2.092t1.977.861h14.946q1.165 0 1.977-.861t.812-2.092V3.909q0-1.23-.82-2.116T17.539.907H2.593q-1.148 0-1.969.886t-.82 2.116v11.894zm7.465-2.149V6.058q0-.115.066-.18.049-.016.082-.016l.082.016 7.153 3.806q.066.066.066.164 0 .066-.066.131l-7.153 3.806q-.033.033-.066.033-.066 0-.098-.033-.066-.066-.066-.131z"/></svg>
         <span class="icon__fallback-text">YouTube</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_twitter_link != blank -%}
+  {%- if social_twitter_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_twitter_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'X' }}">
+      <a target="_blank" rel="noopener" href="{{ social_twitter_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'X' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-twitter" viewBox="0 0 20 20"><path d="M11.095 5.514c.1-.167.158-.3.249-.409A986.714 986.714 0 0 1 14.67 1.11c.43-.514.876-.614 1.35-.327.53.32.609.932.166 1.485-.477.598-.978 1.178-1.467 1.766-.772.927-1.538 1.862-2.322 2.78-.184.216-.21.358-.038.609 2.158 3.157 4.304 6.323 6.448 9.49.18.266.345.55.463.845.435 1.093-.138 2.07-1.319 2.157-1.61.118-3.226.142-4.829-.11-.95-.15-1.607-.758-2.13-1.513-1.15-1.66-2.28-3.334-3.42-5.002-.071-.105-.155-.203-.289-.377-.086.124-.14.214-.207.295a4455.405 4455.405 0 0 1-4.44 5.31 3.698 3.698 0 0 1-.387.42c-.351.308-.85.304-1.217.008-.353-.286-.466-.811-.194-1.194.352-.495.75-.96 1.139-1.43 1.328-1.6 2.66-3.2 4-4.79.184-.219.16-.371.011-.59a1936.237 1936.237 0 0 1-5.324-7.87c-.205-.304-.4-.63-.533-.97C-.27 1.092.28.095 1.357.045c1.514-.07 3.037-.046 4.553.008 1.13.04 1.915.732 2.532 1.62.791 1.14 1.57 2.287 2.354 3.43.066.096.136.19.297.414l.002-.003Zm-8.888-3.6c.098.168.16.293.237.407 3.38 4.967 6.762 9.933 10.14 14.903.331.487.757.792 1.357.804 1.004.017 2.008.028 3.011.037.065 0 .13-.039.24-.076-.113-.184-.205-.345-.309-.5-2.271-3.352-4.54-6.706-6.816-10.054-1.101-1.62-2.224-3.227-3.324-4.847-.337-.495-.8-.693-1.37-.702-.897-.011-1.793-.02-2.69-.024-.138 0-.276.029-.473.05l-.003.002Z"/></svg>
         <span class="icon__fallback-text">X</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_pinterest_link != blank -%}
+  {%- if social_pinterest_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_pinterest_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+      <a target="_blank" rel="noopener" href="{{ social_pinterest_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pinterest" viewBox="0 0 256 256"><path d="M0 128.002c0 52.414 31.518 97.442 76.619 117.239-.36-8.938-.064-19.668 2.228-29.393 2.461-10.391 16.47-69.748 16.47-69.748s-4.089-8.173-4.089-20.252c0-18.969 10.994-33.136 24.686-33.136 11.643 0 17.268 8.745 17.268 19.217 0 11.704-7.465 29.211-11.304 45.426-3.207 13.578 6.808 24.653 20.203 24.653 24.252 0 40.586-31.149 40.586-68.055 0-28.054-18.895-49.052-53.262-49.052-38.828 0-63.017 28.956-63.017 61.3 0 11.152 3.288 19.016 8.438 25.106 2.368 2.797 2.697 3.922 1.84 7.134-.614 2.355-2.024 8.025-2.608 10.272-.852 3.242-3.479 4.401-6.409 3.204-17.884-7.301-26.213-26.886-26.213-48.902 0-36.361 30.666-79.961 91.482-79.961 48.87 0 81.035 35.364 81.035 73.325 0 50.213-27.916 87.726-69.066 87.726-13.819 0-26.818-7.47-31.271-15.955 0 0-7.431 29.492-9.005 35.187-2.714 9.869-8.026 19.733-12.883 27.421a127.897 127.897 0 0 0 36.277 5.249c70.684 0 127.996-57.309 127.996-128.005C256.001 57.309 198.689 0 128.005 0 57.314 0 0 57.309 0 128.002Z"/></svg>
         <span class="icon__fallback-text">Pinterest</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_snapchat_link != blank -%}
+  {%- if social_snapchat_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_snapchat_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+      <a target="_blank" rel="noopener" href="{{ social_snapchat_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-snapchat" viewBox="0 0 56.693 56.693"><path d="M28.66 51.683c-.128 0-.254-.004-.38-.01a3.24 3.24 0 0 1-.248.01c-2.944 0-4.834-1.336-6.661-2.628-1.262-.892-2.453-1.733-3.856-1.967a12.448 12.448 0 0 0-2.024-.17c-1.186 0-2.122.182-2.806.316-.415.081-.773.151-1.045.151-.285 0-.593-.061-.727-.519-.116-.397-.2-.78-.281-1.152-.209-.956-.357-1.544-.758-1.605-4.67-.722-6.006-1.705-6.304-2.403a.898.898 0 0 1-.072-.299.526.526 0 0 1 .44-.548c7.178-1.182 10.397-8.519 10.53-8.83l.012-.026c.44-.89.526-1.663.257-2.297-.493-1.16-2.1-1.67-3.163-2.008-.26-.082-.507-.16-.701-.237-2.123-.84-2.3-1.7-2.216-2.14.142-.747 1.142-1.268 1.95-1.268.222 0 .417.039.581.116.955.447 1.815.673 2.558.673 1.025 0 1.473-.43 1.528-.487-.026-.486-.059-.993-.092-1.517-.213-3.394-.478-7.61.595-10.018 3.218-7.215 10.043-7.776 12.057-7.776l.884-.009h.119c2.02 0 8.858.562 12.078 7.78 1.074 2.41.808 6.63.594 10.021l-.009.147c-.03.473-.058.932-.082 1.371.051.052.463.449 1.393.485h.001c.707-.028 1.52-.253 2.41-.67.262-.122.552-.148.75-.148.3 0 .607.058.86.164l.016.007c.721.255 1.193.76 1.204 1.289.009.497-.37 1.244-2.233 1.98-.193.076-.44.154-.7.237-1.065.338-2.671.848-3.164 2.008-.269.633-.183 1.406.257 2.297l.011.026c.134.311 3.35 7.646 10.532 8.83.265.043.454.28.44.548a.884.884 0 0 1-.074.3c-.296.693-1.632 1.675-6.303 2.397-.381.059-.53.556-.757 1.599-.083.38-.167.752-.282 1.144-.1.34-.312.5-.668.5h-.058c-.248 0-.6-.045-1.046-.133-.79-.154-1.677-.297-2.805-.297-.659 0-1.34.058-2.026.171-1.401.234-2.591 1.074-3.85 1.964-1.831 1.295-3.72 2.63-6.666 2.63z"/></svg>
         <span class="icon__fallback-text">Snapchat</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_tiktok_link != blank -%}
+  {%- if social_tiktok_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_tiktok_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'TikTok' }}">
+      <a target="_blank" rel="noopener" href="{{ social_tiktok_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'TikTok' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tiktok" viewBox="0 0 2859 3333"><path d="M2081 0c55 473 319 755 778 785v532c-266 26-499-61-770-225v995c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358V1h551z"/></svg>
         <span class="icon__fallback-text">TikTok</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_tumblr_link != blank -%}
+  {%- if social_tumblr_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_tumblr_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+      <a target="_blank" rel="noopener" href="{{ social_tumblr_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tumblr" viewBox="0 0 32 32"><title>tumblr</title><path fill="#444" d="M6.997 13.822h3.022v10.237q0 1.852.414 3.047.463 1.097 1.438 1.95.951.877 2.511 1.438 1.487.512 3.388.512 1.657 0 3.096-.366 1.243-.244 3.242-1.194v-4.582q-2.023 1.389-4.192 1.389-1.072 0-2.145-.561-.634-.414-.951-1.146-.244-.804-.244-3.242v-7.483h6.581V9.239h-6.581V1.902h-3.949q-.195 2.072-.951 3.681-.756 1.56-1.901 2.486Q8.581 9.19 6.996 9.678v4.144z"/></svg>
         <span class="icon__fallback-text">Tumblr</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_linkedin_link != blank -%}
+  {%- if social_linkedin_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_linkedin_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'LinkedIn' }}">
+      <a target="_blank" rel="noopener" href="{{ social_linkedin_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'LinkedIn' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-linkedin" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S.02 4.881.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg>
         <span class="icon__fallback-text">LinkedIn</span>
       </a>
     </li>
   {%- endif -%}
-  {%- if settings.social_vimeo_link != blank -%}
+  {%- if social_vimeo_link != blank -%}
     <li>
-      <a target="_blank" rel="noopener" href="{{ settings.social_vimeo_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+      <a target="_blank" rel="noopener" href="{{ social_vimeo_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
         <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-vimeo" viewBox="0 0 32 32"><title>vimeo</title><path fill="#444" d="m.343 10.902 1.438 1.926q1.999-1.487 2.413-1.487 1.584 0 2.949 5.046l1.194 4.521q.828 3.132 1.292 4.814 1.804 5.046 4.534 5.046 4.339 0 10.53-8.336 6.069-7.922 6.288-12.528v-.536q0-5.606-4.485-5.752h-.341q-6.02 0-8.287 7.385 1.316-.561 2.291-.561 2.072 0 2.072 2.145 0 .268-.024.561-.146 1.731-2.047 4.729-1.95 3.144-2.901 3.144-1.267 0-2.242-4.777-.293-1.121-1.243-7.239-.414-2.632-1.536-3.9-.975-1.097-2.437-1.121-.195 0-.414.024-1.536.146-4.558 2.803-1.56 1.462-4.485 4.095z"/></svg>
         <span class="icon__fallback-text">Vimeo</span>
       </a>

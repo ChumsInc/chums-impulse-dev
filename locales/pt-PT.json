@@ -282,9 +282,9 @@
   },
   "home_page": {
     "onboarding": {
-      "product_title": "Título do Produto Exemplo",
-      "product_description": "Esta área é usada para descrever o seu produto detalhadamente. Informe o cliente do aspeto, toque e estilo do seu produto. Adicione detalhes sobre a cor, materiais usados, tamanhos e onde foi fabricado.",
-      "collection_title": "Título da Coleção Exemplo",
+      "product_title": "Título do produto",
+      "product_description": "Um produto concebido com cuidado, feito com materiais de qualidade e atenção ao pormenor. Versátil, fiável e feito para durar, integra-se perfeitamente na sua rotina diária.",
+      "collection_title": "Coleção",
       "no_content": "Esta sección actualmente no incluye ningún contenido. Añade un contenido a esta sección utilizando la barra lateral."
     }
   },
@@ -327,7 +327,7 @@
       "add_to_cart": "Adicionar ao Carrinho de Compras",
       "preorder": "Pedido antecipado",
       "include_taxes": "Imposto incluído.",
-      "shipping_policy_html": "<a href='{{ link }}'>Envio<\/a> calculado na finalização da compra.",
+      "shipping_policy_html": "<a href='{{ link }}'>Envio</a> calculado na finalização da compra.",
       "will_not_ship_until": "Envio a partir de {{ date }}",
       "will_be_in_stock_after": "Estará disponível após {{ date }}",
       "waiting_for_stock": "Inventory no caminho",
@@ -335,14 +335,14 @@
       "view_in_space_label": "Ver no seu espaço, carrega item na janela de realidade aumentada"
     }
   },
-  "store_availability":{
-    "general":{
+  "store_availability": {
+    "general": {
       "view_store_info": "Exibir informações de loja",
       "check_other_stores": "Ver disponibilidade em outras lojas",
       "pick_up_available": "transbordo",
       "pick_up_currently_unavailable": "Captador atualmente indisponível",
-      "pick_up_available_at_html": "Captador disponível em <strong> {{location_name}} <\/strong>",
-      "pick_up_unavailable_at_html": "Captador disponível atualmente em <strong> {{location_name}} <\/strong>"
+      "pick_up_available_at_html": "Captador disponível em <strong> {{location_name}} </strong>",
+      "pick_up_unavailable_at_html": "Captador disponível atualmente em <strong> {{location_name}} </strong>"
     }
   },
   "gift_cards": {
@@ -358,7 +358,7 @@
       "add_to_apple_wallet": "Adicionar ao Apple Wallet"
     }
   },
-  "date_formats":{
+  "date_formats": {
     "month_day_year": "%d de %B de %Y"
   },
   "info": {

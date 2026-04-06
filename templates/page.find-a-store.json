@@ -10,13 +10,22 @@
 {
   "sections": {
     "main": {
-      "type": "page-store-locator",
+      "type": "main-page",
+      "settings": {}
+    },
+    "store_locator_Gbw3KB": {
+      "type": "store-locator",
+      "name": "store-locator",
       "settings": {
-        "google_maps_api_key": "AIzaSyAIhAbnZbipYL9YqUzsRn1Mqrc_Wt8VroQ"
+        "google_maps_api_key": "AIzaSyAIhAbnZbipYL9YqUzsRn1Mqrc_Wt8VroQ",
+        "default_location_latitude": "37.16373108",
+        "default_location_longitude": "-113.2989828",
+        "default_range": "25"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "store_locator_Gbw3KB"
   ]
 }

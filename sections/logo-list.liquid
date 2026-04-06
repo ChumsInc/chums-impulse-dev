@@ -2,6 +2,14 @@
 .logo-bar--{{ section.id }} {
   opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }};
 }
+
+/* Make logo placeholders square only in this section */
+.logo-bar--{{ section.id }} .placeholder-svg {
+  padding: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
 {%- endstyle -%}
 
 {%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
@@ -29,7 +37,7 @@
               fallback: '110px',
             -%}
           {%- else -%}
-            {{ 'logo' | placeholder_svg_tag: 'placeholder-svg' }}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
           {%- endif -%}
           {%- if block.settings.link != blank -%}
             </a>
@@ -51,13 +59,14 @@
     {
       "type": "text",
       "id": "title",
-      "label": "t:sections.logo-list.settings.title.label"
+      "label": "t:sections.logo-list.settings.title.label",
+      "default": "Logo list"
     },
     {
       "type": "range",
       "id": "logo_opacity",
       "label": "t:sections.logo-list.settings.logo_opacity.label",
-      "default": 76,
+      "default": 100,
       "min": 0,
       "max": 100,
       "step": 2,
@@ -92,6 +101,7 @@
   "presets": [
     {
       "name": "t:sections.logo-list.presets.logo_list.name",
+      "category": "t:sections.categories.info_trust",
       "blocks": [
         {
           "type": "logo_image"
