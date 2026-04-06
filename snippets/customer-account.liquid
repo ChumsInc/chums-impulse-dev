@@ -1,0 +1,68 @@
+{% doc %}
+  @param {boolean} [show_text] - Whether to show the text (default: false)
+{% enddoc %}
+
+{% liquid
+  assign show_text = show_text | default: false
+%}
+
+<shopify-account
+  {% if settings.customer_accounts_menu != blank %}
+    menu="{{ settings.customer_accounts_menu }}"
+  {% endif %}
+>
+  <div slot="signed-out-avatar">
+    {% if show_text %}
+      <span
+        class="mobile-nav__link mobile-nav__link--top-level"
+        style="display: flex; align-items: center; gap: 8px;"
+      >
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-user" viewBox="0 0 64 64"><title>account</title><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
+        {{ 'layout.customer.log_in' | t }}
+      </span>
+
+    {% else %}
+      <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-user" viewBox="0 0 64 64"><title>account</title><path d="M35 39.84v-2.53c3.3-1.91 6-6.66 6-11.41 0-7.63 0-13.82-9-13.82s-9 6.19-9 13.82c0 4.75 2.7 9.51 6 11.41v2.53c-10.18.85-18 6-18 12.16h42c0-6.19-7.82-11.31-18-12.16Z"/></svg>
+      <span class="icon__fallback-text">
+        {{ 'layout.customer.log_in' | t }}
+      </span>
+    {% endif %}
+  </div>
+</shopify-account>
+
+{% stylesheet %}
+  .mobile-nav shopify-account::part(signed-out-avatar) {
+    font-size: calc(var(--typeBaseSize) * .92);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .site-nav shopify-account::part(signed-out-avatar) {
+    color: var(--colorNavText);
+  }
+
+  shopify-account {
+    --shopify-account-color-accent: var(--colorBtnPrimary);
+    --shopify-account-color-accent-hover: var(--colorBtnPrimaryLight);
+    --shopify-account-color-accent-text: var(--colorTextBody);
+    --shopify-account-color-background: var(--colorBody);
+    --shopify-account-color-background-subdued: color-mix(in srgb, var(--colorBorder) 50%, transparent);
+    --shopify-account-color-border: var(--colorBorder);
+    --shopify-account-color-card-background: var(--colorBody);
+    --shopify-account-color-control-background: var(--colorBody);
+    --shopify-account-color-text: var(--colorTextBody);
+    --shopify-account-color-text-subdued: color-mix(in srgb, var(--colorBorder) 50%, black);
+    --shopify-account-font-body: var(--typeBasePrimary), var(--typeBaseFallback);
+    --shopify-account-font-body-weight: var(--typeBaseWeight);
+    --shopify-account-font-heading: var(--typeHeaderPrimary), var(--typeHeaderFallback);
+    --shopify-account-font-heading-weight: var(--typeHeaderWeight);
+    --shopify-account-radius-base: var(--buttonRadius);
+    --shopify-account-radius-button: var(--buttonRadius);
+    --shopify-account-radius-button-small: var(--buttonRadius);
+    --shopify-account-radius-dialog: var(--buttonRadius);
+    --shopify-account-radius-input: var(--buttonRadius);
+    --shopify-account-signed-in-avatar-color-background: var(--colorBody);
+    --shopify-account-signed-in-avatar-color-text: var(--colorTextBody);
+  }
+{% endstylesheet %}
+
+
