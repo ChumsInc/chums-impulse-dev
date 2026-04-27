@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "shogun-helper": {
+      "type": "shogun-helper",
+      "settings": {}
+    },
+    "shogun-above": {
+      "type": "shogun-above",
+      "settings": {}
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -98,7 +106,12 @@
       "blocks": {
         "f839ea73-e5ff-4e97-803f-95bcf54850ea": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
         }
       },
       "block_order": [
@@ -137,16 +150,8 @@
         "space_around": true
       }
     },
-    "shogun-above": {
-      "type": "shogun-above",
-      "settings": {}
-    },
     "shogun-below": {
       "type": "shogun-below",
-      "settings": {}
-    },
-    "shogun-helper": {
-      "type": "shogun-helper",
       "settings": {}
     },
     "shogun-optimizer": {

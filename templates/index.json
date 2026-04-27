@@ -9,39 +9,61 @@
  */
 {
   "sections": {
-    "slideshow": {
-      "type": "slideshow",
+    "shoppable_hero_wamEXf": {
+      "type": "shoppable-hero",
       "blocks": {
-        "slideshow-0": {
-          "type": "image",
+        "hotspot_BQ9w7J": {
+          "type": "hotspot",
           "settings": {
-            "top_subheading": "",
-            "title": "",
-            "title_size": 80,
-            "subheading": "",
-            "link": "shopify://collections/new-products-colors",
-            "link_text": "",
-            "link_2": "",
-            "link_text_2": "",
-            "color_accent": "#000000",
-            "text_align": "vertical-center horizontal-center",
-            "image": "shopify://shop_images/2026NewProducts_DesktopHero.jpg",
-            "image_mobile": "shopify://shop_images/2026NewProducts_MobileHero.jpg",
-            "parallax_direction": "top",
-            "overlay_opacity": 0
+            "product": "switchpack",
+            "vertical_position": 65,
+            "horizontal_position": 35,
+            "vertical_position_mobile": 75,
+            "horizontal_position_mobile": 55
+          }
+        },
+        "hotspot_TJW4Bk": {
+          "type": "hotspot",
+          "settings": {
+            "product": "nappa-leather",
+            "vertical_position": 55,
+            "horizontal_position": 60,
+            "vertical_position_mobile": 0,
+            "horizontal_position_mobile": 0
+          }
+        },
+        "hotspot_nncDPh": {
+          "type": "hotspot",
+          "settings": {
+            "product": "floating-marsupial",
+            "vertical_position": 75,
+            "horizontal_position": 84,
+            "vertical_position_mobile": 0,
+            "horizontal_position_mobile": 0
           }
         }
       },
       "block_order": [
-        "slideshow-0"
+        "hotspot_BQ9w7J",
+        "hotspot_TJW4Bk",
+        "hotspot_nncDPh"
       ],
+      "name": "t:kit.labels.shoppable_hero",
       "settings": {
-        "section_height": "natural",
-        "mobile_height": "auto",
-        "parallax": false,
-        "style": "bars",
-        "autoplay": false,
-        "autoplay_speed": 7
+        "image": "shopify://shop_images/2026NewProducts_DesktopHero.jpg",
+        "mobile_image": "shopify://shop_images/2026NewProducts_MobileHero.jpg",
+        "text_protection": 0,
+        "preheading": "",
+        "heading": "",
+        "heading_size": "lg",
+        "text": "",
+        "button_label": "Shop now",
+        "button_link": "shopify://collections/new-2026-products",
+        "color_accent": "transparent",
+        "text_alignment": "left",
+        "text_position": "bottom-center",
+        "hotspot_style": "plus",
+        "hotspot_color": "#ce0e2d"
       }
     },
     "rich-text": {
@@ -50,7 +72,8 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "title": "Since 1983 Chums has been about the Guides, Dirtbags, River Rats and Weekend Warriors."
+            "title": "Since 1983 Chums has been about the Guides, Dirtbags, River Rats and Weekend Warriors.",
+            "heading_size": "h2"
           }
         }
       },
@@ -67,6 +90,7 @@
       "type": "featured-collection",
       "settings": {
         "title": "SHOP New Styles & Colors",
+        "heading_size": "h2",
         "home_featured_products": "new-products-colors",
         "per_row": 5,
         "rows": 1,
@@ -166,11 +190,12 @@
         "text_block_ftwTqh"
       ],
       "custom_css": [
-        "@media (min-width:769px){.text-column__grid>* {grid-column:span 2; }}"
+        "@media (min-width: 769px) {.text-column__grid > * {grid-column: span 2; }}"
       ],
       "name": "t:sections.text-columns.presets.text_columns_with_images.name",
       "settings": {
         "title": "shop by category",
+        "heading_size": "h2",
         "align_text": "center",
         "divider": false
       }
@@ -179,6 +204,7 @@
       "type": "featured-collection",
       "settings": {
         "title": "Customer Favorites",
+        "heading_size": "h2",
         "home_featured_products": "best-selling-eyewear-retainers",
         "per_row": 4,
         "rows": 1,
@@ -226,6 +252,7 @@
       "type": "featured-collection",
       "settings": {
         "title": "",
+        "heading_size": "h2",
         "home_featured_products": "wallets",
         "per_row": 4,
         "rows": 1,
@@ -238,6 +265,7 @@
       "type": "blog-posts",
       "settings": {
         "title": "The Eddy Line Blog",
+        "heading_size": "h2",
         "blog": "news",
         "post_limit": 3,
         "blog_show_tags": false,
@@ -248,16 +276,53 @@
         "blog_image_size": "wide",
         "divider": false
       }
+    },
+    "hotspots_qcJrtL": {
+      "type": "hotspots",
+      "blocks": {
+        "product_3crdTk": {
+          "type": "product",
+          "settings": {
+            "featured_product": "rover-phone-tote",
+            "vertical": 25,
+            "horizontal": 25
+          }
+        },
+        "product_MCNzAe": {
+          "type": "product",
+          "settings": {
+            "featured_product": "bobber-hat-float",
+            "vertical": 75,
+            "horizontal": 65
+          }
+        }
+      },
+      "block_order": [
+        "product_3crdTk",
+        "product_MCNzAe"
+      ],
+      "name": "t:sections.hotspots.name",
+      "settings": {
+        "title": "Shop the look",
+        "heading_size": "h2",
+        "heading_position": "left",
+        "image": "shopify://shop_images/54269471_RoverPhoneTote_Summit_Front_WithStrap.jpg",
+        "indent_image": false,
+        "image_position": "left",
+        "hotspot_style": "plus",
+        "hotspot_color": "#ce0e2d"
+      }
     }
   },
   "order": [
-    "slideshow",
+    "shoppable_hero_wamEXf",
     "rich-text",
     "featured-collection",
     "text_columns_Rqz449",
     "featured_collection_aAB9dQ",
     "slideshow_3hRaVr",
     "featured_collection_YjUiXQ",
-    "blog-posts"
+    "blog-posts",
+    "hotspots_qcJrtL"
   ]
 }

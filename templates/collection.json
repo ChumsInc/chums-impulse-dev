@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "shogun-helper": {
+      "type": "shogun-helper",
+      "settings": {}
+    },
+    "shogun-above": {
+      "type": "shogun-above",
+      "settings": {}
+    },
     "collection-header": {
       "type": "collection-header",
       "settings": {
@@ -56,16 +64,8 @@
         "enable_sort": true
       }
     },
-    "shogun-above": {
-      "type": "shogun-above",
-      "settings": {}
-    },
     "shogun-below": {
       "type": "shogun-below",
-      "settings": {}
-    },
-    "shogun-helper": {
-      "type": "shogun-helper",
       "settings": {}
     },
     "shogun-optimizer": {
