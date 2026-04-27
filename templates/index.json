@@ -166,6 +166,9 @@
         "text_block_zXxwPN",
         "text_block_ftwTqh"
       ],
+      "custom_css": [
+        "@media (min-width:769px){.text-column__grid>* {grid-column:span 2; }}"
+      ],
       "name": "t:sections.text-columns.presets.text_columns_with_images.name",
       "settings": {
         "title": "shop by category",

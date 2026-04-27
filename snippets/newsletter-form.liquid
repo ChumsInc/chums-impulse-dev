@@ -1,5 +1,6 @@
 {%- assign newsletter_form_id = 'newsletter-' | append: section_id -%}
 {% form 'customer', id: newsletter_form_id %}
+  <input type="hidden" name="form_type" value="create_customer">
   {%- if form.posted_successfully? -%}
     <div class="note note--success">
       {{ 'general.newsletter_form.newsletter_confirmation' | t }}
