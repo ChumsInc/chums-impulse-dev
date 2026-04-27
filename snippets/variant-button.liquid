@@ -106,7 +106,7 @@ CHUMS customizations for swatch buttons
             -%}
             <label
               for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-              class="variant__button-label color-swatch color-swatch--{{ value | handle }}{% unless product_available %} disabled{% endunless %}"
+              class="variant__button-label color-swatch color-swatch--{{ color_swatch_code | handle }}{% unless product_available %} disabled{% endunless %}"
               {%  comment %}style="background-color: {{ color_swatch_fallback }};{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% endif %}"{% endcomment %}
             >
               {{ value | escape }}
