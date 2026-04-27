@@ -36,45 +36,55 @@
 {%- render 'cart-drawer' -%}
 
 <style>
-  .site-nav__link,
-  .site-nav__dropdown-link:not(.site-nav__dropdown-link--top-level) {
-    font-size: {{ settings.type_navigation_size }}px;
-  }
-  {% if settings.type_navigation_capitalize %}
+    .site-header {
+        --typeUppercaseSpacing: 0.05rem;
+    }
+
+    .site-nav__link,
+    .site-nav__dropdown-link:not(.site-nav__dropdown-link--top-level) {
+        font-size: {{ settings.type_navigation_size }}px;
+    }
+
+    {% if settings.type_navigation_capitalize %}
     .site-nav__link,
     .site-header--heading-style .site-nav__link,
     .mobile-nav__link--top-level,
     .mobile-nav--heading-style .mobile-nav__link--top-level {
-      text-transform: uppercase;
-      letter-spacing: var(--typeUppercaseSpacing);
+        text-transform: uppercase;
+        letter-spacing: var(--typeUppercaseSpacing);
     }
+
     .mobile-nav__link--top-level {
-      font-size: 1.1em;
+        font-size: 1.1em;
     }
-  {% else %}
+
+    {% else %}
     [data-type_header_capitalize="true"] .site-header--heading-style .site-nav__link,
     [data-type_header_capitalize="true"] .mobile-nav--heading-style .mobile-nav__link--top-level {
-      text-transform: none;
+        text-transform: none;
     }
-  {% endif %}
 
-  {% if mainmenu.length > 6 %}
+    {% endif %}
+
+    {% if mainmenu.length > 6 %}
     .site-nav__link {
-      padding-left: 10px;
-      padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
-  {% endif %}
+
+    {% endif %}
 
 
-  {%- if settings.color_header == settings.color_body_bg or settings.color_body_bg contains settings.color_header -%}
+    {%- if settings.color_header == settings.color_body_bg or settings.color_body_bg contains settings.color_header -%}
     .site-header {
-      box-shadow: 0 0 1px rgba(0,0,0,0.2);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
     }
 
     .toolbar + .header-sticky-wrapper .site-header {
-      border-top: 0;
+        border-top: 0;
     }
-  {%- endif -%}
+
+    {%- endif -%}
 </style>
 
 <div data-section-id="{{ section.id }}" data-section-type="header">
@@ -110,9 +120,10 @@
         data-overlay="{{ overlay_header }}">
         <div class="page-width">
           <div role="navigation"
-            class="header-layout header-layout--{{ section.settings.main_menu_alignment }}"
-            data-logo-align="{{ logo_alignment }}">
-            <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+               class="header-layout header-layout--{{ section.settings.main_menu_alignment }}"
+               data-logo-align="{{ logo_alignment }}">
+            <a class="in-page-link visually-hidden skip-link"
+               href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
             {%- if logo_alignment == 'left' -%}
               <div class="header-item header-item--logo">
                 {%- render 'header-logo-block', section: section -%}
@@ -120,7 +131,9 @@
             {%- endif -%}
 
             {%- if logo_alignment == 'left' and section.settings.main_menu_alignment != 'left-drawer' -%}
-              <div class="header-item header-item--navigation{% if section.settings.main_menu_alignment == 'left-center' %} text-center{% endif %}" {% unless disable_aria %}role="navigation" aria-label="Primary"{% endunless %}>
+              <div
+                class="header-item header-item--navigation{% if section.settings.main_menu_alignment == 'left-center' %} text-center{% endif %}"
+                {% unless disable_aria %}role="navigation" aria-label="Primary"{% endunless %}>
                 {%- render 'header-desktop-nav', main_menu: main_menu, dropdown_alignment: dropdown_alignment, hover_menu: section.settings.hover_menu -%}
               </div>
             {%- endif -%}
@@ -131,7 +144,11 @@
                   {%- if settings.search_enable -%}
                     <div class="site-nav small--hide">
                       <a href="{{ routes.search_url }}" class="site-nav__link site-nav__link--icon js-search-header">
-                        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search" viewBox="0 0 64 64"><title>icon-search</title><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
+                        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search"
+                             viewBox="0 0 64 64"><title>icon-search</title>
+                          <path
+                            d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/>
+                        </svg>
                         <span class="icon__fallback-text">{{ 'general.search.title' | t }}</span>
                       </a>
                     </div>
@@ -142,12 +159,18 @@
                   {%- render 'header-desktop-nav', main_menu: main_menu, dropdown_alignment: dropdown_alignment, hover_menu: section.settings.hover_menu -%}
                 {%- endif -%}
 
-                <div class="site-nav{% unless section.settings.main_menu_alignment == 'center-drawer' %} medium-up--hide{% endunless %}">
+                <div
+                  class="site-nav{% unless section.settings.main_menu_alignment == 'center-drawer' %} medium-up--hide{% endunless %}">
                   <button
                     type="button"
                     class="site-nav__link site-nav__link--icon js-drawer-open-nav"
                     aria-controls="NavDrawer">
-                    <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-hamburger" viewBox="0 0 64 64"><title>icon-hamburger</title><path d="M7 15h51"/><path d="M7 32h43"/><path d="M7 49h51"/></svg>
+                    <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-hamburger"
+                         viewBox="0 0 64 64"><title>icon-hamburger</title>
+                      <path d="M7 15h51"/>
+                      <path d="M7 32h43"/>
+                      <path d="M7 49h51"/>
+                    </svg>
                     <span class="icon__fallback-text">{{ 'general.drawers.navigation' | t }}</span>
                   </button>
                 </div>
@@ -329,7 +352,6 @@
     {
       "type": "header",
       "content": "t:sections.header.settings.header_localization"
-      
     },
     {
       "type": "checkbox",
@@ -460,17 +482,50 @@
           "label": "t:sections.header.blocks.mega_menu.settings.promo_image_shape.label",
           "default": "landscape",
           "options": [
-            { "value": "portrait", "label": "t:common.image_mask.options.portrait.label" },
-            { "value": "landscape", "label": "t:common.image_mask.options.landscape.label" },
-            { "value": "square", "label": "t:common.image_mask.options.square.label" },
-            { "value": "rounded", "label": "t:common.image_mask.options.rounded.label" },
-            { "value": "rounded-wave", "label": "t:common.image_mask.options.rounded-wave.label" },
-            { "value": "rounded-top", "label": "t:common.image_mask.options.rounded-top.label" },
-            { "value": "star", "label": "t:common.image_mask.options.star.label" },
-            { "value": "splat-1", "label": "t:common.image_mask.options.splat-1.label" },
-            { "value": "splat-2", "label": "t:common.image_mask.options.splat-2.label" },
-            { "value": "splat-3", "label": "t:common.image_mask.options.splat-3.label" },
-            { "value": "splat-4", "label": "t:common.image_mask.options.splat-4.label" }
+            {
+              "value": "portrait",
+              "label": "t:common.image_mask.options.portrait.label"
+            },
+            {
+              "value": "landscape",
+              "label": "t:common.image_mask.options.landscape.label"
+            },
+            {
+              "value": "square",
+              "label": "t:common.image_mask.options.square.label"
+            },
+            {
+              "value": "rounded",
+              "label": "t:common.image_mask.options.rounded.label"
+            },
+            {
+              "value": "rounded-wave",
+              "label": "t:common.image_mask.options.rounded-wave.label"
+            },
+            {
+              "value": "rounded-top",
+              "label": "t:common.image_mask.options.rounded-top.label"
+            },
+            {
+              "value": "star",
+              "label": "t:common.image_mask.options.star.label"
+            },
+            {
+              "value": "splat-1",
+              "label": "t:common.image_mask.options.splat-1.label"
+            },
+            {
+              "value": "splat-2",
+              "label": "t:common.image_mask.options.splat-2.label"
+            },
+            {
+              "value": "splat-3",
+              "label": "t:common.image_mask.options.splat-3.label"
+            },
+            {
+              "value": "splat-4",
+              "label": "t:common.image_mask.options.splat-4.label"
+            }
           ]
         },
         {
@@ -525,17 +580,50 @@
           "label": "t:sections.header.blocks.mega_menu.settings.promo_image_shape.label",
           "default": "landscape",
           "options": [
-            { "value": "portrait", "label": "t:common.image_mask.options.portrait.label" },
-            { "value": "landscape", "label": "t:common.image_mask.options.landscape.label" },
-            { "value": "square", "label": "t:common.image_mask.options.square.label" },
-            { "value": "rounded", "label": "t:common.image_mask.options.rounded.label" },
-            { "value": "rounded-wave", "label": "t:common.image_mask.options.rounded-wave.label" },
-            { "value": "rounded-top", "label": "t:common.image_mask.options.rounded-top.label" },
-            { "value": "star", "label": "t:common.image_mask.options.star.label" },
-            { "value": "splat-1", "label": "t:common.image_mask.options.splat-1.label" },
-            { "value": "splat-2", "label": "t:common.image_mask.options.splat-2.label" },
-            { "value": "splat-3", "label": "t:common.image_mask.options.splat-3.label" },
-            { "value": "splat-4", "label": "t:common.image_mask.options.splat-4.label" }
+            {
+              "value": "portrait",
+              "label": "t:common.image_mask.options.portrait.label"
+            },
+            {
+              "value": "landscape",
+              "label": "t:common.image_mask.options.landscape.label"
+            },
+            {
+              "value": "square",
+              "label": "t:common.image_mask.options.square.label"
+            },
+            {
+              "value": "rounded",
+              "label": "t:common.image_mask.options.rounded.label"
+            },
+            {
+              "value": "rounded-wave",
+              "label": "t:common.image_mask.options.rounded-wave.label"
+            },
+            {
+              "value": "rounded-top",
+              "label": "t:common.image_mask.options.rounded-top.label"
+            },
+            {
+              "value": "star",
+              "label": "t:common.image_mask.options.star.label"
+            },
+            {
+              "value": "splat-1",
+              "label": "t:common.image_mask.options.splat-1.label"
+            },
+            {
+              "value": "splat-2",
+              "label": "t:common.image_mask.options.splat-2.label"
+            },
+            {
+              "value": "splat-3",
+              "label": "t:common.image_mask.options.splat-3.label"
+            },
+            {
+              "value": "splat-4",
+              "label": "t:common.image_mask.options.splat-4.label"
+            }
           ]
         },
         {
@@ -582,7 +670,10 @@
     "settings": {}
   },
   "disabled_on": {
-    "groups": ["footer", "custom.popups"]
+    "groups": [
+      "footer",
+      "custom.popups"
+    ]
   }
 }
 {% endschema %}
