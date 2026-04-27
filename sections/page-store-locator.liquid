@@ -1,7 +1,7 @@
 <div class="page-width page-content">
     <div id="store-map-{{ section.id }}" class="store-map mt-3">
         <form class="store-map__search" id="store-map--search-form">
-            <img src="{{ 'booby.icon.png' | file_url }}" alt="Chums" id="map-icon" style="display:none;">
+            <img src="{{ 'booby.icon.png' | file_url }}" alt="Chums" id="map-icon" style="display:none;" width="24" height="32">
             <input type="hidden" name="company" id="store-map--company" value="chums">
             <input type="hidden" name="pos-lat" id="store-map--pos-lat" value="37.16373108">
             <input type="hidden" name="pos-lng" id="store-map--pos-lng" value="-113.2989828">
@@ -38,7 +38,7 @@
         </div>
     </div>
     {{ 'find-a-store.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'find-a-store.js' | asset_url }}"></script>
+    <script async src="{{ 'find-a-store.js' | asset_url }}"></script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key={{ section.settings.google_maps_api_key }}&callback=initMap"></script>
 </div>
