@@ -1,6 +1,10 @@
 {%- assign per_row = section.settings.per_row -%}
 {%- assign product_limit = per_row | times: section.settings.rows -%}
 {%- assign collection = collections[section.settings.home_featured_products] -%}
+{%- assign mobile_scrollable = section.settings.mobile_scrollable -%}
+{%- if per_row == 1 and product_limit == 1 -%}
+  {%- assign mobile_scrollable = false -%}
+{%- endif -%}
 
 {%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
 
@@ -12,28 +16,27 @@
   {%- if section.settings.title != blank or section.settings.view_all -%}
     <div class="page-width">
       <div class="section-header{% if section.settings.view_all %}{% unless settings.type_headers_align_text == 'center' %} section-header--with-link{% endunless %}{% endif %}">
-        <h2 class="section-header__title">
-          {% if section.settings.title == '' and collection != null %}
-            <span class="visually-hidden">{{ collection.title }}</span>
-          {% endif %}
+        <h2 class="section-header__title {{ section.settings.heading_size }}">
           {{ section.settings.title }}
         </h2>
-        {%- if section.settings.view_all and section.settings.rows == 1 -%}
-          <a href="{{ collections[section.settings.home_featured_products].url }}" class="btn btn--secondary btn--small section-header__link">{{ 'collections.general.all_of_collection' | t }}</a>
+        {%- if section.settings.view_all -%}
+          {%- if section.settings.rows == 1 or section.settings.mobile_scrollable -%}
+            <a href="{{ collections[section.settings.home_featured_products].url }}" class="btn btn--secondary btn--small section-header__link{% if section.settings.mobile_scrollable and section.settings.rows > 1 %} medium-up--hide{% endif %}">{{ 'collections.general.all_of_collection' | t }}</a>
+          {%- endif -%}
         {%- endif -%}
       </div>
     </div>
   {%- endif -%}
 
-  <div class="page-width{% if section.settings.mobile_scrollable %} page-width--flush-small{% endif %}">
-    <div{% if section.settings.mobile_scrollable %} class="grid-overflow-wrapper"{% endif %}>
-      <div class="grid grid--uniform"{% if section.settings.mobile_scrollable %} data-aos="overflow__animation"{% endif %}>
+  <div class="page-width{% if mobile_scrollable %} page-width--flush-small{% endif %}">
+    <div{% if mobile_scrollable %} class="grid-overflow-wrapper{% if product_limit == 1 %} grid-overflow-wrapper--single{% endif %}"{% endif %}>
+      <div class="grid grid--uniform"{% if mobile_scrollable %} data-aos="overflow__animation"{% endif %}>
         {%- liquid
           capture gridView
             render 'products_per_row', products_per_row: per_row, style: 'fractions'
           endcapture
 
-          if section.settings.mobile_scrollable
+          if mobile_scrollable
             assign fallback = '39vw'
           else
             assign fallback = 'variable'
@@ -82,7 +85,7 @@
           {%- if section.settings.view_all -%}
 
             {%- if section.settings.rows > 1 -%}
-              <div class="grid__item text-center{% if section.settings.mobile_scrollable %} small--hide{% endif %}">
+              <div class="grid__item text-center{% if mobile_scrollable %} small--hide{% endif %}">
                 <a href="{{ collections[section.settings.home_featured_products].url }}" class="btn">{{ 'collections.general.all_of_collection' | t }}</a>
               </div>
             {%- endif -%}
@@ -109,6 +112,26 @@
       "default": "Featured collection"
     },
     {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
+    },
+    {
       "type": "collection",
       "id": "home_featured_products",
       "label": "t:sections.featured-collection.settings.home_featured_products.label"
@@ -116,7 +139,7 @@
     {
       "type": "range",
       "id": "per_row",
-      "label": "t:sections.featured-collection.settings.per_row.label",
+      "label": "t:sections.featured-collection.settings.per_row_desktop.label",
       "default": 4,
       "min": 1,
       "max": 5,
@@ -125,7 +148,7 @@
     {
       "type": "range",
       "id": "rows",
-      "label": "t:sections.featured-collection.settings.rows.label",
+      "label": "t:sections.featured-collection.settings.rows_desktop.label",
       "default": 1,
       "min": 1,
       "max": 5,

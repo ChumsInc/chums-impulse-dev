@@ -416,5 +416,10 @@
     "view_store_info": "Visualizza informazioni del negozio",
     "check_availability": "Verifica disponibilità in altri negozi",
     "show_all_results": "Mostra tutti i risultati per \"{{ terms }}\""
+  },
+  "kit": {
+    "actions": {
+      "view_product": "Visualizza prodotto"
+    }
   }
 }

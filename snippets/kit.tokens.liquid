@@ -1,0 +1,151 @@
+{%- doc -%}
+  Kit design tokens. Auto-included by primitives that use `--kit-*` tokens.
+  Shopify deduplicates the stylesheet so the CSS only appears once per page.
+
+  All tokens are `--kit-*` namespaced to avoid collisions with theme CSS,
+  and declared inside a `kit` layer so unlayered theme CSS always wins.
+  Component styles are unlayered so they beat element resets by specificity.
+  Override any token on `:root` in your theme stylesheet.
+{%- enddoc -%}
+
+{% stylesheet %}
+  @layer kit {
+    :root {
+      /* Base colors */
+      --kit-color-primary: #000;
+      --kit-color-secondary: #fff;
+      --kit-color-tint: #000; /* for shadows, overlays, etc. */
+
+      /* Absolute colors */
+      --kit-color-focus: #4a9afc;
+      --kit-color-border: initial; /* takes precedence over --kit-color-mix-border when set */
+      --kit-color-links: currentColor;
+      --kit-color-icons: currentColor;
+      --kit-color-success: #16a34a;
+      --kit-color-error: #dc2626;
+      --kit-color-info: #3b82f6;
+      --kit-color-warning: #f59e0b;
+      --kit-color-sale: #980606;
+      --kit-color-sale-contrast: #fff;
+      --kit-color-sold-out: #000;
+      --kit-color-sold-out-contrast: #fff;
+
+      /* Primary/secondary: for color-mix(in srgb, var(--kit-color-primary) [%], var(--kit-color-secondary)); */
+      --kit-color-mix-off-background: 4%;
+      --kit-color-mix-border: 16%;
+      --kit-color-mix-text-subdued: 60%;
+      --kit-color-mix-hover: 12%;
+      --kit-color-mix-active: 16%;
+      --kit-color-mix-disabled: 8%;
+      --kit-color-mix-on-disabled: 30%;
+
+      /* Tint: for color-mix(in srgb, var(--kit-color-tint) [%], transparent) */
+      --kit-color-mix-tint-shadow: 8%;
+      --kit-color-mix-tint-overlay-light: 15%;
+      --kit-color-mix-tint-overlay: 50%;
+
+      /* Opacity */
+      --kit-opacity-disabled: 0.5;
+
+      /* Typography — Families */
+      --kit-font-family-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --kit-font-family-heading: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+      /* Typography — Sizes (mobile-first) */
+      --kit-font-size-xs: 0.75rem;
+      --kit-font-size-sm: 0.75rem;
+      --kit-font-size-base: 0.875rem;
+      --kit-font-size-lg: 1rem;
+      --kit-font-size-xl: 1.125rem;
+      --kit-font-size-2xl: 1.25rem;
+      --kit-font-size-3xl: 1.5rem;
+
+      /* Typography — Weights */
+      --kit-font-weight-normal: 400;
+      --kit-font-weight-semibold: 600;
+      --kit-font-weight-bold: 700;
+
+      /* Typography — Heading sizes (mobile-first, independent from shared scale) */
+      --kit-heading-font-size-sm: 1rem;
+      --kit-heading-font-size-md: 1.125rem;
+      --kit-heading-font-size-lg: 1.25rem;
+      --kit-heading-font-size-xl: 1.5rem;
+
+      /* Typography — Headings */
+      --kit-heading-font-weight: 700;
+      --kit-heading-line-height: 1.2;
+      --kit-heading-letter-spacing: -0.025em;
+      --kit-heading-text-transform: none;
+
+      /* Typography — Body */
+      --kit-body-font-style: normal;
+      --kit-body-line-height: 1.5;
+      --kit-body-letter-spacing: normal;
+
+      /* Spacing */
+      --kit-space-2xs: 0.25rem;
+      --kit-space-xs: 0.5rem;
+      --kit-space-sm: 0.75rem;
+      --kit-space-md: 1rem;
+      --kit-space-lg: 1.5rem;
+      --kit-space-xl: 2rem;
+      --kit-space-2xl: 3rem;
+
+      /* Border radius */
+      --kit-radius-sm: 0.25rem;
+      --kit-radius-md: 0.5rem;
+      --kit-radius-lg: 1rem;
+      --kit-radius-full: 9999px;
+
+      /* Shadows */
+      --kit-shadow-inner: inset 0 0 0 1px
+        color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-overlay-light), transparent);
+      --kit-shadow-xs: 0 0.5px 0.5px 3px
+        color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-shadow), transparent);
+      --kit-shadow-sm: 0 1px 2px 0
+        color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-shadow), transparent);
+      --kit-shadow-md: 0 2px 4px -1px color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-shadow), transparent);
+      --kit-shadow-lg: 0 8px 16px -4px color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-shadow), transparent);
+
+      /* Transitions */
+      --kit-transition-fast: 75ms ease;
+      --kit-transition-normal: 150ms ease;
+      --kit-transition-slow: 300ms ease;
+
+      /* Focus */
+      --kit-focus-ring: 2px solid var(--kit-color-focus);
+      --kit-focus-ring-offset: 0;
+
+      /* Icons */
+      --kit-icon-stroke-width: 1px;
+
+      /* Layout */
+      --kit-page-width: 1500px;
+      --kit-section-spacing: 2rem;
+      --kit-section-gutter: var(--kit-space-md);
+    }
+
+    @media (min-width: 700px) {
+      :root {
+        --kit-font-size-sm: 0.875rem;
+        --kit-font-size-base: 1rem;
+        --kit-font-size-lg: 1.125rem;
+        --kit-font-size-xl: 1.25rem;
+        --kit-font-size-2xl: 1.5rem;
+        --kit-font-size-3xl: 1.875rem;
+
+        --kit-heading-font-size-sm: 1.125rem;
+        --kit-heading-font-size-md: 1.25rem;
+        --kit-heading-font-size-lg: 1.5rem;
+        --kit-heading-font-size-xl: 1.875rem;
+      }
+    }
+
+    /* Global focus style for kit interactive elements */
+    [class^='kit-']:focus-visible,
+    [class*=' kit-']:focus-visible {
+      outline: var(--kit-focus-ring);
+      outline-offset: var(--kit-focus-ring-offset);
+    }
+  }
+{% endstylesheet %}

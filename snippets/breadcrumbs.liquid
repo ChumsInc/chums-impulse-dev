@@ -1,5 +1,5 @@
 {% if settings.show_breadcrumbs %}
-
+  {% comment %}CHUMS, SM; added roles and other fixes for WCAG {% endcomment %}
 {% unless template.name == 'index' or template.name == 'cart' %}
   <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
     <a href="{{ routes.root_url }}" title="{{ 'general.breadcrumbs.home_link_title' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>

@@ -14,7 +14,7 @@
 
         <button type="button" class="visually-hidden slideshow__pause" data-id="{{ section.id }}" aria-live="polite">
           <span class="slideshow__pause-stop">
-            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pause" viewBox="0 0 10 13"><path d="M0 0h3v13H0zm7 0h3v13H7z" fill-rule="evenodd"/></svg>
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pause" viewBox="0 0 10 13"><g fill-rule="evenodd"><path d="M0 0h3v13H0z"/><path d="M7 0h3v13H7z"/></g></svg>
             <span class="icon__fallback-text">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
           </span>
           <span class="slideshow__pause-play">
@@ -67,6 +67,7 @@
         {%- endstyle -%}
       {%- endif -%}
 
+      {% comment %}CHUMS, SM; added roles and other fixes for WCAG {% endcomment %}
       <div class="{% if natural_height %}hero-natural--{{ section.id }}{% endif %}{% if natural_mobile_height %} hero-natural-mobile--{{ section.id }}{% endif %}">
         <div id="Slideshow-{{ section.id }}"
           class="hero hero--{{ section.settings.section_height }} hero--{{ section.id }} hero--mobile--{{ section.settings.mobile_height }} loading loading--delayed"
@@ -172,10 +173,10 @@
 
                     {% comment %} Full width images so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
                     {%- liquid
-                      if forloop.index == 1
-                        assign loading = section.settings.lazyload_images
+                      if forloop.index == 1 and section.index <= 2
+                        assign loading = 'eager'
                       else
-                        assign loading = true
+                        assign loading = 'lazy'
                       endif
                     -%}
 
@@ -206,9 +207,13 @@
                   {%- else -%}
                     {%- if template == 'password' -%}
                       {%- assign password_image = 'password-page-background.jpg' -%}
+                      {%- assign loading = 'lazy' -%}
+                      {%- if section.index <= 2 -%}
+                        {%- assign loading = 'eager' -%}
+                      {%- endif -%}
                       {%- render 'image-element',
                         asset: password_image,
-                        loading: section.settings.lazyload_images,
+                        loading: loading,
                         host: 'theme',
                         type: 'asset',
                         classes: 'hero__image',
@@ -404,13 +409,6 @@
       "max": 10,
       "step": 1,
       "unit": "s"
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "blocks": [

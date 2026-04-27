@@ -1,4 +1,5 @@
 {%- if settings.cart_type == 'drawer' -%}
+  {% comment %} CHUMS, SM; Updates for WCAG (aside, link) {% endcomment %}
   <aside id="CartDrawer" class="drawer drawer--right">
     <form id="CartDrawerForm" action="{{ routes.cart_url }}" method="post" novalidate class="drawer__contents" data-location="cart-drawer">
       <div class="drawer__fixed-header">

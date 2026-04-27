@@ -1,9 +1,9 @@
 <div class="index-section">
   <div class="page-width{% if section.settings.narrow_column %} page-width--narrow{% endif %}">
-    {%- if section.settings.title != blank -%}
+    {%- if section.settings.heading != blank -%}
       <div class="section-header">
-        <h2 class="section-header__title">
-          {{ section.settings.title }}
+        <h2 class="section-header__title {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
         </h2>
         {%- if section.settings.text != blank -%}
           <div class="rte section-header__rte">{{ section.settings.text }}</div>
@@ -72,9 +72,29 @@
     },
     {
       "type": "text",
-      "id": "title",
-      "label": "t:sections.contact-form.settings.title.label",
+      "id": "heading",
+      "label": "t:sections.contact-form.settings.heading.label",
       "default": "Contact us"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     },
     {
       "type": "richtext",

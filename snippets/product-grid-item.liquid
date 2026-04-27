@@ -60,6 +60,7 @@ Includes CHUMS customizations for "New" badge and "New Colors" badge
      endif
   endfor
 -%}
+
 {% style %}
     .grid-product__tag.grid-product__tag--new {
     background-color: transparent;
@@ -79,6 +80,7 @@ Includes CHUMS customizations for "New" badge and "New Colors" badge
     }
 
 {% endstyle %}
+
 <div class="grid__item grid-product {{ gridView }} {% if quick_shop_enable %} grid-product__has-quick-shop{% endif %}" data-aos="row-of-{{ per_row }}" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
   <div class="grid-product__content">
     {%- if has_custom_label -%}

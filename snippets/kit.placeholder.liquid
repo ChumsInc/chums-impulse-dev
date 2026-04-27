@@ -1,0 +1,58 @@
+{%- doc -%}
+  Shopify placeholder SVG for empty states in the theme editor.
+
+  @param {string} [name] - Placeholder name (e.g. 'image', 'lifestyle-1', 'product-1'). Default: 'image'
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [id] - HTML id attribute
+
+  @example
+  {% render 'kit.placeholder', name: 'lifestyle-1' %}
+  @example
+  {% render 'kit.placeholder', name: 'product-1' %}
+{%- enddoc -%}
+
+{%- liquid
+  assign name = name | default: 'image'
+
+  assign class_list = 'kit-placeholder'
+
+  unless name contains 'apparel'
+    assign class_list = class_list | append: ' kit-placeholder--outline'
+  endunless
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<div
+  class="{{ class_list }}"
+  {%- if style != blank %}
+    style="{{ style | escape }}"
+  {% endif %}
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+>
+  {{ name | placeholder_svg_tag }}
+</div>
+
+{% stylesheet %}
+  .kit-placeholder {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .kit-placeholder svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .kit-placeholder--outline {
+    fill: currentColor;
+    opacity: 0.3;
+  }
+{% endstylesheet %}

@@ -50,14 +50,12 @@
         "parallax": true,
         "style": "bars",
         "autoplay": true,
-        "autoplay_speed": 5,
-        "lazyload_images": true
+        "autoplay_speed": 5
       }
     },
     "form": {
       "type": "contact-form",
       "settings": {
-        "title": "Contact us",
         "text": "<p>Chums prides itself in providing exemplary customer service. Complete customer satisfaction is our foremost goal. If you have any questions or concerns, please do not hesitate to reach out.</p>",
         "show_phone": false,
         "narrow_column": true

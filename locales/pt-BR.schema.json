@@ -1,0 +1,101 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "kit": {
+    "info": {
+      "darkens_your_image": "Escurece sua imagem para garantir que seu texto seja legível"
+    },
+    "labels": {
+      "alignments": {
+        "bottom_center": "Inferior centro",
+        "bottom_left": "Inferior esquerda",
+        "bottom_right": "Inferior direita",
+        "center": "Centro",
+        "center_left": "Centro esquerda",
+        "center_right": "Centro direita",
+        "top_center": "Superior centro",
+        "top_left": "Superior esquerda",
+        "top_right": "Superior direita"
+      },
+      "button_label": "Rótulo do botão",
+      "button_link": "Link do botão",
+      "color_scheme": "Esquema de cores",
+      "content": "Conteúdo",
+      "heading": "Título",
+      "heading_size": "Tamanho do título",
+      "horizontal_position": "Posição horizontal",
+      "horizontal_position_mobile": "Posição horizontal móvel",
+      "hotspot": "Hotspot",
+      "hotspot_color": "Cor do ponto de acesso",
+      "hotspots": "Pontos de interesse",
+      "image": "Imagem",
+      "mobile_image": "Imagem no celular",
+      "preheading": "Pré-cabeça",
+      "product": "Produto",
+      "shoppable_hero": "Herói comprável",
+      "sizes": {
+        "large": "Grande",
+        "medium": "Médio",
+        "small": "Pequeno"
+      },
+      "text": "Texto",
+      "text_alignment": "Alinhamento do texto",
+      "text_position": "Posição do texto",
+      "text_protection": "Proteção de texto",
+      "vertical_position": "Posição vertical",
+      "vertical_position_mobile": "Posição vertical móvel"
+    }
+  },
+  "kit": {
+    "info": {
+      "darkens_your_image": "Escurece sua imagem para garantir que seu texto seja legível"
+    },
+    "labels": {
+      "alignments": {
+        "bottom_center": "Inferior centro",
+        "bottom_left": "Inferior esquerda",
+        "bottom_right": "Inferior direita",
+        "center": "Centro",
+        "center_left": "Centro esquerda",
+        "center_right": "Centro direita",
+        "top_center": "Superior centro",
+        "top_left": "Superior esquerda",
+        "top_right": "Superior direita"
+      },
+      "button_label": "Rótulo do botão",
+      "button_link": "Link do botão",
+      "content": "Conteúdo",
+      "heading": "Título",
+      "heading_size": "Tamanho do título",
+      "horizontal_position": "Posição horizontal",
+      "horizontal_position_mobile": "Posição horizontal móvel",
+      "hotspot": "Hotspot",
+      "hotspot_color": "Cor do ponto de acesso",
+      "hotspots": "Pontos de interesse",
+      "image": "Imagem",
+      "mobile_image": "Imagem no celular",
+      "optional": "Opcional",
+      "preheading": "Pré-cabeça",
+      "product": "Produto",
+      "shoppable_hero": "Herói comprável",
+      "sizes": {
+        "large": "Grande",
+        "medium": "Médio",
+        "small": "Pequeno"
+      },
+      "text": "Texto",
+      "text_alignment": "Alinhamento do texto",
+      "text_position": "Posição do texto",
+      "text_protection_desktop": "Proteção de texto na área de trabalho",
+      "vertical_position": "Posição vertical",
+      "vertical_position_mobile": "Posição vertical móvel"
+    }
+  }
+}

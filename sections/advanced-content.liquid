@@ -44,10 +44,10 @@
                 <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
                   {%- liquid
                     assign blockWidth = block.settings.width | remove: '%' | times: 1
-                    if forloop.index == 1 and blockWidth >= 50
-                      assign loading = section.settings.lazyload_images
+                    if forloop.index == 1 and blockWidth >= 50 and section.index <= 2
+                      assign loading = 'eager'
                     else
-                      assign loading = true
+                      assign loading = 'lazy'
                     endif
                   -%}
                   {%- render 'image-element',
@@ -104,13 +104,6 @@
       "type": "checkbox",
       "id": "space_around",
       "label": "t:sections.advanced-content.settings.space_around.label",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
       "default": true
     }
   ],

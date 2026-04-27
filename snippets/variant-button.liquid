@@ -6,7 +6,7 @@ CHUMS customizations for swatch buttons
 {%- assign swatch_file_extension = 'png' -%}
 
 {%- capture size_chart_title -%}
-  {{ 'products.general.size_chart' | t }} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-size-chart" viewBox="0 0 64 64"><path d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"/><ellipse cx="22.39" cy="24.81" rx="3.28" ry="2.12"/><path d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39m24.39 0v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44"/></svg>
+  {{ 'products.general.size_chart' | t }} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-size-chart" viewBox="0 0 64 64"><path d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"/><ellipse cx="22.39" cy="24.81" rx="3.28" ry="2.12"/><path d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39"/><path d="M46.78 33.53v7.44"/><path d="M38.65 33.53v7.44"/><path d="M30.52 33.53v7.44"/><path d="M22.39 33.53v7.44"/></svg>
 {%- endcapture -%}
 
 {%- liquid
@@ -85,6 +85,7 @@ CHUMS customizations for swatch buttons
             <label
               for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
               class="variant__button-label color-swatch color-swatch--{{ value | handle }}{% unless product_available %} disabled{% endunless %}"
+              {% comment %}style="background-color: {{ color_swatch_fallback }};{% if value.swatch.image %}  background-image: url({{ color_image }});{% endif %}"{% endcomment %}
             >
               {{ value | escape }}
             </label>
@@ -105,7 +106,8 @@ CHUMS customizations for swatch buttons
             -%}
             <label
               for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-              class="variant__button-label color-swatch color-swatch--{{ color_swatch_code }}{% unless product_available %} disabled{% endunless %}"
+              class="variant__button-label color-swatch color-swatch--{{ value | handle }}{% unless product_available %} disabled{% endunless %}"
+              {%  comment %}style="background-color: {{ color_swatch_fallback }};{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% endif %}"{% endcomment %}
             >
               {{ value | escape }}
             </label>

@@ -32,7 +32,7 @@
 
 {% stylesheet %}
   .mobile-nav shopify-account::part(signed-out-avatar) {
-    font-size: calc(var(--typeBaseSize) * .92);
+    font-size: var(--typeBodySizeMobile);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -40,12 +40,16 @@
     color: var(--colorNavText);
   }
 
+  .is-light .site-nav shopify-account::part(signed-out-avatar) {
+    color: #fff;
+  }
+
   shopify-account {
     --shopify-account-color-accent: var(--colorBtnPrimary);
     --shopify-account-color-accent-hover: var(--colorBtnPrimaryLight);
     --shopify-account-color-accent-text: var(--colorTextBody);
     --shopify-account-color-background: var(--colorBody);
-    --shopify-account-color-background-subdued: color-mix(in srgb, var(--colorBorder) 50%, transparent);
+    --shopify-account-color-background-subdued: color-mix(in srgb, var(--colorBorder) 20%, transparent);
     --shopify-account-color-border: var(--colorBorder);
     --shopify-account-color-card-background: var(--colorBody);
     --shopify-account-color-control-background: var(--colorBody);

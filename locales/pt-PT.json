@@ -9,6 +9,10 @@
  */
 {
   "general": {
+    "404": {
+      "title": "404 Página Não Encontrada",
+      "subtext_html": "A página que solicitou não existe. Clique <a href='{{ url }}'>aqui</a> para continuar as suas compras."
+    },
     "accessibility": {
       "skip_to_content": "Pular para o Conteúdo",
       "close_modal": "Encerrar (Esc)",
@@ -18,10 +22,6 @@
     "meta": {
       "tags": "Etiquetado como \"{{ tags }}\"",
       "page": "Página {{ page }}"
-    },
-    "404": {
-      "title": "404 Página Não Encontrada",
-      "subtext_html": "A página que solicitou não existe. Clique <a href='{{ url }}'>aqui</a> para continuar as suas compras."
     },
     "pagination": {
       "previous": "Anterior",
@@ -396,5 +396,10 @@
     "view_store_info": "Ver informações da loja",
     "check_availability": "Verificar disponibilidade noutras lojas",
     "show_all_results": "Mostrar todos os resultados para \"{{ terms }}\""
+  },
+  "kit": {
+    "actions": {
+      "view_product": "Ver produto"
+    }
   }
 }

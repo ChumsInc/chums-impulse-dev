@@ -416,5 +416,10 @@
     "view_store_info": "View store information",
     "check_availability": "Check availability at other stores",
     "show_all_results": "Show all results for \"{{ terms }}\""
+  },
+  "kit": {
+    "actions": {
+      "view_product": "View product"
+    }
   }
 }

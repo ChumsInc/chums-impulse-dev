@@ -1,0 +1,352 @@
+{%- doc -%}
+  Content layered over media for hero and banner layouts.
+
+  @param {string} media - Media HTML (image, video)
+  @param {string} content - Overlay content HTML
+  @param {string} [layout] - 'overlay' | 'stack-below' | 'stack-above'. Default: 'overlay'
+  @param {string} [layout_md] - Layout at md+ (700px)
+  @param {string} [layout_lg] - Layout at lg+ (1024px)
+  @param {string} [layout_xl] - Layout at xl+ (1200px)
+  @param {string} [position] - Content position: 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'. Default: 'center'
+  @param {string} [position_md] - Content position at md+ (700px)
+  @param {string} [position_lg] - Content position at lg+ (1024px)
+  @param {string} [position_xl] - Content position at xl+ (1200px)
+  @param {boolean} [overlay] - Show darkening overlay. Default: false
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [id] - HTML id attribute
+  @param {string} [attr] - Additional HTML attributes
+
+  @example
+  {% render 'kit.content-over-media', media: hero_image, content: hero_text, style: 'aspect-ratio: 16 / 9', position: 'bottom-left' %}
+  @example
+  {% render 'kit.content-over-media', media: hero_image, content: hero_text, layout: 'stack-below', layout_md: 'overlay' %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign layout = layout | default: 'overlay'
+  assign position = position | default: 'center'
+  assign overlay = overlay | default: false, allow_false: true
+
+  # Layout
+  assign inline_style = '--com-layout: ' | append: layout
+
+  if layout_md != blank
+    assign inline_style = inline_style | append: '; --com-layout-md: ' | append: layout_md
+  endif
+
+  if layout_lg != blank
+    assign inline_style = inline_style | append: '; --com-layout-lg: ' | append: layout_lg
+  endif
+
+  if layout_xl != blank
+    assign inline_style = inline_style | append: '; --com-layout-xl: ' | append: layout_xl
+  endif
+
+  # Position — map compound values to place-self and text-align
+  if position contains 'top'
+    assign pos_v = 'start'
+  elsif position contains 'bottom'
+    assign pos_v = 'end'
+  else
+    assign pos_v = 'center'
+  endif
+
+  if position contains 'left'
+    assign pos_h = 'start'
+  elsif position contains 'right'
+    assign pos_h = 'end'
+  else
+    assign pos_h = 'center'
+  endif
+
+  assign inline_style = inline_style | append: '; --com-place: ' | append: pos_v | append: ' ' | append: pos_h
+  assign inline_style = inline_style | append: '; --com-text-align: ' | append: pos_h
+
+  # Responsive positions
+  if position_md != blank
+    if position_md contains 'top'
+      assign pos_v = 'start'
+    elsif position_md contains 'bottom'
+      assign pos_v = 'end'
+    else
+      assign pos_v = 'center'
+    endif
+
+    if position_md contains 'left'
+      assign pos_h = 'start'
+    elsif position_md contains 'right'
+      assign pos_h = 'end'
+    else
+      assign pos_h = 'center'
+    endif
+
+    assign inline_style = inline_style | append: '; --com-place-md: ' | append: pos_v | append: ' ' | append: pos_h
+    assign inline_style = inline_style | append: '; --com-text-align-md: ' | append: pos_h
+  endif
+
+  if position_lg != blank
+    if position_lg contains 'top'
+      assign pos_v = 'start'
+    elsif position_lg contains 'bottom'
+      assign pos_v = 'end'
+    else
+      assign pos_v = 'center'
+    endif
+
+    if position_lg contains 'left'
+      assign pos_h = 'start'
+    elsif position_lg contains 'right'
+      assign pos_h = 'end'
+    else
+      assign pos_h = 'center'
+    endif
+
+    assign inline_style = inline_style | append: '; --com-place-lg: ' | append: pos_v | append: ' ' | append: pos_h
+    assign inline_style = inline_style | append: '; --com-text-align-lg: ' | append: pos_h
+  endif
+
+  if position_xl != blank
+    if position_xl contains 'top'
+      assign pos_v = 'start'
+    elsif position_xl contains 'bottom'
+      assign pos_v = 'end'
+    else
+      assign pos_v = 'center'
+    endif
+
+    if position_xl contains 'left'
+      assign pos_h = 'start'
+    elsif position_xl contains 'right'
+      assign pos_h = 'end'
+    else
+      assign pos_h = 'center'
+    endif
+
+    assign inline_style = inline_style | append: '; --com-place-xl: ' | append: pos_v | append: ' ' | append: pos_h
+    assign inline_style = inline_style | append: '; --com-text-align-xl: ' | append: pos_h
+  endif
+
+  if style != blank
+    assign inline_style = inline_style | append: '; ' | append: style
+  endif
+
+  # Class building
+  assign class_list = 'kit-content-over-media'
+
+  if overlay
+    assign class_list = class_list | append: ' kit-content-over-media--overlay'
+  endif
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<div
+  class="{{ class_list }}"
+  style="{{ inline_style | escape }}"
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+  {%- if attr != blank %}
+    {{ attr }}
+  {% endif %}
+>
+  <div class="kit-content-over-media__media">
+    {{ media }}
+  </div>
+
+  <div class="kit-content-over-media__content">
+    {{ content }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .kit-content-over-media {
+    display: grid;
+    overflow: hidden;
+    position: relative;
+
+    /* Layout state — default: overlay */
+    --_cols: 1fr min(var(--kit-page-width), 100%) 1fr;
+    --_rows: 1fr;
+    --_content-col: 2;
+    --_content-row: 1;
+    --_content-place: var(--com-place);
+    --_content-align: var(--com-text-align);
+    --_media-row: 1;
+    --_overlay: '';
+
+    grid-template-columns: var(--_cols);
+    grid-template-rows: var(--_rows);
+
+    /* Break inheritance chain for nested instances */
+    --com-layout: initial;
+    --com-layout-md: initial;
+    --com-layout-lg: initial;
+    --com-layout-xl: initial;
+    --com-place: initial;
+    --com-place-md: initial;
+    --com-place-lg: initial;
+    --com-place-xl: initial;
+    --com-text-align: initial;
+    --com-text-align-md: initial;
+    --com-text-align-lg: initial;
+    --com-text-align-xl: initial;
+  }
+
+  .kit-content-over-media__media {
+    grid-column: 1 / -1;
+    grid-row: var(--_media-row);
+    display: grid;
+  }
+
+  .kit-content-over-media > .kit-content-over-media__media > *,
+  .kit-content-over-media__media > picture > img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+  }
+
+  .kit-content-over-media--overlay::after {
+    content: var(--_overlay);
+    grid-column: 1 / -1;
+    grid-row: var(--_media-row);
+    background: color-mix(in srgb, var(--kit-color-tint) var(--kit-color-mix-tint-overlay), transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .kit-content-over-media__content {
+    grid-column: var(--_content-col);
+    grid-row: var(--_content-row);
+    z-index: 2;
+    padding: var(--kit-section-gutter);
+    place-self: var(--_content-place);
+    text-align: var(--_content-align);
+  }
+
+  /* Stacking — base */
+  .kit-content-over-media[style*='--com-layout: stack-below'],
+  .kit-content-over-media[style*='--com-layout: stack-above'] {
+    --_cols: 1fr;
+    --_rows: auto auto;
+    --_content-col: 1;
+    --_content-row: 2;
+    --_content-place: auto;
+    --_media-row: 1;
+    --_overlay: none;
+  }
+
+  .kit-content-over-media[style*='--com-layout: stack-above'] {
+    --_content-row: 1;
+    --_media-row: 2;
+  }
+
+  @media (min-width: 700px) {
+    .kit-content-over-media[style*='--com-layout-md: overlay'] {
+      --_cols: 1fr min(var(--kit-page-width), 100%) 1fr;
+      --_rows: 1fr;
+      --_content-col: 2;
+      --_content-row: 1;
+      --_content-place: var(--com-place);
+      --_content-align: var(--com-text-align);
+      --_media-row: 1;
+      --_overlay: '';
+    }
+
+    .kit-content-over-media[style*='--com-layout-md: stack-below'],
+    .kit-content-over-media[style*='--com-layout-md: stack-above'] {
+      --_cols: 1fr;
+      --_rows: auto auto;
+      --_content-col: 1;
+      --_content-row: 2;
+      --_content-place: auto;
+      --_media-row: 1;
+      --_overlay: none;
+    }
+
+    .kit-content-over-media[style*='--com-layout-md: stack-above'] {
+      --_content-row: 1;
+      --_media-row: 2;
+    }
+
+    .kit-content-over-media[style*='--com-place-md'] {
+      --_content-place: var(--com-place-md);
+      --_content-align: var(--com-text-align-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .kit-content-over-media[style*='--com-layout-lg: overlay'] {
+      --_cols: 1fr min(var(--kit-page-width), 100%) 1fr;
+      --_rows: 1fr;
+      --_content-col: 2;
+      --_content-row: 1;
+      --_content-place: var(--com-place);
+      --_content-align: var(--com-text-align);
+      --_media-row: 1;
+      --_overlay: '';
+    }
+
+    .kit-content-over-media[style*='--com-layout-lg: stack-below'],
+    .kit-content-over-media[style*='--com-layout-lg: stack-above'] {
+      --_cols: 1fr;
+      --_rows: auto auto;
+      --_content-col: 1;
+      --_content-row: 2;
+      --_content-place: auto;
+      --_media-row: 1;
+      --_overlay: none;
+    }
+
+    .kit-content-over-media[style*='--com-layout-lg: stack-above'] {
+      --_content-row: 1;
+      --_media-row: 2;
+    }
+
+    .kit-content-over-media[style*='--com-place-lg'] {
+      --_content-place: var(--com-place-lg);
+      --_content-align: var(--com-text-align-lg);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .kit-content-over-media[style*='--com-layout-xl: overlay'] {
+      --_cols: 1fr min(var(--kit-page-width), 100%) 1fr;
+      --_rows: 1fr;
+      --_content-col: 2;
+      --_content-row: 1;
+      --_content-place: var(--com-place);
+      --_content-align: var(--com-text-align);
+      --_media-row: 1;
+      --_overlay: '';
+    }
+
+    .kit-content-over-media[style*='--com-layout-xl: stack-below'],
+    .kit-content-over-media[style*='--com-layout-xl: stack-above'] {
+      --_cols: 1fr;
+      --_rows: auto auto;
+      --_content-col: 1;
+      --_content-row: 2;
+      --_content-place: auto;
+      --_media-row: 1;
+      --_overlay: none;
+    }
+
+    .kit-content-over-media[style*='--com-layout-xl: stack-above'] {
+      --_content-row: 1;
+      --_media-row: 2;
+    }
+
+    .kit-content-over-media[style*='--com-place-xl'] {
+      --_content-place: var(--com-place-xl);
+      --_content-align: var(--com-text-align-xl);
+    }
+  }
+{% endstylesheet %}

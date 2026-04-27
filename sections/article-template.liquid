@@ -6,7 +6,7 @@
 -%}
 
 {%- if section.settings.image_hero and article.image -%}
-  <div class="collection-hero">
+  <div class="collection-hero collection-hero--{{ section.settings.image_hero_size }}">
     {% comment %} Full width image so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
     {%- render 'image-element',
       img: article.image,
@@ -244,7 +244,28 @@
       "id": "image_hero",
       "label": "t:sections.article-template.settings.image_hero.label",
       "info": "t:sections.article-template.settings.image_hero.info",
-      "default": false
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_hero_size",
+      "label": "t:sections.article-template.settings.image_hero_size.label",
+      "default": "medium",
+      "visible_if": "{{ section.settings.image_hero == true }}",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.article-template.settings.image_hero_size.options.small.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.article-template.settings.image_hero_size.options.medium.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.article-template.settings.image_hero_size.options.large.label"
+        }
+      ]
     },
     {
       "type": "checkbox",

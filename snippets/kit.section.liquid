@@ -1,0 +1,80 @@
+{%- doc -%}
+  Page section wrapper with consistent padding and max-width.
+
+  @param {string} content - Section content
+  @param {string} [padding] - 'none' | 'top' | 'bottom' | 'both'. Default: 'both'
+  @param {boolean} [full_width] - Remove max-width constraint. Default: false
+  @param {string} [tag] - HTML element to render. Default: 'section'
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [id] - HTML id attribute
+
+  @example
+  {% render 'kit.section', content: section_content %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign padding = padding | default: 'both'
+  assign full_width = full_width | default: false, allow_false: true
+  assign tag = tag | default: 'section'
+
+  assign class_list = 'kit-section'
+
+  case padding
+    when 'both'
+      assign class_list = class_list | append: ' kit-section--padding-top kit-section--padding-bottom'
+    when 'top'
+      assign class_list = class_list | append: ' kit-section--padding-top'
+    when 'bottom'
+      assign class_list = class_list | append: ' kit-section--padding-bottom'
+  endcase
+
+  if full_width
+    assign class_list = class_list | append: ' kit-section--full-width'
+  endif
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<{{ tag }}
+  class="{{ class_list }}"
+  {%- if style != blank %}
+    style="{{ style | escape }}"
+  {% endif %}
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+>
+  <div class="kit-section__content">
+    {{ content }}
+  </div>
+</{{ tag }}>
+
+{% stylesheet %}
+  .kit-section {
+    width: 100%;
+  }
+
+  .kit-section__content {
+    max-width: var(--kit-page-width);
+    margin-inline: auto;
+    padding-inline: var(--kit-section-gutter);
+  }
+
+  .kit-section--full-width > .kit-section__content {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .kit-section--padding-top {
+    padding-top: var(--kit-section-spacing);
+  }
+
+  .kit-section--padding-bottom {
+    padding-bottom: var(--kit-section-spacing);
+  }
+{% endstylesheet %}

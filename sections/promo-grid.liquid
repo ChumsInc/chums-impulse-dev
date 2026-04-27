@@ -54,13 +54,6 @@
       "id": "space_below",
       "label": "t:sections.promo-grid.settings.space_below.label",
       "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "presets": [
@@ -71,15 +64,13 @@
         {
           "type": "advanced",
           "settings": {
-            "width": "50",
-            "text_size": 100
+            "width": "50"
           }
         },
         {
           "type": "advanced",
           "settings": {
-            "width": "50",
-            "text_size": 100
+            "width": "50"
           }
         }
       ]
@@ -104,6 +95,26 @@
           "id": "heading",
           "label": "t:sections.promo-grid.blocks.advanced.settings.heading.label",
           "default": "Discover what’s new"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:common.heading_size.label",
+          "default": "h2",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:common.heading_size.options.small.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:common.heading_size.options.medium.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:common.heading_size.options.large.label"
+            }
+          ]
         },
         {
           "type": "textarea",
@@ -176,16 +187,6 @@
           "max": 800,
           "step": 20,
           "unit": "px"
-        },
-        {
-          "type": "range",
-          "id": "text_size",
-          "label": "t:sections.promo-grid.blocks.advanced.settings.text_size.label",
-          "default": 120,
-          "min": 40,
-          "max": 200,
-          "step": 5,
-          "unit": "%"
         },
         {
           "type": "header",
@@ -268,6 +269,26 @@
           "id": "heading",
           "label": "t:sections.promo-grid.blocks.banner.settings.heading.label",
           "default": "Limited release"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:common.heading_size.label",
+          "default": "h3",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:common.heading_size.options.small.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:common.heading_size.options.medium.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:common.heading_size.options.large.label"
+            }
+          ]
         },
         {
           "type": "text",
@@ -377,6 +398,26 @@
           "default": "Product spotlight"
         },
         {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:common.heading_size.label",
+          "default": "h2",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:common.heading_size.options.small.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:common.heading_size.options.medium.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:common.heading_size.options.large.label"
+            }
+          ]
+        },
+        {
           "type": "textarea",
           "id": "textarea",
           "label": "t:sections.promo-grid.blocks.product.settings.textarea.label",
@@ -415,16 +456,6 @@
               "label": "100%"
             }
           ]
-        },
-        {
-          "type": "range",
-          "id": "text_size",
-          "label": "t:sections.promo-grid.blocks.product.settings.text_size.label",
-          "default": 100,
-          "min": 40,
-          "max": 200,
-          "step": 5,
-          "unit": "%"
         },
         {
           "type": "header",
@@ -547,9 +578,28 @@
         {
           "type": "text",
           "id": "text",
-          "label": "t:sections.promo-grid.blocks.simple.settings.text.label"
-          ,
+          "label": "t:sections.promo-grid.blocks.simple.settings.text.label",
           "default": "New arrivals"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "t:common.text_size.label",
+          "default": "h2",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:common.heading_size.options.small.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:common.heading_size.options.medium.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:common.heading_size.options.large.label"
+            }
+          ]
         },
         {
           "type": "image_picker",

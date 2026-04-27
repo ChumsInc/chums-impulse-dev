@@ -45,13 +45,17 @@
   >
     <div
       class="countdown__content">
+      {%- assign loading = 'lazy' -%}
+      {%- if section.index <= 2 -%}
+        {%- assign loading = 'eager' -%}
+      {%- endif -%}
       {% if section.settings.background_image != blank %}
         <div class="countdown__background-image-wrapper {% if section.settings.mobile_image != blank %}small--hide{% endif %}">
           {% comment %} Full width image so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
           {%- render 'image-element',
             img: section.settings.background_image,
             img_width: 2400,
-            loading: section.settings.lazyload_images,
+            loading: loading,
             classes: 'countdown__background-image',
           -%}
           {% if section.settings.overlay_opacity > 0 %}
@@ -73,7 +77,7 @@
           {% comment %} Full width image so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
           {%- render 'image-element',
             img: section.settings.mobile_image,
-            loading: section.settings.lazyload_images,
+            loading: loading,
             classes: 'countdown__mobile-image medium-up--hide',
           -%}
           {% if section.settings.overlay_opacity > 0 %}
@@ -237,13 +241,6 @@
       "type": "image_picker",
       "id": "mobile_image",
       "label": "t:sections.countdown.settings.mobile_image.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "blocks": [

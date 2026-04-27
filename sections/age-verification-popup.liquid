@@ -43,7 +43,7 @@
             data-age-verification-popup-content
           >
             {% if section.settings.heading != blank %}
-              <h2>{{ section.settings.heading }}</h2>
+              <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
             {% endif %}
             {% if section.settings.text != blank %}
               <div class="rte">
@@ -137,6 +137,26 @@
         "id": "heading",
         "label": "t:sections.age-verification-popup.settings.heading.label",
         "default": "Confirm your age"
+      },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "label": "t:common.heading_size.label",
+        "default": "h2",
+        "options": [
+          {
+            "value": "h3",
+            "label": "t:common.heading_size.options.small.label"
+          },
+          {
+            "value": "h2",
+            "label": "t:common.heading_size.options.medium.label"
+          },
+          {
+            "value": "h1",
+            "label": "t:common.heading_size.options.large.label"
+          }
+        ]
       },
       {
         "type": "richtext",

@@ -12,13 +12,31 @@
 >
   {%- for link in main_menu.links limit: limit offset: offset -%}
     {%- liquid
+      assign mega_menu_block = nil
+      assign link_handle = link.title | handleize
+      for block in section.blocks
+        if block.type == 'mega_menu'
+          assign block_trigger = block.settings.menu_item | handleize
+          if block_trigger == link_handle
+            assign mega_menu_block = block
+            break
+          endif
+        endif
+      endfor
+
       assign has_dropdown = false
       assign is_megamenu = false
       if link.links != blank
         assign has_dropdown = true
-        if link.levels > 1
+        if mega_menu_block != nil
           assign is_megamenu = true
         endif
+      endif
+
+      if mega_menu_block != nil
+        assign show_images = mega_menu_block.settings.show_images
+        assign image_aspect_ratio = mega_menu_block.settings.image_aspect_ratio
+        assign center_content = mega_menu_block.settings.center_content
       endif
       assign dropdown_image = false
       if link.object.metafields.chums.menu_image and images[link.object.metafields.chums.menu_image]
@@ -49,70 +67,155 @@
           {{ link.title }}
         </a>
       {% endif %}
+
         {%- if is_megamenu -%}
-          {%- assign previous_column_type = '' -%}
-          {%- assign animation_column = 1 -%}
+          {%- liquid
+            assign any_column_has_image = false
+            if show_images
+              for childlink in link.links
+                if childlink.url contains '/collections/'
+                  if collections[childlink.object.handle].image != blank
+                    assign any_column_has_image = true
+                    break
+                  endif
+                endif
+              endfor
+            endif
+          -%}
 
           <div class="site-nav__dropdown megamenu text-left">
             <div class="page-width">
-              <div class="grid{% if dropdown_alignment == 'center' %} grid--center{% endif %}">
-                <div class="grid__item medium-up--one-fifth appear-animation appear-delay-{{ animation_column }}">
-                  {%- assign animation_column = animation_column | plus: 1 -%}
+              <div class="megamenu__inner{% if center_content %} megamenu__inner--center{% endif %}">
 
-                  {%- for childlink in link.links -%}
-                    {%- liquid
-                      assign create_new_column = false
-
-                      if childlink.levels > 0 and forloop.index != 1
-                        assign create_new_column = true
+                {%- if mega_menu_block != nil -%}
+                  {%- liquid
+                    assign promo1_has_content = false
+                    if mega_menu_block.settings.promo1_image
+                      assign promo1_has_content = true
+                    elsif mega_menu_block.settings.promo1_heading != blank
+                      assign promo1_has_content = true
+                    elsif mega_menu_block.settings.promo1_text != blank
+                      assign promo1_has_content = true
+                    endif
+                    assign promo2_has_content = false
+                    if mega_menu_block.settings.promo2_image
+                      assign promo2_has_content = true
+                    elsif mega_menu_block.settings.promo2_heading != blank
+                      assign promo2_has_content = true
+                    elsif mega_menu_block.settings.promo2_text != blank
+                      assign promo2_has_content = true
+                    endif
+                    assign promo1_before = false
+                    if promo1_has_content
+                      if mega_menu_block.settings.promo1_position == 'before'
+                        assign promo1_before = true
                       endif
-
-                      if childlink.levels == 0 and previous_column_type == 'full'
-                        assign create_new_column = true
+                    endif
+                    assign promo2_before = false
+                    if promo2_has_content
+                      if mega_menu_block.settings.promo2_position == 'before'
+                        assign promo2_before = true
                       endif
-                    -%}
+                    endif
+                    assign promo1_after = false
+                    if promo1_has_content
+                      if mega_menu_block.settings.promo1_position == 'after'
+                        assign promo1_after = true
+                      endif
+                    endif
+                    assign promo2_after = false
+                    if promo2_has_content
+                      if mega_menu_block.settings.promo2_position == 'after'
+                        assign promo2_after = true
+                      endif
+                    endif
+                  -%}
+                  {%- if promo1_before or promo2_before -%}
+                    <div class="megamenu__promos megamenu__promos--before appear-animation appear-delay-1">
+                      {%- if promo1_before -%}
+                        {%- render 'mega-menu-promo-tile', block: mega_menu_block, promo_num: '1' -%}
+                      {%- endif -%}
+                      {%- if promo2_before -%}
+                        {%- render 'mega-menu-promo-tile', block: mega_menu_block, promo_num: '2' -%}
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
 
-                    {%- if create_new_column -%}
-                      </div><div class="grid__item medium-up--one-fifth appear-animation appear-delay-{{ animation_column }}">
-                      {%- assign animation_column = animation_column | plus: 1 -%}
-                    {%- endif -%}
+                <div class="megamenu__nav{% if center_content %} megamenu__nav--center{% endif %}">
+                  {%- assign previous_column_type = '' -%}
+                  {%- assign animation_column = 1 -%}
+                  <div class="megamenu__column appear-animation appear-delay-{{ animation_column }}">
+                    {%- assign animation_column = animation_column | plus: 1 -%}
 
-                    {%- if childlink.levels > 0 and childlink.url contains '/collections/' -%}
-                      {%- if collections[childlink.object.handle].image != blank and section.settings.mega_menu_images -%}
-                        <a href="{{ childlink.url }}">
-                          <div class="svg-mask svg-mask--landscape">
-                          {%- render 'image-element',
-                            img: collections[childlink.object.handle].image,
-                            sizeVariable: '20vw',
-                            alt: collections[childlink.object.handle].title,
-                            classes: 'megamenu__collection-image',
-                          -%}
+                    {%- for childlink in link.links -%}
+                      {%- liquid
+                        assign create_new_column = false
+                        if childlink.levels > 0 and forloop.index != 1
+                          assign create_new_column = true
+                        endif
+                        if childlink.levels == 0 and previous_column_type == 'full'
+                          assign create_new_column = true
+                        endif
+                      -%}
+
+                      {%- if create_new_column -%}
+                        </div><div class="megamenu__column appear-animation appear-delay-{{ animation_column }}">
+                        {%- assign animation_column = animation_column | plus: 1 -%}
+                      {%- endif -%}
+
+                      {%- if show_images and childlink.url contains '/collections/' and collections[childlink.object.handle].image != blank -%}
+                        <a href="{{ childlink.url }}" tabindex="-1" aria-hidden="true">
+                          <div class="megamenu__column-image svg-mask svg-mask--{{ image_aspect_ratio }}">
+                            {%- render 'image-element',
+                              img: collections[childlink.object.handle].image,
+                              sizeVariable: '20vw',
+                              alt: collections[childlink.object.handle].title,
+                              classes: 'megamenu__collection-image',
+                              loading: 'eager',
+                            -%}
                           </div>
                         </a>
+                      {%- elsif any_column_has_image -%}
+                        <div class="megamenu__column-image-placeholder svg-mask svg-mask--{{ image_aspect_ratio }}"></div>
                       {%- endif -%}
-                    {%- endif -%}
 
-                    <div class="h5">
-                      <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--top-level">{{ childlink.title }}</a>
-                    </div>
-
-                    {%- liquid
-                      if childlink.levels > 0
-                        assign previous_column_type = 'full'
-                      else
-                        assign previous_column_type = 'single'
-                      endif
-                    -%}
-
-                    {%- for grandchildlink in childlink.links -%}
-                      <div>
-                        <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">
-                          {{grandchildlink.title}}
-                        </a>
+                      <div class="h5">
+                        <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--top-level">{{ childlink.title }}</a>
                       </div>
+
+                      {%- liquid
+                        if childlink.levels > 0
+                          assign previous_column_type = 'full'
+                        else
+                          assign previous_column_type = 'single'
+                        endif
+                      -%}
+
+                      {%- for grandchildlink in childlink.links -%}
+                        <div>
+                          <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">
+                            {{grandchildlink.title}}
+                          </a>
+                        </div>
+                      {%- endfor -%}
                     {%- endfor -%}
-                  {%- endfor -%}
+                  </div>
                 </div>
+
+                {%- if mega_menu_block != nil -%}
+                  {%- if promo1_after or promo2_after -%}
+                    <div class="megamenu__promos megamenu__promos--after appear-animation appear-delay-1">
+                      {%- if promo1_after -%}
+                        {%- render 'mega-menu-promo-tile', block: mega_menu_block, promo_num: '1' -%}
+                      {%- endif -%}
+                      {%- if promo2_after -%}
+                        {%- render 'mega-menu-promo-tile', block: mega_menu_block, promo_num: '2' -%}
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+
               </div>
             </div>
           </div>

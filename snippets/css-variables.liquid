@@ -7,6 +7,15 @@
     --typeHeaderLineHeight: {{ settings.type_header_line_height | default: 1.4 }};
     --typeHeaderSpacing: {{ settings.type_header_spacing | default: '25' | divided_by: 1000.00 | append: 'em' }};
 
+    --typeH1Size: {{ settings.type_header_base_size | default: 32 | append: 'px' }};
+    --typeH2Size: {{ settings.type_header_base_size | default: 32 | times: 0.85 | round | append: 'px' }};
+    --typeH3Size: {{ settings.type_header_base_size | default: 32 | times: 0.65 | round | append: 'px' }};
+    --typeH1SizeHero: {{ settings.type_header_base_size | default: 32 | times: 1.45 | round | append: 'px' }};
+
+    --typeH1SizeMobile: {{ settings.type_header_base_size | default: 32 | times: 0.85 | round | at_most: 38 | append: 'px' }};
+    --typeH2SizeMobile: {{ settings.type_header_base_size | default: 32 | times: 0.73 | round | at_most: 32 | append: 'px' }};
+    --typeH3SizeMobile: {{ settings.type_header_base_size | default: 32 | times: 0.62 | round | at_most: 26 | append: 'px' }};
+
     --typeBasePrimary:{{ settings.type_base_font_family.family }};
     --typeBaseFallback:{{ settings.type_base_font_family.fallback_families }};
     --typeBaseSize: {{ settings.type_base_size | default: 16 | append: 'px' }};
@@ -15,7 +24,19 @@
     --typeBaseLineHeight: {{ settings.type_base_line_height | default: 1.4 }};
     --typeBaselineHeightMinus01: {{ settings.type_base_line_height | default: 1.4 | minus: 0.1 }};
 
+    --typeBodySize: {{ settings.type_base_size | default: 16 | append: 'px' }};
+    --typeBodySizeMobile: {{ settings.type_base_size | default: 16 | times: 0.92 | at_least: 12 | round | append: 'px' }};
+    --typeBodySmallSize: {{ settings.type_base_size | default: 16 | times: 0.85 | at_least: 12 | round | append: 'px' }};
+    --typeBodyExtraSmallSize: {{ settings.type_base_size | default: 16 | times: 0.7 | at_least: 12 | round | append: 'px' }};
+    --typeAccentSmallSize: {{ settings.type_base_size | default: 16 | times: 0.8 | at_least: 12 | round | append: 'px' }};
+
+    --typeHeroSubtitleSize: {{ settings.type_base_size | default: 16 | times: 1.1 | round | append: 'px' }};
+    --typeHeroTextSize: {{ settings.type_base_size | default: 16 | times: 1.3 | round | append: 'px' }};
+    --typeEnlargeTextSize: {{ settings.type_base_size | default: 16 | times: 1.3 | round | append: 'px' }};
+
     --typeCollectionTitle: {{ settings.type_collection_size | append: 'px' }};
+    --typeCollectionTitleMobile: {{ settings.type_collection_size | times: 0.8 | round | append: 'px' }};
+    --typeUppercaseSpacing: 0.2em;
 
     --iconWeight: {{ settings.icon_weight | default: '5px' }};
     --iconLinecaps: {{ settings.icon_linecaps | default: 'miter' }};
@@ -79,6 +100,7 @@
     --colorModalBg: {{ settings.color_modal_overlays | default: "#000" | color_modify: 'alpha', 0.6 }};
 
     --colorNav: {{ settings.color_header | default: "#fff" }};
+    --colorNavDim: {{ settings.color_header | default: "#fff" | color_darken: 5 }};
     --colorNavText: {{ settings.color_header_text | default: "#000" }};
 
     --colorPrice: {{ settings.color_price | default: "#1c1d1d" }};

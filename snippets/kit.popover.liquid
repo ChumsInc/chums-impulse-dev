@@ -1,0 +1,197 @@
+{%- doc -%}
+  Popover anchored to a trigger element.
+
+  @param {string} id - Popover identifier (links to trigger via `popovertarget`)
+  @param {string} [placement] - 'bottom-start' | 'bottom-center' | 'bottom-end' | 'top-start' | 'top-center' | 'top-end'. Default: 'bottom-start'
+  @param {number} [gap] - Space between trigger and popover in px. Default: 4
+  @param {string} [content] - HTML content inside the popover
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [attr] - Additional HTML attributes
+
+  @example
+  <button popovertarget="my-popover">Open</button>
+  {% render 'kit.popover', id: 'my-popover', content: popover_html %}
+  @example
+  {% render 'kit.popover', id: 'size-picker', placement: 'top-end', content: size_html %}
+  @example
+  {% render 'kit.popover', id: 'nav-menu', placement: 'bottom-start', gap: 0, content: menu_html %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign placement = placement | default: 'bottom-start'
+  assign gap = gap | default: 4
+
+  assign class_list = 'kit-popover'
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<kit-popover
+  id="{{ id }}"
+  class="{{ class_list }}"
+  popover
+  placement="{{ placement }}"
+  gap="{{ gap }}"
+  {%- if style != blank %}
+    style="{{ style | escape }}"
+  {% endif %}
+  {%- if attr != blank %}
+    {{ attr -}}
+  {% endif %}
+>
+  {{ content }}
+</kit-popover>
+
+{% stylesheet %}
+  .kit-popover {
+    position: absolute;
+    inset: auto;
+    margin: 0;
+    padding: var(--kit-space-md);
+    border: none;
+    border-radius: var(--kit-radius-md);
+    box-shadow: var(--kit-shadow-md);
+    background-color: var(--kit-color-secondary);
+    color: var(--kit-color-primary);
+    font-family: var(--kit-font-family-body);
+    font-size: var(--kit-font-size-base);
+    line-height: var(--kit-body-line-height);
+    letter-spacing: var(--kit-body-letter-spacing);
+  }
+
+  .kit-popover:popover-open {
+    animation: kit-popover-show 150ms ease;
+  }
+
+  @keyframes kit-popover-show {
+    from {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kit-popover:popover-open {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .kit-popover {
+      border: solid 1px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class KitPopover extends HTMLElement {
+    #abortController = null;
+
+    connectedCallback() {
+      this.#abortController = new AbortController();
+      const { signal } = this.#abortController;
+
+      // Prevent flash of previously-positioned popover
+      this.addEventListener(
+        'beforetoggle',
+        (event) => {
+          if (event.newState === 'open') {
+            this.style.visibility = 'hidden';
+          }
+        },
+        { signal }
+      );
+
+      this.addEventListener(
+        'toggle',
+        (event) => {
+          if (event.newState === 'open') {
+            this.#position();
+            this.style.visibility = '';
+          }
+        },
+        { signal }
+      );
+
+      window.addEventListener(
+        'resize',
+        () => {
+          if (this.matches(':popover-open')) this.#position();
+        },
+        { signal, passive: true }
+      );
+
+      this.addEventListener(
+        'click',
+        (event) => {
+          if (event.target.closest('a[href], button:not([popovertarget])')) {
+            this.hidePopover();
+          }
+        },
+        { signal }
+      );
+    }
+
+    disconnectedCallback() {
+      this.#abortController?.abort();
+    }
+
+    #position() {
+      const trigger = document.querySelector(`[popovertarget="${this.id}"]`);
+      if (!trigger) return;
+
+      const placement = this.getAttribute('placement') || 'bottom-start';
+      const isRTL = getComputedStyle(this).direction === 'rtl';
+      const gap = Number(this.getAttribute('gap') ?? 4);
+      const margin = 4;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const popoverWidth = this.offsetWidth;
+      const popoverHeight = this.offsetHeight;
+
+      const [axis, alignment] = placement.split('-');
+
+      let top = axis === 'bottom' ? triggerRect.bottom + gap : triggerRect.top - popoverHeight - gap;
+      let resolvedAxis = axis;
+
+      // Auto-flip vertically if overflowing viewport
+      if (axis === 'bottom' && top + popoverHeight > window.innerHeight - margin) {
+        top = triggerRect.top - popoverHeight - gap;
+        resolvedAxis = 'top';
+      } else if (axis === 'top' && top < margin) {
+        top = triggerRect.bottom + gap;
+        resolvedAxis = 'bottom';
+      }
+
+      const alignStart = isRTL ? 'end' : 'start';
+      let left;
+      if (alignment === 'center') {
+        left = triggerRect.left + (triggerRect.width - popoverWidth) / 2;
+      } else if (alignment === alignStart) {
+        left = triggerRect.left;
+      } else {
+        left = triggerRect.right - popoverWidth;
+      }
+
+      // Clamp horizontally to viewport
+      if (left < margin) {
+        left = margin;
+      } else if (left + popoverWidth > window.innerWidth - margin) {
+        left = window.innerWidth - popoverWidth - margin;
+      }
+
+      this.style.transformOrigin = resolvedAxis === 'bottom' ? 'top' : 'bottom';
+
+      // Convert to document coordinates so popover scrolls with page
+      this.style.top = `${Math.round(top + window.scrollY)}px`;
+      this.style.left = `${Math.round(left + window.scrollX)}px`;
+    }
+  }
+
+  customElements.define('kit-popover', KitPopover);
+{% endjavascript %}

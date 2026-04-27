@@ -1133,8 +1133,12 @@ theme.recentlyViewed = {
   
     VimeoPlayer.prototype = Object.assign({}, VimeoPlayer.prototype, {
       init: function () {
-        const args = defaults
+        const args = Object.assign({}, defaults)
         args.id = this.videoId
+  
+        if (this.options && this.options.style === 'sound') {
+          args.muted = false
+        }
   
         this.videoPlayer = new Vimeo.Player(this.el, args)
   
@@ -1160,6 +1164,12 @@ theme.recentlyViewed = {
         }
   
         this.setAsLoaded()
+  
+        // Sound videos must be started by user gesture (iOS and theme editor
+        // block unmuted programmatic play). Let Vimeo's own controls handle it.
+        if (this.options.style === 'sound') {
+          return
+        }
   
         // pause when out of view
         const observer = new IntersectionObserver((entries, observer) => {
@@ -3784,11 +3794,13 @@ theme.recentlyViewed = {
     function closeVideoModal() {
       if (youtubePlayer && typeof youtubePlayer.destroy === 'function') {
         youtubePlayer.destroy();
-      } else if (vimeoPlayer && typeof vimeoPlayer.destroy === 'function') {
-        vimeoPlayer.destroy();
-      } else {
-        emptyVideoHolder();
+        youtubePlayer = null;
       }
+      if (vimeoPlayer && typeof vimeoPlayer.destroy === 'function') {
+        vimeoPlayer.destroy();
+        vimeoPlayer = null;
+      }
+      emptyVideoHolder();
     }
   };
   
@@ -4217,13 +4229,19 @@ theme.recentlyViewed = {
   
 
   theme.announcementBar = (function() {
-    var args = {
+    const args = {
       autoPlay: 5000,
       avoidReflow: true,
       cellAlign: theme.config.rtl ? 'right' : 'left'
     };
-    var bar;
-    var flickity;
+    let bar;
+    let announcementBarEl;
+    let flickity;
+    let spacer;
+    let resizeObserver;
+    let scrollRaf;
+    let barTop = 0;
+    let isBelowHeader = false;
   
     function init() {
       bar = document.getElementById('AnnouncementSlider');
@@ -4241,9 +4259,12 @@ theme.recentlyViewed = {
         initSlider();
       }
   
+      initSticky();
+  
       document.addEventListener('matchSmall', function() {
         unload();
         initSlider();
+        initSticky();
       });
   
       document.addEventListener('unmatchSmall', function() {
@@ -4251,11 +4272,68 @@ theme.recentlyViewed = {
         if (bar.dataset.compact === 'true') {
           initSlider();
         }
+        initSticky();
       });
     }
   
     function initSlider() {
       flickity = new theme.Slideshow(bar, args);
+    }
+  
+    function initSticky() {
+      announcementBarEl = bar.closest('.announcement-bar');
+      if (!announcementBarEl || announcementBarEl.dataset.sticky !== 'true') {
+        return;
+      }
+  
+      // Disable sticky on mobile if setting is off
+      if (theme.config.bpSmall && announcementBarEl.dataset.stickyMobile === 'false') {
+        return;
+      }
+  
+      // Detect if bar is below the header in the section group order
+      var barSection = announcementBarEl.closest('.shopify-section-group-header-group');
+      if (barSection && barSection.previousElementSibling &&
+          barSection.previousElementSibling.classList.contains('shopify-section-group-header-group')) {
+        isBelowHeader = true;
+      }
+  
+      spacer = document.createElement('div');
+      announcementBarEl.insertAdjacentElement('afterend', spacer);
+  
+      barTop = announcementBarEl.getBoundingClientRect().top + window.scrollY;
+  
+      if (isBelowHeader) {
+        document.body.classList.add('has-sticky-announcement-bar--below');
+      } else {
+        document.body.classList.add('has-sticky-announcement-bar');
+      }
+      updateSticky();
+  
+      resizeObserver = new ResizeObserver(updateSticky);
+      resizeObserver.observe(announcementBarEl);
+      window.on('scroll.announcementSticky', function() {
+        if (scrollRaf) return;
+        scrollRaf = requestAnimationFrame(function() {
+          updateSticky();
+          scrollRaf = null;
+        });
+      });
+    }
+  
+    function updateSticky() {
+      var height = announcementBarEl.offsetHeight;
+      var isSticky = window.scrollY >= barTop;
+  
+      spacer.style.height = isSticky ? height + 'px' : '0';
+      announcementBarEl.classList.toggle('announcement-bar--sticky', isSticky);
+  
+      if (isBelowHeader) {
+        var stickyHeader = isSticky && document.querySelector('.site-header--stuck');
+        announcementBarEl.style.top = stickyHeader ? stickyHeader.offsetHeight + 'px' : '';
+      } else {
+        document.body.style.setProperty('--sticky-announcement-bar-height', height + 'px');
+      }
     }
   
     // Go to slide if selected in the editor
@@ -4278,6 +4356,27 @@ theme.recentlyViewed = {
     function unload() {
       if (flickity && typeof flickity.destroy === 'function') {
         flickity.destroy();
+      }
+  
+      if (announcementBarEl && announcementBarEl.dataset.sticky === 'true') {
+        window.off('scroll.announcementSticky');
+        if (scrollRaf) {
+          cancelAnimationFrame(scrollRaf);
+          scrollRaf = null;
+        }
+        if (resizeObserver) {
+          resizeObserver.disconnect();
+          resizeObserver = null;
+        }
+        if (spacer && spacer.parentNode) {
+          spacer.parentNode.removeChild(spacer);
+          spacer = null;
+        }
+        announcementBarEl.classList.remove('announcement-bar--sticky');
+        announcementBarEl.style.top = '';
+        document.body.classList.remove('has-sticky-announcement-bar', 'has-sticky-announcement-bar--below');
+        document.body.style.setProperty('--sticky-announcement-bar-height', '0px');
+        isBelowHeader = false;
       }
     }
   
@@ -4478,12 +4577,14 @@ theme.recentlyViewed = {
       stickyClass: 'site-header--stuck',
       stickyHeaderWrapper: 'StickyHeaderWrap',
       openTransitionClass: 'site-header--opening',
+      openingTimeout: null,
       lastScroll: 0
     };
   
     // Elements used in resize functions, defined in init
     var wrapper;
     var siteHeader;
+    var headerPositionObserver;
   
     function init() {
       wrapper = document.querySelector(selectors.wrapper);
@@ -4501,6 +4602,12 @@ theme.recentlyViewed = {
         if (document.body.classList.contains('template-collection') && !document.querySelector('.collection-hero')) {
           this.disableOverlayHeader();
         }
+      }
+  
+      // When overlay header is enabled but sticky is disabled, still adjust the
+      // top position to account for an announcement bar below the header in the group
+      if (theme.settings.overlayHeader && !config.stickyEnabled) {
+        stickyHeaderInitialPosition(siteHeader);
       }
   
       menuDetailsHandler();
@@ -4539,52 +4646,9 @@ theme.recentlyViewed = {
     }
   
     function stickyHeaderCheck() {
-      // Disable sticky header if any mega menu is taller than window
-      theme.config.stickyHeader = doesMegaMenuFit();
-  
-      if (theme.config.stickyHeader) {
-        config.forceStopSticky = false;
-        stickyHeader();
-      } else {
-        config.forceStopSticky = true;
-      }
-    }
-  
-    function doesMegaMenuFit() {
-      var largestMegaNav = 0;
-      var megamenus = [];
-      siteHeader.querySelectorAll(selectors.megamenu).forEach(nav => {
-        megamenus.push(nav);
-      });
-  
-      // Open details elements temporarily to get accurate height measurements
-      // Closed details elements don't provide accurate offsetHeight values
-      var openedDetails = [];
-      megamenus.forEach(nav => {
-        var details = nav.closest('details');
-        if (details && !details.hasAttribute('open')) {
-          details.setAttribute('open', '');
-          openedDetails.push(details);
-        }
-      });
-  
-      megamenus.forEach(nav => {
-        var h = nav.offsetHeight;
-        if (h > largestMegaNav) {
-          largestMegaNav = h;
-        }
-      });
-  
-      openedDetails.forEach(details => {
-        details.removeAttribute('open');
-      });
-  
-      // 120 ~ space of visible header when megamenu open
-      if (window.innerHeight < (largestMegaNav + 120)) {
-        return false;
-      }
-  
-      return true;
+      theme.config.stickyHeader = true;
+      config.forceStopSticky = false;
+      stickyHeader();
     }
   
     function stickyHeader() {
@@ -4599,6 +4663,8 @@ theme.recentlyViewed = {
   
       window.on('resize' + config.namespace, theme.utils.debounce(50, stickyHeaderHeight));
       window.on('scroll' + config.namespace, theme.utils.throttle(20, stickyHeaderScroll));
+      // Trailing call: because throttle drops the final scroll event
+      window.on('scroll' + config.namespace, theme.utils.debounce(30, stickyHeaderScroll));
   
       // This gets messed up in the editor, so here's a fix
       if (Shopify && Shopify.designMode) {
@@ -4614,9 +4680,19 @@ theme.recentlyViewed = {
   
       // if parentNextSibling has same class as headerParent, then header is above announcement bar
       if (parentNextSibling && parentNextSibling.classList.contains('shopify-section-group-header-group')) {
-        // get height of announcement bar and set header wrapper top to that value
-        const nextSiblingHeight = parentNextSibling.offsetHeight;
-        document.querySelector(selectors.wrapper).style.top = nextSiblingHeight + 'px';
+        var headerWrapper = document.querySelector(selectors.wrapper);
+  
+        if (headerPositionObserver) {
+          headerPositionObserver.disconnect();
+        }
+  
+        function updateTop() {
+          headerWrapper.style.top = parentNextSibling.offsetHeight + 'px';
+        }
+  
+        updateTop();
+        headerPositionObserver = new ResizeObserver(updateTop);
+        headerPositionObserver.observe(parentNextSibling);
       }
     }
   
@@ -4636,6 +4712,8 @@ theme.recentlyViewed = {
         let siteHeaderPadding = parseFloat(window.getComputedStyle(siteHeader, null).getPropertyValue('padding-top'));
         h += siteHeaderPadding * 2;
       }
+  
+      document.documentElement.style.setProperty('--header-height', h + 'px');
   
       var stickyHeader = document.querySelector('#' + config.stickyHeaderWrapper);
       stickyHeader.style.height = h + 'px';
@@ -4670,8 +4748,9 @@ theme.recentlyViewed = {
   
         // Add open transition class after element is set to fixed
         // so CSS animation is applied correctly
-        setTimeout(function() {
+        config.openingTimeout = setTimeout(function() {
           siteHeader.classList.add(config.openTransitionClass);
+          config.openingTimeout = null;
         }, 100);
       } else {
         if (!config.stickyActive) {
@@ -4679,6 +4758,11 @@ theme.recentlyViewed = {
         }
   
         config.stickyActive = false;
+  
+        if (config.openingTimeout) {
+          clearTimeout(config.openingTimeout);
+          config.openingTimeout = null;
+        }
   
         siteHeader.classList.remove(config.openTransitionClass);
         siteHeader.classList.remove(config.stickyClass);
@@ -4699,6 +4783,8 @@ theme.recentlyViewed = {
             },
             bubbles: true
           }));
+  
+          document.documentElement.classList.add('js-drawer-open', 'js-drawer-open--search');
   
           // add is-active class to .site-header__search-container
           document.querySelector(selectors.searchContainer).classList.add('is-active');
@@ -7767,6 +7853,18 @@ theme.recentlyViewed = {
   
         // Update current slider index
         this.settings.currentSlideIndex = index;
+  
+        // After adaptive height transition, ensure active thumb is visible
+        const activeThumb = this.cache.thumbSlider.querySelector('.is-active');
+        const viewport = this.cache.mainSlider.querySelector('.flickity-viewport');
+        if (activeThumb && viewport) {
+          viewport.addEventListener('transitionend', function(evt) {
+            if (evt.propertyName === 'height') {
+              activeThumb.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            }
+          }, { once: true });
+          activeThumb.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
       },
   
       stopMediaOnSlide(slide) {

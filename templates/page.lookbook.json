@@ -1,0 +1,211 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "enlarge_text": true,
+            "text": "<h1>The Lookbook</h1><p>A softer study in texture, tone, and everyday dressing. Explore the season through light layers, easy silhouettes, and pieces designed to be worn often.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text"
+      ],
+      "name": "t:sections.rich-text.presets.rich_text.name",
+      "settings": {
+        "align_text": "center",
+        "narrow_column": true,
+        "divider": false
+      }
+    },
+    "image-grid-1": {
+      "type": "image-grid",
+      "blocks": {
+        "image-1": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-2": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-3": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        }
+      },
+      "block_order": [
+        "image-1",
+        "image-2",
+        "image-3"
+      ],
+      "name": "t:sections.image-grid.presets.image_grid.name",
+      "settings": {
+        "heading": "",
+        "heading_size": "h2",
+        "text_alignment": "center",
+        "images_per_row": 5,
+        "image_shape": "arch",
+        "grid_spacing": 30,
+        "full_width": false,
+        "space_above": false,
+        "space_below": true,
+        "divider": false,
+        "overlay_text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
+    },
+    "image-grid-2": {
+      "type": "image-grid",
+      "blocks": {
+        "image-1": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-2": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-3": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-4": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-5": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-6": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-7": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-8": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-9": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-10": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-11": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        },
+        "image-12": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "heading": ""
+          }
+        }
+      },
+      "block_order": [
+        "image-1",
+        "image-2",
+        "image-3",
+        "image-4",
+        "image-5",
+        "image-6",
+        "image-7",
+        "image-8",
+        "image-9",
+        "image-10",
+        "image-11",
+        "image-12"
+      ],
+      "name": "t:sections.image-grid.presets.image_grid.name",
+      "settings": {
+        "heading": "",
+        "heading_size": "h2",
+        "text_alignment": "center",
+        "images_per_row": 4,
+        "image_shape": "square",
+        "grid_spacing": 30,
+        "full_width": false,
+        "space_above": false,
+        "space_below": true,
+        "divider": false,
+        "overlay_text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich-text",
+    "image-grid-1",
+    "image-grid-2"
+  ]
+}

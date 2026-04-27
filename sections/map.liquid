@@ -29,7 +29,7 @@
         <div class="animation-contents">
           <div class="map-section__overlay">
             {%- if section.settings.map_title != blank -%}
-              <h3 class="text-spacing">{{ section.settings.map_title | escape }}</h3>
+              <h3 class="text-spacing {{ section.settings.heading_size }}">{{ section.settings.map_title | escape }}</h3>
             {%- endif -%}
             {%- if section.settings.address != blank -%}
               <div class="rte-setting text-spacing">{{ section.settings.address }}</div>
@@ -57,10 +57,14 @@
     {% if bg_image.src != blank %}
       {%- unless display_map -%}
         {% comment %} Full width image so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
+        {%- assign loading = 'lazy' -%}
+        {%- if section.index <= 2 -%}
+          {%- assign loading = 'eager' -%}
+        {%- endif -%}
         {%- render 'image-element',
           img: bg_image,
           img_width: 1800,
-          loading: section.settings.lazyload_images,
+          loading: loading,
         -%}
       {%- endunless -%}
     {% endif %}
@@ -77,6 +81,26 @@
       "type": "text",
       "label": "t:sections.map.settings.map_title.label",
       "default": "Our retail store"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h3",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     },
     {
       "id": "address",
@@ -108,13 +132,6 @@
       "id": "background_image",
       "label": "t:sections.map.settings.background_image.label",
       "info": "t:sections.map.settings.background_image.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "presets": [

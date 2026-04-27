@@ -1,0 +1,211 @@
+{%- doc -%}
+  Button or button-styled link.
+
+  @param {string} [text] - Button label
+  @param {string} [variant] - 'primary' | 'secondary' | 'transparent'. Which background to use. Default: 'primary'
+  @param {string} [size] - 'sm' | 'md' | 'lg'. Default: 'md'
+  @param {string} [tag] - HTML tag. Default: 'button' (auto-switches to `a` if `href` is provided)
+  @param {string} [type] - Button `type` attribute (`button`, `submit`, `reset`). Default: 'button'
+  @param {boolean} [full_width] - Stretch to fill container. Default: false
+  @param {boolean} [disabled] - Disable interaction. Default: false
+  @param {string} [href] - URL. Switches tag to `a` automatically.
+  @param {string} undefined - Icon name to display before text
+  @param {string} [aria_label] - Accessible label (`aria-label`). Required for icon-only buttons.
+  @param {string} [id] - HTML id attribute
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [attr] - Additional HTML attributes (e.g. `data-action="add"`)
+
+  @example
+  {% render 'kit.button', text: 'Add to cart' %}
+  @example
+  {% render 'kit.button', text: 'Learn more', variant: 'transparent', href: '/collections' %}
+  @example
+  {% render 'kit.button', icon: 'close', variant: 'transparent', aria_label: 'Close' %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign variant = variant | default: 'primary'
+  assign size = size | default: 'md'
+  assign type = type | default: 'button'
+  assign full_width = full_width | default: false, allow_false: true
+  assign disabled = disabled | default: false, allow_false: true
+  assign tag = tag | default: 'button'
+
+  if href != blank
+    assign tag = 'a'
+  endif
+
+  assign class_list = 'kit-button'
+  assign class_list = class_list | append: ' kit-button--' | append: variant
+  assign class_list = class_list | append: ' kit-button--' | append: size
+
+  if full_width
+    assign class_list = class_list | append: ' kit-button--full-width'
+  endif
+
+  if text == blank and icon != blank
+    assign class_list = class_list | append: ' kit-button--icon-only'
+  endif
+
+  if disabled
+    assign class_list = class_list | append: ' kit-button--disabled'
+  endif
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<{{ tag }}
+  class="{{ class_list }}"
+  {%- if tag == 'a' %}
+    href="{{ href }}"
+    {%- if disabled %} aria-disabled="true"{% endif %}
+  {%- else %}
+    type="{{ type }}"
+    {%- if disabled %} disabled{% endif %}
+  {%- endif %}
+  {%- if style != blank %}
+    style="{{ style | escape }}"
+  {% endif %}
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+  {%- if aria_label != blank %}
+    aria-label="{{ aria_label | escape }}"
+  {% endif %}
+  {%- if attr != blank %}
+    {{ attr -}}
+  {% endif %}
+>
+  {%- if icon != blank -%}
+    {%- render 'kit.icon', name: icon, size: 'sm' -%}
+  {%- endif -%}
+  {{- text -}}
+</{{ tag }}>
+
+{% stylesheet %}
+  .kit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    font-family: var(--kit-font-family-body);
+    border-radius: var(--kit-radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background var(--kit-transition-normal);
+    line-height: var(--kit-body-line-height);
+    letter-spacing: var(--kit-body-letter-spacing);
+    background: var(--kit-button-color-background);
+    color: var(--kit-button-color-text);
+    box-shadow: inset 0 0 0 1px var(--kit-button-color-border);
+  }
+
+  /* Variants */
+  .kit-button--primary {
+    --kit-button-color-background: var(--kit-color-primary-button, var(--kit-color-primary));
+    --kit-button-color-text: var(--kit-color-on-primary-button, var(--kit-color-secondary));
+    --kit-button-color-border: var(--kit-color-primary-button-border, var(--kit-button-color-background));
+  }
+
+  .kit-button--secondary {
+    --kit-button-color-background: var(--kit-color-secondary-button, var(--kit-color-secondary));
+    --kit-button-color-text: var(--kit-color-on-secondary-button, var(--kit-color-primary));
+    --kit-button-color-border: var(--kit-color-secondary-button-border, var(--kit-button-color-text));
+  }
+
+  .kit-button--transparent {
+    --kit-button-color-background: transparent;
+    --kit-button-color-text: var(--kit-color-on-secondary-button, var(--kit-color-primary));
+    --kit-button-color-border: transparent;
+  }
+
+  /* Sizes */
+  .kit-button--sm {
+    padding: 0.375rem 0.75rem;
+    font-size: var(--kit-font-size-sm);
+  }
+
+  .kit-button--md {
+    padding: 0.5rem 1.25rem;
+    font-size: var(--kit-font-size-base);
+  }
+
+  .kit-button--lg {
+    padding: 0.75rem 1.75rem;
+    font-size: var(--kit-font-size-lg);
+  }
+
+  .kit-button--icon-only.kit-button--sm { padding: 0.375rem; }
+  .kit-button--icon-only.kit-button--md { padding: 0.5rem; }
+  .kit-button--icon-only.kit-button--lg { padding: 0.75rem; }
+
+  /* States */
+  .kit-button:hover {
+    background: color-mix(in srgb, var(--kit-button-color-text) var(--kit-color-mix-hover), var(--kit-button-color-background));
+  }
+
+  .kit-button:active,
+  .kit-button:focus-visible {
+    background: color-mix(in srgb, var(--kit-button-color-text) var(--kit-color-mix-active), var(--kit-button-color-background));
+  }
+
+  .kit-button--full-width {
+    width: 100%;
+  }
+
+  .kit-button--disabled {
+    opacity: var(--kit-opacity-disabled);
+    pointer-events: none;
+  }
+
+  /* Loading — toggled via JS:
+     el.classList.add('kit-button--loading');
+     el.disabled = true;                          // <button>
+     el.setAttribute('aria-disabled', 'true');    // <a>
+  */
+  .kit-button.kit-button--loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  .kit-button--loading::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: inherit;
+    border-radius: inherit;
+  }
+
+  .kit-button.kit-button--loading::before {
+    background: var(--kit-button-color-background);
+  }
+
+  .kit-button--transparent.kit-button--loading::before {
+    background: var(--kit-color-secondary);
+  }
+
+  .kit-button--loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: kit-button-spin 0.6s linear infinite;
+  }
+
+  @keyframes kit-button-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+{% endstylesheet %}

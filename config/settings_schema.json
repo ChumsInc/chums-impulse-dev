@@ -3,7 +3,7 @@
     "name": "theme_info",
     "theme_name": "Impulse",
     "theme_author": "Archetype Themes",
-    "theme_version": "8.2.1",
+    "theme_version": "9.0.0",
     "theme_documentation_url": "https://help.archetypethemes.co/hc/en-us/sections/45069343406867-Impulse",
     "theme_support_url": "https://help.archetypethemes.co/hc/en-us/sections/45069343406867-Impulse"
   },
@@ -84,6 +84,7 @@
         "type": "color",
         "id": "color_large_image_bg",
         "label": "t:settings_schema.colors.settings.color_large_image_bg.label",
+        "info": "t:settings_schema.colors.settings.color_large_image_bg.info",
         "default": "#1c1d1d"
       },
       {

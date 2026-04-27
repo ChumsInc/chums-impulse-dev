@@ -92,10 +92,10 @@
               the image markup everytime the slider changed
             {% endcomment %}
             {%- liquid
-              if forloop.index == 1
-                assign loading = section.settings.lazyload_images
+              if forloop.index == 1 and section.index <= 2
+                assign loading = 'eager'
               else
-                assign loading = true
+                assign loading = 'lazy'
               endif
             -%}
             {%- render 'image-element',
@@ -211,13 +211,6 @@
       "id": "color",
       "label": "t:sections.image-comparison.settings.color.label",
       "default": "#FFFFFF"
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "blocks": [

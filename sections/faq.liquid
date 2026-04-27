@@ -3,7 +3,7 @@
 <div class="page-width page-width--narrow">
   {%- if section.settings.title != blank -%}
     <header class="section-header">
-      <h2 class="section-header__title">
+      <h2 class="section-header__title {{ section.settings.heading_size }}">
         {{ section.settings.title | escape }}
       </h2>
     </header>
@@ -54,11 +54,11 @@
             <div class="faq-item">
               <button
                 type="button"
-                class="collapsible-trigger collapsible-trigger--inline collapsible--auto-height text-left"
+                class="collapsible-trigger collapsible-trigger--inline collapsible-trigger--icon-right collapsible--auto-height text-left"
                 aria-controls="FAQ-content-{{ block.id }}"
               >
-                {%- render 'collapsible-icons-alt', no_circle: true -%}
                 <span>{{ block.settings.title }}</span>
+                {%- render 'collapsible-icons-alt', no_circle: true -%}
               </button>
               <div id="FAQ-content-{{ block.id }}" class="collapsible-content collapsible-content--all">
                 <div class="collapsible-content__inner collapsible-content__inner--faq rte">
@@ -90,6 +90,26 @@
       "id": "title",
       "label": "t:sections.faq.settings.title.label",
       "default": "FAQs"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     }
   ],
   "blocks": [

@@ -75,11 +75,13 @@
       predictiveSearchPrice: {{ settings.predictive_search_show_price | json }},
       quickView: {{ settings.quick_shop_enable }},
       themeName: 'Impulse',
-      themeVersion: "8.2.1"
+      themeVersion: "9.0.0"
     };
   </script>
 
   {{ content_for_header }}
+
+  {% render 'kit.overrides' %}
 
   {% style %}
     :root {
@@ -152,7 +154,7 @@
       --element-button-text-transform: uppercase;
       --element-button-font-weight: 800;
       --element-button-font-size: max(calc(var(--typeBaseSize) - 4px), 13px);
-      --element-button-letter-spacing: .3em;
+      --element-button-letter-spacing: var(--typeUppercaseSpacing);
 
       /* Base Color Variables */
       --element-button-color-primary: {{ settings.color_button }};

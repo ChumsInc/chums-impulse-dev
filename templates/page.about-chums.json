@@ -27,8 +27,7 @@
         "height": 750,
         "framed": false,
         "parallax": false,
-        "parallax_direction": "top",
-        "lazyload_images": true
+        "parallax_direction": "top"
       }
     },
     "rich_text_FzEDzL": {
@@ -75,8 +74,7 @@
         "layout": "right",
         "divider": false,
         "top_padding": false,
-        "bottom_padding": false,
-        "lazyload_images": true
+        "bottom_padding": false
       }
     },
     "featured_video_WzLDcx": {
@@ -100,8 +98,7 @@
         "height": 750,
         "framed": false,
         "parallax": false,
-        "parallax_direction": "top",
-        "lazyload_images": true
+        "parallax_direction": "top"
       }
     },
     "rich_text_HqqRKM": {

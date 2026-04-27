@@ -5,7 +5,7 @@
     <div class="theme-block" {{ block.shopify_attributes }}>
       {%- case block.type -%}
         {%- when 'heading' -%}
-          <h2>{{ block.settings.title | escape }}</h2>
+          <h2 class="{{ block.settings.heading_size }}">{{ block.settings.title | escape }}</h2>
         {%- when 'page' -%}
           <div class="rte">
             {%- if block.settings.page_text != blank -%}
@@ -85,6 +85,26 @@
           "id": "title",
           "label": "t:sections.rich-text.blocks.heading.settings.title.label",
           "default": "Made to last"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:common.heading_size.label",
+          "default": "h2",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:common.heading_size.options.small.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:common.heading_size.options.medium.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:common.heading_size.options.large.label"
+            }
+          ]
         }
       ]
     },

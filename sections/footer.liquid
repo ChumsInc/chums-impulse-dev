@@ -24,6 +24,7 @@
   {%- endstyle -%}
 {%- endif -%}
 
+{% comment %}CHUMS, SM; Added role contentinfo {% endcomment %}
 <footer class="site-footer" data-section-id="{{ section.id }}" data-section-type="footer-section" role="contentinfo">
   <div class="page-width">
 
@@ -67,6 +68,9 @@
                 render 'footer-menu', block: block
               when 'follow_shop_cta'
                 render 'follow-shop-cta', block: block
+              comment
+              CHUMS, SM; Page Link used for "Find a Store" link in footer
+              endcomment
               when 'page_link'
                 render 'footer-link-button', block: block
             endcase
@@ -106,6 +110,7 @@
         {%- endif -%}
       </p>
     {%- endif -%}
+    {% comment %}CHUMS, SM; Added role foooter-powered-by selector for hiding powered by text {% endcomment %}
     <p class="footer__small-text footer--powered-by">{{ powered_by_link }}</p>
 
   </div>
@@ -260,35 +265,35 @@
     },
     {
       "type": "custom",
-      "name": "t:sections.footer.blocks.custom_text.name",
+      "name": "t:sections.footer.blocks.custom_content.name",
       "settings": [
         {
           "type": "checkbox",
           "id": "show_footer_title",
-          "label": "t:sections.footer.blocks.custom_text.settings.show_footer_title.label",
+          "label": "t:sections.footer.blocks.custom_content.settings.show_footer_title.label",
           "default": true
         },
         {
           "type": "text",
           "id": "title",
-          "label": "t:sections.footer.blocks.custom_text.settings.title.label",
+          "label": "t:sections.footer.blocks.custom_content.settings.title.label",
           "default": "Custom text"
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:sections.footer.blocks.custom_text.settings.image.label"
+          "label": "t:sections.footer.blocks.custom_content.settings.image.label"
         },
         {
           "type": "richtext",
           "id": "text",
-          "label": "t:sections.footer.blocks.custom_text.settings.text.label",
+          "label": "t:sections.footer.blocks.custom_content.settings.text.label",
           "default": "<p>Add your own custom text here.</p>"
         },
         {
           "type": "range",
           "id": "container_width",
-          "label": "t:sections.footer.blocks.custom_text.settings.container_width.label",
+          "label": "t:sections.footer.blocks.custom_content.settings.container_width.label",
           "default": 25,
           "min": 15,
           "max": 95,
@@ -308,7 +313,7 @@
         {
           "type": "range",
           "id": "container_width",
-          "label": "t:sections.footer.blocks.custom_text.settings.container_width.label",
+          "label": "t:sections.footer.blocks.follow_shop_cta.settings.container_width.label",
           "default": 25,
           "min": 20,
           "max": 95,

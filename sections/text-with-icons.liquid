@@ -12,7 +12,7 @@
           text-with-icons__title
           section-header"
       >
-        <h2 class="text-{{ section.settings.align_text }}">{{ section.settings.title }}</h2>
+        <h2 class="text-{{ section.settings.align_text }} {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
       </div>
     {%- endif -%}
     <div
@@ -26,49 +26,69 @@
           <div class="text-with-icons__block-icon">
             {% case block.settings.icon %}
               {% when 'bills'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-bills" viewBox="0 0 100 100"><path d="M16.96 11.72h66.08v70.76l-6.62 5.8-6.61-5.8-6.61 5.8-6.61-5.8-6.61 5.8-6.6-5.8-6.61 5.8-6.61-5.8-6.6 5.8-6.6-5.8V11.72zm7.01 22.88h49.36M23.97 46.28h49.01M23.97 57.96h28.57M23.97 69.64h28.57"/><path d="M61.63 66.87c0 2.69 4.18 2.51 4.18 2.51s4.19.27 4.19-3.23c0-2.27-4.16-2.25-4.16-2.25-4.85 0-4.16-3.33-4.16-3.33 0-3.74 4.22-3.43 4.22-3.43 4.51 0 4.08 3.43 4.08 3.43m-4.18-7.54v20.46M23.97 23.41h49.36"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-bills" viewBox="0 0 100 100"><path d="M16.96 11.72h66.08v70.76l-6.62 5.8-6.61-5.8-6.61 5.8-6.61-5.8-6.61 5.8-6.6-5.8-6.61 5.8-6.61-5.8-6.6 5.8-6.6-5.8V11.72z"/><path d="M23.97 34.6h49.36"/><path d="M23.97 46.28h49.01"/><path d="M23.97 57.96h28.57"/><path d="M23.97 69.64h28.57"/><path d="M61.63 66.87c0 2.69 4.18 2.51 4.18 2.51s4.19.27 4.19-3.23c0-2.27-4.16-2.25-4.16-2.25-4.85 0-4.16-3.33-4.16-3.33 0-3.74 4.22-3.43 4.22-3.43 4.51 0 4.08 3.43 4.08 3.43"/><path d="M65.8 53.03v20.46"/><path d="M23.97 23.41h49.36"/></svg>
               {% when 'calendar'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-calendar" viewBox="0 0 100 100"><path d="M21.3 17.08v10.14m14.22-10.14v10.14m14.22-10.14v10.14m14.23-10.14v10.14m14.22-10.14v10.14m-65.56 5.01h74.74M12.63 22.15h74.74v60.77H12.63z"/><path d="M21.05 38.72h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47z"/><path d="M21.05 51.48h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47zM21.05 64.25h14.47v12.77H21.05zm14.48 0H50v12.77H35.53zm14.47 0h14.47v12.77H50zm14.47 0h14.47v12.77H64.47z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-calendar" viewBox="0 0 100 100"><path d="M21.3 17.08v10.14"/><path d="M35.52 17.08v10.14"/><path d="M49.74 17.08v10.14"/><path d="M63.97 17.08v10.14"/><path d="M78.19 17.08v10.14"/><path d="M12.63 32.23h74.74"/><path d="M12.63 22.15h74.74v60.77H12.63z"/><path d="M21.05 38.72h14.47v12.77H21.05z"/><path d="M35.53 38.72H50v12.77H35.53z"/><path d="M50 38.72h14.47v12.77H50z"/><path d="M64.47 38.72h14.47v12.77H64.47z"/><path d="M21.05 51.48h14.47v12.77H21.05z"/><path d="M35.53 51.48H50v12.77H35.53z"/><path d="M50 51.48h14.47v12.77H50z"/><path d="M64.47 51.48h14.47v12.77H64.47z"/><path d="M21.05 64.25h14.47v12.77H21.05z"/><path d="M35.53 64.25H50v12.77H35.53z"/><path d="M50 64.25h14.47v12.77H50z"/><path d="M64.47 64.25h14.47v12.77H64.47z"/></svg>
               {% when 'cart'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-cart" viewBox="0 0 100 100"><path d="M26.81 71.11h-.05"/><circle cx="42.66" cy="76.95" r="6.73"/><circle cx="72.7" cy="76.95" r="6.73"/><path d="M38.99 59.17 23.7 16.32H11.36"/><path d="M27.26 26.3h61.38L77 59.17H39a5.53 5.53 0 0 0-5.53 5.53A5.53 5.53 0 0 0 39 70.22h43.87M57.95 59.17V26.3m-9.12 32.87L42.61 26.3m24.46 32.87L73.3 26.3m11.78 10.04H30.84m49.84 12.39H35.27"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-cart" viewBox="0 0 100 100"><circle cx="42.66" cy="76.95" r="6.73"/><circle cx="72.7" cy="76.95" r="6.73"/><path d="M38.99 59.17 23.7 16.32H11.36"/><path d="M27.26 26.3h61.38L77 59.17H39a5.53 5.53 0 0 0-5.53 5.53A5.53 5.53 0 0 0 39 70.22h43.87"/><path d="M57.95 59.17V26.3"/><path d="M48.83 59.17 42.61 26.3"/><path d="M67.07 59.17 73.3 26.3"/><path d="M85.08 36.34H30.84"/><path d="M80.68 48.73H35.27"/></svg>
               {% when 'charity'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-charity" viewBox="0 0 100 100"><path d="m63.41 68 21-10.58a4.16 4.16 0 0 1 5.67 2 4.17 4.17 0 0 1-1.93 5.39L54 82a3.35 3.35 0 0 1-2.16.25L39 75.82l-7.31 3.06m-8.93 7.79L9.6 55.92l10.24-4.64 13.17 30.75-10.25 4.64z"/><path d="m23.17 58.17 8.79-4a9.51 9.51 0 0 1 6.88-.37l22.25 7.31A4.52 4.52 0 0 1 63.41 68a4.51 4.51 0 0 1-5 1.77L43.8 65.32m35.57-48.38a12.34 12.34 0 0 0-17.44 0l-.79.79-.78-.79a12.34 12.34 0 1 0-17.44 17.45l.78.78 17.44 17.45 17.45-17.45.78-.78a12.34 12.34 0 0 0 0-17.45Z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-charity" viewBox="0 0 100 100"><path d="m63.41 68 21-10.58a4.16 4.16 0 0 1 5.67 2 4.17 4.17 0 0 1-1.93 5.39L54 82a3.35 3.35 0 0 1-2.16.25L39 75.82l-7.31 3.06"/><path d="M22.76 86.67 9.6 55.92l10.24-4.64 13.17 30.75-10.25 4.64z"/><path d="m23.17 58.17 8.79-4a9.51 9.51 0 0 1 6.88-.37l22.25 7.31A4.52 4.52 0 0 1 63.41 68a4.51 4.51 0 0 1-5 1.77L43.8 65.32"/><path d="M79.37 16.94a12.34 12.34 0 0 0-17.44 0l-.79.79-.78-.79a12.34 12.34 0 1 0-17.44 17.45l.78.78 17.44 17.45 17.45-17.45.78-.78a12.34 12.34 0 0 0 0-17.45Z"/></svg>
               {% when 'chat'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-chat" viewBox="0 0 100 100"><path d="M88.78 28.25v47.18h-9.42v10.58L62.91 75.43H32.55V28.25h56.23zM41.85 42.53h37.51m-37.51 9.3h37.51m-37.51 9.31h26.58"/><path d="M67.45 13.99v14.26h-34.9v35.83l-11.91 7.67V61.16h-9.42V13.99h56.23z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-chat" viewBox="0 0 100 100"><path d="M88.78 28.25v47.18h-9.42v10.58L62.91 75.43H32.55V28.25h56.23z"/><path d="M41.85 42.53h37.51"/><path d="M41.85 51.83h37.51"/><path d="M41.85 61.14h26.58"/><path d="M67.45 13.99v14.26h-34.9v35.83l-11.91 7.67V61.16h-9.42V13.99h56.23z"/></svg>
               {% when 'envelope'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-open-envelope" viewBox="0 0 100 100"><path d="M78.33 51.24V13H21.59v38.22m10.34-26.63h36.26M31.93 34.4h36.26m-36.26 9.8h36.26"/><path d="m78.41 39.02 8.93 6.88v41.06H12.66V45.9l8.93-6.88"/><path d="m87.26 45.9-37.3 22.79-37.3-22.79m0 41.06 29.82-22.84m44.86 22.84L57.52 64.12"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-open-envelope" viewBox="0 0 100 100"><path d="M78.33 51.24V13H21.59v38.22"/><path d="M31.93 24.59h36.26"/><path d="M31.93 34.4h36.26"/><path d="M31.93 44.2h36.26"/><path d="m78.41 39.02 8.93 6.88v41.06H12.66V45.9l8.93-6.88"/><path d="m87.26 45.9-37.3 22.79-37.3-22.79"/><path d="m12.66 86.96 29.82-22.84"/><path d="M87.34 86.96 57.52 64.12"/></svg>
               {% when 'gears'%}
                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-gears" viewBox="0 0 100 100"><path d="M51.11 53a18.75 18.75 0 0 0 .67-3.35l6.37-1.51L55.27 36l-6.37 1.56a18.51 18.51 0 0 0-4.68-5l1.87-6.28-11.9-3.55L32.32 29a18.68 18.68 0 0 0-6.62 1.59l-4.5-4.76-9 8.53 4.5 4.76a18.36 18.36 0 0 0-2 6.52l-6.35 1.57 2.88 12.08 6.37-1.51a18.62 18.62 0 0 0 4.67 4.95L20.4 69l11.91 3.55 1.87-6.27a18.67 18.67 0 0 0 6.62-1.58l4.5 4.76 9-8.53-4.5-4.76A19.38 19.38 0 0 0 51.11 53Z"/><circle cx="33.25" cy="47.67" r="9.13"/><path d="M84.49 35.6a11.31 11.31 0 0 0 .88-1.91h4v-7.63h-4a11.44 11.44 0 0 0-2.09-3.62l2-3.48-6.61-3.81-2 3.48a11.3 11.3 0 0 0-4.18 0l-2-3.48L63.86 19l2 3.49a11.22 11.22 0 0 0-1.22 1.71 12.09 12.09 0 0 0-.87 1.91h-4v7.63h4a11.63 11.63 0 0 0 2.09 3.62l-2 3.48 6.61 3.81 2-3.48a11.3 11.3 0 0 0 4.18 0l2 3.48 6.6-3.81-2-3.49a11.17 11.17 0 0 0 1.24-1.75Z"/><circle cx="74.58" cy="29.89" r="5.61"/><path d="M86.57 70.8a13.56 13.56 0 0 0 .49-2.41l4.59-1.08-2.05-8.7-4.6 1.08a13.3 13.3 0 0 0-3.36-3.58L83 51.6 74.45 49l-1.36 4.51a13.38 13.38 0 0 0-4.77 1.13l-3.23-3.44-6.52 6.13 3.23 3.43a13.19 13.19 0 0 0-.92 2.29 13.56 13.56 0 0 0-.49 2.41l-4.59 1.1 2.05 8.7 4.59-1.08a13.42 13.42 0 0 0 3.35 3.58l-1.35 4.51L73 84.85l1.36-4.51a13.38 13.38 0 0 0 4.77-1.13l3.23 3.44 6.52-6.13-3.23-3.44a12.78 12.78 0 0 0 .92-2.28Z"/><circle cx="73.72" cy="66.93" r="6.58"/></svg>
               {% when 'gift'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-gift" viewBox="0 0 100 100"><path d="M13.35 30.07h73.29v15.11H13.35zm4.53 15.11h64.23V87.5H17.88zM50 30.07V87.5M29.63 15.42a6.59 6.59 0 0 0-.81 4.33 7.75 7.75 0 0 0 1.39 3.94c2.48 2.65 8 5.94 19.88 6.38a21 21 0 0 0-4.26-12.2A13.13 13.13 0 0 0 36 12.51c-2.37-.09-4.89.49-6.37 2.91Z"/><path d="M69.9 14.75a6.55 6.55 0 0 1 1.29 5 8 8 0 0 1-1.39 4c-2.49 2.65-8 5.94-19.89 6.38a20.93 20.93 0 0 1 4.22-12.14A13.12 13.12 0 0 1 64 12.51a6.94 6.94 0 0 1 5.9 2.24Z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-gift" viewBox="0 0 100 100"><path d="M13.35 30.07h73.29v15.11H13.35z"/><path d="M17.88 45.18h64.23V87.5H17.88z"/><path d="M50 30.07V87.5"/><path d="M29.63 15.42a6.59 6.59 0 0 0-.81 4.33 7.75 7.75 0 0 0 1.39 3.94c2.48 2.65 8 5.94 19.88 6.38a21 21 0 0 0-4.26-12.2A13.13 13.13 0 0 0 36 12.51c-2.37-.09-4.89.49-6.37 2.91Z"/><path d="M69.9 14.75a6.55 6.55 0 0 1 1.29 5 8 8 0 0 1-1.39 4c-2.49 2.65-8 5.94-19.89 6.38a20.93 20.93 0 0 1 4.22-12.14A13.12 13.12 0 0 1 64 12.51a6.94 6.94 0 0 1 5.9 2.24Z"/></svg>
               {% when 'globe'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-globe" viewBox="0 0 100 100"><path d="M82.19 69.25a13.09 13.09 0 0 1-3.54-3 1.86 1.86 0 0 1 0-2.38c1.29-1.52 3.08-5-4.17-7.52a5.28 5.28 0 0 0-2.24 0 12.36 12.36 0 0 1-5.49 0 9.78 9.78 0 0 1-4.1-2.16c-.23-.2-.44-.41-.65-.63a10.08 10.08 0 0 1-2.17-10l.15-.46a8.09 8.09 0 0 0-3.92-9.55l-1.83-1c-3.54-1.58-5.69-3.88-6.39-6.83-1-4-.14-7.55 4.46-13.15M32 17.1a13 13 0 0 1 3.52 7.23 9.74 9.74 0 0 1-.52 4.76 11.74 11.74 0 0 1-2.16 3.61 10.49 10.49 0 0 0-1.72 2.73c-.62 1.51-1.12 3.44-.61 4.91a4 4 0 0 0 2.75 2.33c.25.08.52.16.8.23a5.11 5.11 0 0 1 4.24 4.65c.13 2-.82 4.29-2.68 6.44a17.84 17.84 0 0 1-6.76 4.78A15.87 15.87 0 0 1 23 59.93a14.39 14.39 0 0 1-3.14-.35c-3.45-.77-3.73-1.39-6.86-3.58m19.12 27c-.18-2.75-2.68-8.09.69-13.4a22.33 22.33 0 0 1 8.36-7.36c3.48-1.79 6.77-2.37 9-1.58a4.61 4.61 0 0 1 3.08 5.12v.83a4 4 0 0 0 1.21 3.3c1.49 1.26 4.42 1.3 6.66.91a2.55 2.55 0 0 0 .59-.18A12.09 12.09 0 0 1 67 69.43a9.74 9.74 0 0 1 4.51 1.2 12.61 12.61 0 0 1 5.41 5.51"/><circle cx="50" cy="50" r="37.5"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-globe" viewBox="0 0 100 100"><path d="M82.19 69.25a13.09 13.09 0 0 1-3.54-3 1.86 1.86 0 0 1 0-2.38c1.29-1.52 3.08-5-4.17-7.52a5.28 5.28 0 0 0-2.24 0 12.36 12.36 0 0 1-5.49 0 9.78 9.78 0 0 1-4.1-2.16c-.23-.2-.44-.41-.65-.63a10.08 10.08 0 0 1-2.17-10l.15-.46a8.09 8.09 0 0 0-3.92-9.55l-1.83-1c-3.54-1.58-5.69-3.88-6.39-6.83-1-4-.14-7.55 4.46-13.15"/><path d="M32 17.1a13 13 0 0 1 3.52 7.23 9.74 9.74 0 0 1-.52 4.76 11.74 11.74 0 0 1-2.16 3.61 10.49 10.49 0 0 0-1.72 2.73c-.62 1.51-1.12 3.44-.61 4.91a4 4 0 0 0 2.75 2.33c.25.08.52.16.8.23a5.11 5.11 0 0 1 4.24 4.65c.13 2-.82 4.29-2.68 6.44a17.84 17.84 0 0 1-6.76 4.78A15.87 15.87 0 0 1 23 59.93a14.39 14.39 0 0 1-3.14-.35c-3.45-.77-3.73-1.39-6.86-3.58"/><path d="M32.12 83c-.18-2.75-2.68-8.09.69-13.4a22.33 22.33 0 0 1 8.36-7.36c3.48-1.79 6.77-2.37 9-1.58a4.61 4.61 0 0 1 3.08 5.12v.83a4 4 0 0 0 1.21 3.3c1.49 1.26 4.42 1.3 6.66.91a2.55 2.55 0 0 0 .59-.18A12.09 12.09 0 0 1 67 69.43a9.74 9.74 0 0 1 4.51 1.2 12.61 12.61 0 0 1 5.41 5.51"/><circle cx="50" cy="50" r="37.5"/></svg>
               {% when 'package'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-package" viewBox="0 0 100 100"><path d="M50 89.87 15.33 69.86V30.08l34.78-19.95 34.56 19.95v39.78L50 89.87z"/><path d="M67.33 50.78V40.09L32.76 20.14m-17.43 9.94L50 50.09"/><path d="M50 89.87V50.09l34.67-20.01"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-package" viewBox="0 0 100 100"><path d="M50 89.87 15.33 69.86V30.08l34.78-19.95 34.56 19.95v39.78L50 89.87z"/><path d="M67.33 50.78V40.09L32.76 20.14"/><path d="M15.33 30.08 50 50.09"/><path d="M50 89.87V50.09l34.67-20.01"/></svg>
               {% when 'phone'%}
                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-phone" viewBox="0 0 100 100"><path d="M80.63 63.49 67.77 59.9a6.69 6.69 0 0 0-.75-.16h-.33a5.65 5.65 0 0 0-4.43 1.5l-3.95 3.66-.2.2c-.31.32-1.89 1.75-4.34.05l-.22-.15a73.21 73.21 0 0 1-19.1-19.2s-1.35-2 .17-3.56l4.24-4.48.17-.17c.3-.29 1.69-1.87.92-5.22l-3.37-12.71a5.77 5.77 0 0 0-1-2.1 5.31 5.31 0 0 0-3.16-1.95h-.25a22.6 22.6 0 0 0-6.35-.5 5.69 5.69 0 0 0-1.8.55 16.31 16.31 0 0 0-9 14.7 44 44 0 0 0 2 12 54.47 54.47 0 0 0 9.2 16.66s9.33 12.22 21.66 19.57a63.37 63.37 0 0 0 14.8 5.93s7 1.65 12.59-.54c0 0 7-2.43 9.5-8.56a5.37 5.37 0 0 0 .39-1.85 21.32 21.32 0 0 0-.77-5.8s-1.04-3.55-3.76-4.28Z"/></svg>
               {% when 'plant'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-plant" viewBox="0 0 100 100"><path d="M15.33 86.58h69.34s-30.67-40.37-69.34 0Z"/><path d="M43.15 46.69s9 8.83 9.27 22m29.64-55.26s-27.38-1.32-25.37 25.16c0 0 23 5.54 25.37-25.16Zm0 0L56.69 38.59m6.5-6.42 13.16-.45m-6.3-6.37 9.7-.34m-16.56 7.16.45-13.07m6.41 6.25.34-9.91"/><path d="M50.64 59.11a32.68 32.68 0 0 1 6-20.52M18 21.31S16.67 48.7 43.15 46.69c0 0 5.54-23-25.15-25.38Zm-.01 0 25.16 25.38m-6.42-6.5-.45-13.16m-6.37 6.3-.34-9.7m7.16 16.56-13.08-.45m6.26-6.41L20 32.99"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-plant" viewBox="0 0 100 100"><path d="M15.33 86.58h69.34s-30.67-40.37-69.34 0Z"/><path d="M43.15 46.69s9 8.83 9.27 22"/><path d="M82.06 13.43s-27.38-1.32-25.37 25.16c0 0 23 5.54 25.37-25.16Z"/><path d="M82.06 13.43 56.69 38.59"/><path d="m63.19 32.17 13.16-.45"/><path d="m70.05 25.35 9.7-.34"/><path d="m63.19 32.17.45-13.07"/><path d="m70.05 25.35.34-9.91"/><path d="M50.64 59.11a32.68 32.68 0 0 1 6-20.52"/><path d="M18 21.31S16.67 48.7 43.15 46.69c0 0 5.54-23-25.15-25.38Z"/><path d="m17.99 21.31 25.16 25.38"/><path d="m36.73 40.19-.45-13.16"/><path d="m29.91 33.33-.34-9.7"/><path d="m36.73 40.19-13.08-.45"/><path d="M29.91 33.33 20 32.99"/></svg>
               {% when 'recycle'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-recycle" viewBox="0 0 100 100"><path d="M24 63.72h17.6v17.64h-6a12.87 12.87 0 0 1-11.57-7.24"/><path d="M24 63.72v.07a9.82 9.82 0 0 0-1.2 4.71 12.73 12.73 0 0 0 1.27 5.58l-10.21-20-.62-1.22a9.59 9.59 0 0 1-.58-2 9.27 9.27 0 0 1 1-6.12l2.51-4.58-3.36-1.81 8.07-1.55 8.07-1.54 3.12 7.59 3.13 7.6-3-1.62Zm25-44.44-8 15.66-15.72-8 2.7-5.3a12.87 12.87 0 0 1 11.7-7h.05"/><path d="M49 19.28v-.07A9.78 9.78 0 0 0 45.32 16a12.78 12.78 0 0 0-5.55-1.4h23.82a9.77 9.77 0 0 1 2 .38 9.24 9.24 0 0 1 5 3.66l2.94 4.31 3.14-2.17-2.27 7.87-2.29 7.9-8.18-.67-8.19-.66 2.8-1.94ZM76 63.5 67.6 48l15.53-8.38L86 44.89a12.86 12.86 0 0 1-.87 13.62"/><path d="M76 63.5a9.82 9.82 0 0 0 4.71-1.18 12.78 12.78 0 0 0 4.3-3.77L72.31 77l-.78 1.12a9 9 0 0 1-1.45 1.44 9.27 9.27 0 0 1-5.85 2L59 81.6v3.82l-5.2-6.36-5.2-6.37 5.21-6.35L59 60v3.41Z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-recycle" viewBox="0 0 100 100"><path d="M24 63.72h17.6v17.64h-6a12.87 12.87 0 0 1-11.57-7.24"/><path d="M24 63.72v.07a9.82 9.82 0 0 0-1.2 4.71 12.73 12.73 0 0 0 1.27 5.58l-10.21-20-.62-1.22a9.59 9.59 0 0 1-.58-2 9.27 9.27 0 0 1 1-6.12l2.51-4.58-3.36-1.81 8.07-1.55 8.07-1.54 3.12 7.59 3.13 7.6-3-1.62Z"/><path d="m49 19.28-8 15.66-15.72-8 2.7-5.3a12.87 12.87 0 0 1 11.7-7h.05"/><path d="M49 19.28v-.07A9.78 9.78 0 0 0 45.32 16a12.78 12.78 0 0 0-5.55-1.4h23.82a9.77 9.77 0 0 1 2 .38 9.24 9.24 0 0 1 5 3.66l2.94 4.31 3.14-2.17-2.27 7.87-2.29 7.9-8.18-.67-8.19-.66 2.8-1.94Z"/><path d="M76 63.5 67.6 48l15.53-8.38L86 44.89a12.86 12.86 0 0 1-.87 13.62"/><path d="M76 63.5a9.82 9.82 0 0 0 4.71-1.18 12.78 12.78 0 0 0 4.3-3.77L72.31 77l-.78 1.12a9 9 0 0 1-1.45 1.44 9.27 9.27 0 0 1-5.85 2L59 81.6v3.82l-5.2-6.36-5.2-6.37 5.21-6.35L59 60v3.41Z"/></svg>
               {% when 'ribbon'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-ribbon" viewBox="0 0 100 100"><path d="M44.18 67.51 30 89.72l-4.44-12.19-12.93 1.1 14.19-22.18a28.86 28.86 0 0 0 13.79 10.08 26.93 26.93 0 0 0 3 .85Zm43.19 11.12-12.93-1.1L70 89.72 55.81 67.51l.63-.13a26.76 26.76 0 0 0 2.94-.85 28.8 28.8 0 0 0 13.8-10.08Z"/><path d="M78.92 39.19a28.82 28.82 0 0 1-3.61 14 30 30 0 0 1-1.74 2.73 5 5 0 0 1-.39.52 28.8 28.8 0 0 1-13.79 10.09 26.76 26.76 0 0 1-2.94.85l-.63.13a29 29 0 0 1-11.63 0l-.62-.13a26.93 26.93 0 0 1-3-.85 28.86 28.86 0 0 1-13.75-10.08c-.13-.17-.26-.34-.38-.52q-.93-1.32-1.74-2.73a28.92 28.92 0 1 1 54.22-14Z"/><path d="m56.95 42.84 1.63 9.55L50 47.88l-8.58 4.51 1.64-9.55-6.95-6.77 9.6-1.39 4.29-8.7 4.29 8.7 9.6 1.39-6.94 6.77z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-ribbon" viewBox="0 0 100 100"><path d="M44.18 67.51 30 89.72l-4.44-12.19-12.93 1.1 14.19-22.18a28.86 28.86 0 0 0 13.79 10.08 26.93 26.93 0 0 0 3 .85Z"/><path d="m87.37 78.63-12.93-1.1L70 89.72 55.81 67.51l.63-.13a26.76 26.76 0 0 0 2.94-.85 28.8 28.8 0 0 0 13.8-10.08Z"/><path d="M78.92 39.19a28.82 28.82 0 0 1-3.61 14 30 30 0 0 1-1.74 2.73 5 5 0 0 1-.39.52 28.8 28.8 0 0 1-13.79 10.09 26.76 26.76 0 0 1-2.94.85l-.63.13a29 29 0 0 1-11.63 0l-.62-.13a26.93 26.93 0 0 1-3-.85 28.86 28.86 0 0 1-13.75-10.08c-.13-.17-.26-.34-.38-.52q-.93-1.32-1.74-2.73a28.92 28.92 0 1 1 54.22-14Z"/><path d="m56.95 42.84 1.63 9.55L50 47.88l-8.58 4.51 1.64-9.55-6.95-6.77 9.6-1.39 4.29-8.7 4.29 8.7 9.6 1.39-6.94 6.77z"/></svg>
               {% when 'sales-tag'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-sales-tag" viewBox="0 0 100 100"><path d="m69.33 23.02-16.5.11L12.5 63.46l27.35 27.22 40.33-40.33.04-16.43-10.89-10.9z"/><circle cx="65.05" cy="38.2" r="5.51"/><path d="M71 24.67c3.46-6 7.64-11.82 10.22-13.91a4.93 4.93 0 0 1 3.52-1.42 3.38 3.38 0 0 1 2.78 3.14c.21 8.33-17.56 23.19-17.56 23.19M19.09 56.91l27.34 27.22"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-sales-tag" viewBox="0 0 100 100"><path d="m69.33 23.02-16.5.11L12.5 63.46l27.35 27.22 40.33-40.33.04-16.43-10.89-10.9z"/><circle cx="65.05" cy="38.2" r="5.51"/><path d="M71 24.67c3.46-6 7.64-11.82 10.22-13.91a4.93 4.93 0 0 1 3.52-1.42 3.38 3.38 0 0 1 2.78 3.14c.21 8.33-17.56 23.19-17.56 23.19"/><path d="m19.09 56.91 27.34 27.22"/></svg>
               {% when 'shield'%}
                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-shield" viewBox="0 0 100 100"><path d="M51.18 7.63c5.54 3.1 17.09 8.07 34.33 8.07h1.07v23.72A56.14 56.14 0 0 1 80 66.07C73.58 78 63.89 85.62 51.18 88.83 38.48 85.62 28.79 78 22.36 66.06a56.08 56.08 0 0 1-6.58-26.64V15.7h1.07c17.25 0 28.8-4.97 34.33-8.07Z"/><path d="M66.15 37.87 45.43 58.59l-9.21-9.21"/></svg>
               {% when 'stopwatch'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-stopwatch" viewBox="0 0 100 100"><circle cx="60.82" cy="54.12" r="4.26"/><path d="M46.92 78.41a28 28 0 1 0-14.08-24.28"/><path d="M32.84 54.13a28 28 0 1 1 14.08 24.28m-12.78-9.04H11.19m27.51-6.72H23.4m15.3 13.44H23.4"/><path d="M32.84 54.13a28 28 0 1 1 14.08 24.28m13.9-61.47v14.24m-17.98 1.51 3.08 3.99M33.27 49.27l4.96.87m13.02 30.28 1.72-4.73m17.42 4.73-1.72-4.73m16.39-7.57L80.7 65.6m7.68-16.33-4.88 1.31m-4.69-17.89-3.08 4.03M60.82 49.87V39.6M54.4 16.94h12.84"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-stopwatch" viewBox="0 0 100 100"><circle cx="60.82" cy="54.12" r="4.26"/><path d="M46.92 78.41a28 28 0 1 0-14.08-24.28"/><path d="M32.84 54.13a28 28 0 1 1 14.08 24.28"/><path d="M34.14 69.37H11.19"/><path d="M38.7 62.65H23.4"/><path d="M38.7 76.09H23.4"/><path d="M32.84 54.13a28 28 0 1 1 14.08 24.28"/><path d="M60.82 16.94v14.24"/><path d="m42.84 32.69 3.08 3.99"/><path d="m33.27 49.27 4.96.87"/><path d="m51.25 80.42 1.72-4.73"/><path d="m70.39 80.42-1.72-4.73"/><path d="M85.06 68.12 80.7 65.6"/><path d="m88.38 49.27-4.88 1.31"/><path d="m78.81 32.69-3.08 4.03"/><path d="M60.82 49.87V39.6"/><path d="M54.4 16.94h12.84"/></svg>
               {% when 'store'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-store" viewBox="0 0 100 100"><path d="M83 50.49a6.61 6.61 0 0 1-6.61-6.61 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15v34.81h6.55V57.57H40v27.58h44.43V50.34a7 7 0 0 1-1.43.15Zm-4.31 25.08H46.56v-18h32.13Z"/><path d="M22.11 57.57h17.9v27.58h-17.9zm24.45 0H78.7v18H46.56z"/><path d="M22.11 57.57h17.9v27.58h-17.9zm24.45 0H78.7v18H46.56zM27 14.84l-3.43 19.37v9.67A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15 6.62 6.62 0 0 1-5.21-6.46v-9.67l5.21-19.37Z"/><path d="M36.78 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-9.67L27 14.84h11.52Z"/><path d="M50 14.84v29a6.61 6.61 0 1 1-13.21 0v-9.63l1.74-19.37Z"/><path d="M63.22 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-29h11.48Z"/><path d="M76.43 34.21v9.67a6.61 6.61 0 1 1-13.21 0v-9.67l-1.74-19.37H73Z"/><path d="M89.65 34.21v9.67a6.62 6.62 0 0 1-5.22 6.46 7 7 0 0 1-1.39.15 6.61 6.61 0 0 1-6.61-6.61v-9.67L73 14.84h11.44Z"/><circle cx="34.86" cy="74.25" r="1.52"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-store" viewBox="0 0 100 100"><path d="M83 50.49a6.61 6.61 0 0 1-6.61-6.61 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0 6.61 6.61 0 1 1-13.21 0 6.61 6.61 0 1 1-13.22 0A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15v34.81h6.55V57.57H40v27.58h44.43V50.34a7 7 0 0 1-1.43.15Zm-4.31 25.08H46.56v-18h32.13Z"/><path d="M22.11 57.57h17.9v27.58h-17.9z"/><path d="M46.56 57.57H78.7v18H46.56z"/><path d="M22.11 57.57h17.9v27.58h-17.9z"/><path d="M46.56 57.57H78.7v18H46.56z"/><path d="m27 14.84-3.43 19.37v9.67A6.61 6.61 0 0 1 17 50.49a7.23 7.23 0 0 1-1.4-.15 6.62 6.62 0 0 1-5.21-6.46v-9.67l5.21-19.37Z"/><path d="M36.78 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-9.67L27 14.84h11.52Z"/><path d="M50 14.84v29a6.61 6.61 0 1 1-13.21 0v-9.63l1.74-19.37Z"/><path d="M63.22 34.21v9.67a6.61 6.61 0 1 1-13.22 0v-29h11.48Z"/><path d="M76.43 34.21v9.67a6.61 6.61 0 1 1-13.21 0v-9.67l-1.74-19.37H73Z"/><path d="M89.65 34.21v9.67a6.62 6.62 0 0 1-5.22 6.46 7 7 0 0 1-1.39.15 6.61 6.61 0 0 1-6.61-6.61v-9.67L73 14.84h11.44Z"/><circle cx="34.86" cy="74.25" r="1.52"/></svg>
               {% when 'thumbs-up'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-thumbs-up" viewBox="0 0 100 100"><path d="M16.01 54.13h20.02v35.22H16.01z"/><path d="m36 82.72 3.84 2.63a11.53 11.53 0 0 0 6.54 2h13.91M36 58.78l2.07-1.93A10.23 10.23 0 0 0 40.26 54l7.66-15a7.4 7.4 0 0 0 .81-3.36v-8.3a2.93 2.93 0 0 1 2.92-2.94c2.41 0 5.78 1 7.92 6.18a18.63 18.63 0 0 1 1 10.5l-1.29 6.94h19A4.91 4.91 0 0 1 83.16 53a4.91 4.91 0 0 1-4.91 4.92H59.6m3.08 9.8H76a4.91 4.91 0 0 1 4.91 4.92A4.91 4.91 0 0 1 76 77.55H65.65"/><path d="M65.65 77.55h6.12a4.92 4.92 0 0 1 4.92 4.92 4.93 4.93 0 0 1-4.92 4.92h-12.5m.33-29.5h19.47A4.92 4.92 0 0 1 84 62.81a4.91 4.91 0 0 1-4.92 4.91h-16.4m-9.49-47.66v-9.41m-5.86 11.47-6.05-7.22m2.87 12.56-9.27-1.64m27.16 1.86 9.27-1.64M59 22.26l6.05-7.21"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-thumbs-up" viewBox="0 0 100 100"><path d="M16.01 54.13h20.02v35.22H16.01z"/><path d="m36 82.72 3.84 2.63a11.53 11.53 0 0 0 6.54 2h13.91"/><path d="m36 58.78 2.07-1.93A10.23 10.23 0 0 0 40.26 54l7.66-15a7.4 7.4 0 0 0 .81-3.36v-8.3a2.93 2.93 0 0 1 2.92-2.94c2.41 0 5.78 1 7.92 6.18a18.63 18.63 0 0 1 1 10.5l-1.29 6.94h19A4.91 4.91 0 0 1 83.16 53a4.91 4.91 0 0 1-4.91 4.92H59.6"/><path d="M62.68 67.72H76a4.91 4.91 0 0 1 4.91 4.92A4.91 4.91 0 0 1 76 77.55H65.65"/><path d="M65.65 77.55h6.12a4.92 4.92 0 0 1 4.92 4.92 4.93 4.93 0 0 1-4.92 4.92h-12.5"/><path d="M59.6 57.89h19.47A4.92 4.92 0 0 1 84 62.81a4.91 4.91 0 0 1-4.92 4.91h-16.4"/><path d="M53.19 20.06v-9.41"/><path d="m47.33 22.12-6.05-7.22"/><path d="m44.15 27.46-9.27-1.64"/><path d="m62.04 27.68 9.27-1.64"/><path d="m59 22.26 6.05-7.21"/></svg>
               {% when 'trophy'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-trophy" viewBox="0 0 100 100"><path d="M33.62 87.94h32.76m4.79-37.86a8.85 8.85 0 0 0 3.21-.93c4.16-2.09 7.12-7.42 7.12-13.65V18.63H73M28.83 50.08a8.85 8.85 0 0 1-3.21-.93c-4.16-2.09-7.12-7.42-7.12-13.65V18.63H27M55.94 38.9l1.4 8.17L50 43.21l-7.34 3.86 1.4-8.17-5.94-5.79 8.21-1.19L50 24.48l3.67 7.44 8.21 1.19-5.94 5.79z"/><path d="M27 12.06V40a27.76 27.76 0 0 0 .45 5 4.1 4.1 0 0 0 .11.61 27 27 0 0 0 1.26 4.44c3.18 8.38 10.12 14.49 18.43 15.6a19.25 19.25 0 0 0 2.75.19 18.87 18.87 0 0 0 2.73-.19 22 22 0 0 0 13.52-7.38 26.16 26.16 0 0 0 4.91-8.19 27 27 0 0 0 1.26-4.44 4.1 4.1 0 0 0 .11-.61A27.76 27.76 0 0 0 73 40V12.06Zm22.97 53.78v22.1"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-trophy" viewBox="0 0 100 100"><path d="M33.62 87.94h32.76"/><path d="M71.17 50.08a8.85 8.85 0 0 0 3.21-.93c4.16-2.09 7.12-7.42 7.12-13.65V18.63H73"/><path d="M28.83 50.08a8.85 8.85 0 0 1-3.21-.93c-4.16-2.09-7.12-7.42-7.12-13.65V18.63H27"/><path d="m55.94 38.9 1.4 8.17L50 43.21l-7.34 3.86 1.4-8.17-5.94-5.79 8.21-1.19L50 24.48l3.67 7.44 8.21 1.19-5.94 5.79z"/><path d="M27 12.06V40a27.76 27.76 0 0 0 .45 5 4.1 4.1 0 0 0 .11.61 27 27 0 0 0 1.26 4.44c3.18 8.38 10.12 14.49 18.43 15.6a19.25 19.25 0 0 0 2.75.19 18.87 18.87 0 0 0 2.73-.19 22 22 0 0 0 13.52-7.38 26.16 26.16 0 0 0 4.91-8.19 27 27 0 0 0 1.26-4.44 4.1 4.1 0 0 0 .11-.61A27.76 27.76 0 0 0 73 40V12.06Z"/><path d="M49.97 65.84v22.1"/></svg>
               {% when 'truck'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-truck" viewBox="0 0 100 100"><path d="m44.36 67.09-2.17.01h20.46V28.83H22.27v3.93m0 23.71V67.1h8.78l-2.18-.01"/><path d="M36.62 59.5a5.83 5.83 0 0 0-5.84 5.83 5.84 5.84 0 0 0 11.68 0 5.84 5.84 0 0 0-5.84-5.83Zm41.38 0a5.84 5.84 0 0 0-5.85 5.83 5.84 5.84 0 0 0 11.68 0A5.83 5.83 0 0 0 78 59.5Z"/><path d="m70.26 67.09 2.17.01h-9.78V34.03h12.31l15.06 15.06h4.67V67.1H83.57l2.18-.01"/><path d="M66.95 49.1V38h5.49l11.04 11.03-16.53.07zm-38.69-4.57H5.31m27.5-6.72h-15.3m15.3 13.44h-15.3"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-truck" viewBox="0 0 100 100"><path d="m44.36 67.09-2.17.01h20.46V28.83H22.27v3.93"/><path d="M22.27 56.47V67.1h8.78l-2.18-.01"/><path d="M36.62 59.5a5.83 5.83 0 0 0-5.84 5.83 5.84 5.84 0 0 0 11.68 0 5.84 5.84 0 0 0-5.84-5.83Z"/><path d="M78 59.5a5.84 5.84 0 0 0-5.85 5.83 5.84 5.84 0 0 0 11.68 0A5.83 5.83 0 0 0 78 59.5Z"/><path d="m70.26 67.09 2.17.01h-9.78V34.03h12.31l15.06 15.06h4.67V67.1H83.57l2.18-.01"/><path d="M66.95 49.1V38h5.49l11.04 11.03-16.53.07z"/><path d="M28.26 44.53H5.31"/><path d="M32.81 37.81h-15.3"/><path d="M32.81 51.25h-15.3"/></svg>
               {% when 'wallet'%}
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-wallet" viewBox="0 0 100 100"><path d="M69.36 55.8a2.45 2.45 0 1 1-2.45 2.45 2.45 2.45 0 0 1 2.45-2.45Z"/><path d="M61.77 58.24a7.92 7.92 0 0 0 7.94 7.94H85V85H18.49a6 6 0 0 1-6-6V28a4.64 4.64 0 0 0 4.67 4.66H85v17.65H69.71a7.93 7.93 0 0 0-7.94 7.93Z"/><path d="M86 50.31H69.71a7.94 7.94 0 1 0 0 15.87H86a1.53 1.53 0 0 0 1.53-1.52V51.84A1.54 1.54 0 0 0 86 50.31ZM12.5 28a4.66 4.66 0 0 1 4.67-4.66H47m21.65-.02h10.82v9.33"/><path d="M72.99 32.65H27l20.01-9.33 17.78-8.28 3.86 8.28 4.34 9.33z"/></svg>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-wallet" viewBox="0 0 100 100"><path d="M69.36 55.8a2.45 2.45 0 1 1-2.45 2.45 2.45 2.45 0 0 1 2.45-2.45Z"/><path d="M61.77 58.24a7.92 7.92 0 0 0 7.94 7.94H85V85H18.49a6 6 0 0 1-6-6V28a4.64 4.64 0 0 0 4.67 4.66H85v17.65H69.71a7.93 7.93 0 0 0-7.94 7.93Z"/><path d="M86 50.31H69.71a7.94 7.94 0 1 0 0 15.87H86a1.53 1.53 0 0 0 1.53-1.52V51.84A1.54 1.54 0 0 0 86 50.31Z"/><path d="M12.5 28a4.66 4.66 0 0 1 4.67-4.66H47"/><path d="M68.65 23.32h10.82v9.33"/><path d="M72.99 32.65H27l20.01-9.33 17.78-8.28 3.86 8.28 4.34 9.33z"/></svg>
+              {% when 'shirt'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-shirt" viewBox="0 0 100 100"><path d="M38.85 21 15 28.398l3.175 14.352h11.667V79H70.38V42.75h11.888L85 28.398 61.224 21M38.85 21c3.495 2.096 12.863 5.03 22.374 0M38.85 21c.517 3.477 3.323 10.431 10.412 10.431 3.396.222 10.544-1.553 11.962-10.431"/></svg>
+              {% when 'sparkle'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-sparkle" viewBox="0 0 100 100"><path d="M23.896 30.268c7.289 0 13.198-5.94 13.198-13.268 0 7.328 5.909 13.268 13.198 13.268-7.29 0-13.198 5.94-13.198 13.268 0-7.328-5.91-13.268-13.198-13.268Z"/><path d="M15 72.271c6.443 0 11.667-5.25 11.667-11.728 0 6.477 5.223 11.728 11.666 11.728-6.443 0-11.666 5.251-11.666 11.729 0-6.478-5.224-11.729-11.667-11.729Z"/><path d="M43.438 56.071c11.477 0 20.78-9.353 20.78-20.892 0 11.539 9.305 20.892 20.782 20.892-11.477 0-20.781 9.354-20.781 20.892 0-11.538-9.304-20.892-20.781-20.892Z"/></svg>
+              {% when 'hanger'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-hanger" viewBox="0 0 100 100"><path d="M42.795 31.262c-.076-2.924 1.373-8.667 7.781-8.24 2.543-.05 7.629 1.526 7.629 8.24-.026 1.17 0 4.341-4.705 5.738-1.627.483-2.924 2.212-2.924 8.682l-.076.044m0 0L16.062 65.61C10.654 68.733 12.869 77 19.113 77h62.774c6.244 0 8.459-8.267 3.051-11.39L50.5 45.727Z"/></svg>
+              {% when 'sun'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-sun" viewBox="0 0 100 100"><path d="M50 14v14m0 44v14m36-36H72m-44 0H14m61.46-25.46L65.31 34.69M34.69 65.31 24.54 75.46m50.92 0L65.31 65.31M34.69 34.69 24.54 24.54M66 50c0 8.837-7.163 16-16 16s-16-7.163-16-16 7.163-16 16-16 16 7.163 16 16Z"/></svg>
+              {% when 'location'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-location" viewBox="0 0 100 100"><path d="M50.5 85S74 57 74 39.5C74 24.039 63.476 15 50.5 15S27 24.039 27 39.5C27 57 50.5 85 50.5 85Z"/><circle cx="50.5" cy="37.703" r="11.28"/></svg>
+              {% when 'lightning-bolt'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-lightning-bolt" viewBox="0 0 100 100"><path d="M30 53.706 60.817 15l-7.484 35.412H70L40 85l6.667-31.294H30Z"/></svg>
+              {% when 'credit-cards'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-credit-cards" viewBox="0 0 100 100"><path d="M22.288 69.673a3.686 3.686 0 0 1-4.031-3.302l-3.24-32.95a3.681 3.681 0 0 1 3.312-4.02l55.07-5.383a3.686 3.686 0 0 1 4.032 3.302l1.323 9.214M22.288 47.571H85m-62.712 7.357H85m-6.246-18.394H25.977a3.684 3.684 0 0 0-3.69 3.68V73.32A3.684 3.684 0 0 0 25.978 77H81.31A3.684 3.684 0 0 0 85 73.321V40.213a3.684 3.684 0 0 0-3.689-3.679h-2.558Z"/><rect x="64.711" y="62.285" width="11.067" height="7.357" rx=".922"/></svg>
+              {% when 'cotton'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-cotton" viewBox="0 0 100 100"><path d="M50 82V66.516m0 0c-17.66 5.051-25.761-5.526-27.861-12.043M50 66.516a17.074 17.074 0 0 0-1.157-3.138c-1.927-4.012-5.85-8.56-12.469-10.24a19.532 19.532 0 0 0-2.585-.488M50 66.516c17.396 5.21 26.15-5.987 28.388-12.318M50 66.516c.222-.956.59-2.03 1.102-3.138 1.892-4.026 5.843-8.568 12.655-10.13h.007a18.86 18.86 0 0 1 2.343-.399m-43.968 1.624a18.624 18.624 0 0 1-.208-.688c4.58-1.294 8.51-1.562 11.858-1.135m-11.65 1.823C17.897 52.423 15 48.26 15 43.463c0-6.841 5.891-12.388 13.168-12.388 1.511 0 2.96.241 4.311.682m1.31 20.893c-1.809-3.469-2.848-7.557-2.848-11.94 0-3.18.547-6.208 1.538-8.953m45.937 22.372s-.014.048-.028.069m.028-.069c-4.79-1.376-8.864-1.693-12.31-1.28m12.31 1.28c-.007.02-.014.048-.028.069m0 0C82.338 52.065 85 48.053 85 43.462c0-6.84-5.898-12.387-13.168-12.387-1.511 0-2.96.241-4.311.682m-1.414 21.092c1.871-3.51 2.952-7.673 2.952-12.14 0-3.179-.547-6.207-1.538-8.952m-35.042 0C35.39 23.664 42.141 18 50 18c7.86 0 14.61 5.664 17.52 13.757"/></svg>
+              {% when 'return'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-return" viewBox="0 0 100 100"><path d="M50.574 17.958c-9.112.07-15.756 2.845-20.59 6.624C14.733 36.518 13.93 59.502 28.2 72.586c3.756 3.446 7.058 5 7.058 5m15.317-59.628L42.399 12m8.175 5.958-8.175 8.486m6.025 54.593c9.113-.07 15.756-2.845 20.59-6.624 15.257-11.931 16.055-34.915 1.785-47.999-3.756-3.446-7.058-5-7.058-5M48.424 81.037 56.604 87m-8.18-5.963 8.18-8.486M32.923 39.408v18.977L49.84 68.45M32.923 39.408l16.918 9.489m-16.918-9.489 16.344-9.245 16.918 9.484m-16.344 9.25V68.45m0-19.553 16.344-9.25M49.841 68.45l16.344-9.25V39.647m-24.803 11.35v-6.842l15.96-9.072"/></svg>
+              {% when 'heart'%}
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tcwi-heart" viewBox="0 0 100 100"><path d="M79.7 25.248c-7.057-6.991-18.504-6.991-25.562 0l-4.144 4.106-4.145-4.106c-7.057-6.998-18.498-6.998-25.556 0a17.79 17.79 0 0 0 0 25.323l4.145 4.106L50 80l25.562-25.323 4.145-4.106a17.79 17.79 0 0 0 0-25.323H79.7Z"/></svg>
             {% endcase %}
           </div>
           <div class="text-with-icons__block-title">
@@ -107,6 +127,26 @@
       "type": "text",
       "id": "title",
       "label": "t:common.text_with_icons.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     },
     {
       "type": "select",
@@ -169,91 +209,163 @@
           "options": [
             {
               "value": "bills",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.bills.label"
-            },
-            {
-              "value": "calendar",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.calendar.label"
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.bills.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
             },
             {
               "value": "cart",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.cart.label"
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.cart.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
             },
             {
-              "value": "charity",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.charity.label"
-            },
-            {
-              "value": "chat",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.chat.label"
-            },
-            {
-              "value": "envelope",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.envelope.label"
-            },
-            {
-              "value": "gears",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.gears.label"
-            },
-            {
-              "value": "gift",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.gift.label"
-            },
-            {
-              "value": "globe",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.globe.label"
-            },
-            {
-              "value": "package",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.package.label"
-            },
-            {
-              "value": "phone",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.phone.label"
-            },
-            {
-              "value": "plant",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.plant.label"
-            },
-            {
-              "value": "recycle",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.recycle.label"
-            },
-            {
-              "value": "ribbon",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.ribbon.label"
+              "value": "credit-cards",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.credit-cards.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
             },
             {
               "value": "sales-tag",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.sales-tag.label"
-            },
-            {
-              "value": "shield",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.shield.label"
-            },
-            {
-              "value": "stopwatch",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.stopwatch.label"
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.sales-tag.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
             },
             {
               "value": "store",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.store.label"
-            },
-            {
-              "value": "thumbs-up",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.thumbs-up.label"
-            },
-            {
-              "value": "trophy",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.trophy.label"
-            },
-            {
-              "value": "truck",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.truck.label"
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.store.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
             },
             {
               "value": "wallet",
-              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.wallet.label"
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.wallet.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shopping"
+            },
+            {
+              "value": "location",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.location.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shipping"
+            },
+            {
+              "value": "package",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.package.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shipping"
+            },
+            {
+              "value": "return",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.return.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shipping"
+            },
+            {
+              "value": "truck",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.truck.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.shipping"
+            },
+            {
+              "value": "chat",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.chat.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.communication"
+            },
+            {
+              "value": "envelope",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.envelope.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.communication"
+            },
+            {
+              "value": "phone",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.phone.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.communication"
+            },
+            {
+              "value": "heart",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.heart.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.trust"
+            },
+            {
+              "value": "ribbon",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.ribbon.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.trust"
+            },
+            {
+              "value": "shield",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.shield.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.trust"
+            },
+            {
+              "value": "thumbs-up",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.thumbs-up.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.trust"
+            },
+            {
+              "value": "trophy",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.trophy.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.trust"
+            },
+            {
+              "value": "cotton",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.cotton.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.nature"
+            },
+            {
+              "value": "plant",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.plant.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.nature"
+            },
+            {
+              "value": "recycle",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.recycle.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.nature"
+            },
+            {
+              "value": "sun",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.sun.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.nature"
+            },
+            {
+              "value": "hanger",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.hanger.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.apparel"
+            },
+            {
+              "value": "shirt",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.shirt.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.apparel"
+            },
+            {
+              "value": "sparkle",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.sparkle.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.apparel"
+            },
+            {
+              "value": "calendar",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.calendar.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "charity",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.charity.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "gears",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.gears.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "gift",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.gift.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "globe",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.globe.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "lightning-bolt",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.lightning-bolt.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
+            },
+            {
+              "value": "stopwatch",
+              "label": "t:common.text_with_icons.blocks.column.settings.icon.options.stopwatch.label",
+              "group": "t:common.text_with_icons.blocks.column.settings.icon.groups.general"
             }
           ]
         },

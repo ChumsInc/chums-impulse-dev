@@ -1,0 +1,221 @@
+{%- doc -%}
+  Flex layout with consistent spacing between children.
+
+  Handles vertical stacking, horizontal rows, and wrapping (cluster) layouts
+  via a single component.
+
+  @param {string} content - Child elements
+  @param {string} [direction] - 'vertical' | 'horizontal'. Default: 'vertical'
+  @param {string} [direction_md] - Direction at md+ (700px)
+  @param {string} [direction_lg] - Direction at lg+ (1024px)
+  @param {string} [direction_xl] - Direction at xl+ (1200px)
+  @param {string} [gap] - 'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'. Default: 'md'
+  @param {string} [gap_md] - Gap size at md+
+  @param {string} [gap_lg] - Gap size at lg+
+  @param {string} [gap_xl] - Gap size at xl+
+  @param {boolean} [wrap] - Allow children to wrap. Default: false
+  @param {string} [align] - 'start' | 'center' | 'end' | 'stretch' | 'baseline'. Default: 'stretch'
+  @param {string} [justify] - 'start' | 'center' | 'end' | 'between'. Default: 'start'
+  @param {string} [tag] - HTML element to render. Default: 'div'
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [id] - HTML id attribute
+
+  @example
+  {% render 'kit.stack', gap: 'sm', content: card_content %}
+  @example
+  {% render 'kit.stack', direction: 'vertical', direction_lg: 'horizontal', gap: 'sm', gap_xl: 'lg', content: content %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign direction = direction | default: 'vertical'
+  assign gap = gap | default: 'md'
+  assign align = align | default: 'stretch'
+  assign justify = justify | default: 'start'
+  assign wrap = wrap | default: false, allow_false: true
+  assign tag = tag | default: 'div'
+
+  assign class_list = 'kit-stack'
+  assign class_list = class_list | append: ' kit-stack--align-' | append: align
+  assign class_list = class_list | append: ' kit-stack--justify-' | append: justify
+
+  if wrap
+    assign class_list = class_list | append: ' kit-stack--wrap'
+  endif
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+
+  # Direction — map to flex-direction values
+  if direction == 'horizontal'
+    assign inline_style = '--stack-direction: row'
+  else
+    assign inline_style = '--stack-direction: column'
+  endif
+
+  if direction_md != blank
+    if direction_md == 'horizontal'
+      assign inline_style = inline_style | append: '; --stack-direction-md: row'
+    else
+      assign inline_style = inline_style | append: '; --stack-direction-md: column'
+    endif
+  endif
+
+  if direction_lg != blank
+    if direction_lg == 'horizontal'
+      assign inline_style = inline_style | append: '; --stack-direction-lg: row'
+    else
+      assign inline_style = inline_style | append: '; --stack-direction-lg: column'
+    endif
+  endif
+
+  if direction_xl != blank
+    if direction_xl == 'horizontal'
+      assign inline_style = inline_style | append: '; --stack-direction-xl: row'
+    else
+      assign inline_style = inline_style | append: '; --stack-direction-xl: column'
+    endif
+  endif
+
+  # Gap — map tokens to CSS values
+  if gap == 'none'
+    assign inline_style = inline_style | append: '; --stack-gap: 0'
+  else
+    assign inline_style = inline_style | append: '; --stack-gap: var(--kit-space-' | append: gap | append: ')'
+  endif
+
+  if gap_md != blank
+    if gap_md == 'none'
+      assign inline_style = inline_style | append: '; --stack-gap-md: 0'
+    else
+      assign inline_style = inline_style | append: '; --stack-gap-md: var(--kit-space-' | append: gap_md | append: ')'
+    endif
+  endif
+
+  if gap_lg != blank
+    if gap_lg == 'none'
+      assign inline_style = inline_style | append: '; --stack-gap-lg: 0'
+    else
+      assign inline_style = inline_style | append: '; --stack-gap-lg: var(--kit-space-' | append: gap_lg | append: ')'
+    endif
+  endif
+
+  if gap_xl != blank
+    if gap_xl == 'none'
+      assign inline_style = inline_style | append: '; --stack-gap-xl: 0'
+    else
+      assign inline_style = inline_style | append: '; --stack-gap-xl: var(--kit-space-' | append: gap_xl | append: ')'
+    endif
+  endif
+
+  if style != blank
+    assign inline_style = inline_style | append: '; ' | append: style
+  endif
+-%}
+
+<{{ tag }}
+  class="{{ class_list }}"
+  style="{{ inline_style | escape }}"
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+>
+  {{ content }}
+</{{ tag }}>
+
+{% stylesheet %}
+  .kit-stack {
+    display: flex;
+    flex-direction: var(--stack-direction, column);
+    gap: var(--stack-gap, 0);
+    margin: 0;
+    padding: 0;
+
+    /* Break inheritance chain for nested stacks */
+    --stack-direction: initial;
+    --stack-direction-md: initial;
+    --stack-direction-lg: initial;
+    --stack-direction-xl: initial;
+    --stack-gap: initial;
+    --stack-gap-md: initial;
+    --stack-gap-lg: initial;
+    --stack-gap-xl: initial;
+  }
+
+  /* Wrap */
+  .kit-stack--wrap {
+    flex-wrap: wrap;
+  }
+
+  /* Align (cross-axis) */
+  .kit-stack--align-start {
+    align-items: flex-start;
+  }
+
+  .kit-stack--align-center {
+    align-items: center;
+  }
+
+  .kit-stack--align-end {
+    align-items: flex-end;
+  }
+
+  .kit-stack--align-stretch {
+    align-items: stretch;
+  }
+
+  .kit-stack--align-baseline {
+    align-items: baseline;
+  }
+
+  /* Justify (main-axis) */
+  .kit-stack--justify-start {
+    justify-content: flex-start;
+  }
+
+  .kit-stack--justify-center {
+    justify-content: center;
+  }
+
+  .kit-stack--justify-end {
+    justify-content: flex-end;
+  }
+
+  .kit-stack--justify-between {
+    justify-content: space-between;
+  }
+
+  /* Responsive */
+  @media (min-width: 700px) {
+    .kit-stack[style*='--stack-direction-md'] {
+      flex-direction: var(--stack-direction-md);
+    }
+
+    .kit-stack[style*='--stack-gap-md'] {
+      gap: var(--stack-gap-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .kit-stack[style*='--stack-direction-lg'] {
+      flex-direction: var(--stack-direction-lg);
+    }
+
+    .kit-stack[style*='--stack-gap-lg'] {
+      gap: var(--stack-gap-lg);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .kit-stack[style*='--stack-direction-xl'] {
+      flex-direction: var(--stack-direction-xl);
+    }
+
+    .kit-stack[style*='--stack-gap-xl'] {
+      gap: var(--stack-gap-xl);
+    }
+  }
+{% endstylesheet %}

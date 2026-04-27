@@ -61,10 +61,14 @@
       <div class="hotspots__image hotspots__image--indent-{{ section.settings.indent_image }}">
         <div class="grid__image-ratio grid__image-ratio--square">
           {% if section.settings.image != blank %}
+            {%- assign loading = 'lazy' -%}
+            {%- if section.index <= 2 -%}
+              {%- assign loading = 'eager' -%}
+            {%- endif -%}
             {%- render 'image-element',
               img: section.settings.image,
               img_width: 2400,
-              loading: section.settings.lazyload_images,
+              loading: loading,
               sizeVariable: '70vw',
             -%}
           {% else %}
@@ -233,13 +237,6 @@
       "id": "hotspot_color",
       "label": "t:sections.hotspots.settings.hotspot_color.label",
       "default": "#000000"
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "blocks": [

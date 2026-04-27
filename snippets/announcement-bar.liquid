@@ -8,12 +8,13 @@
 {%- endfor -%}
 
 {% if show_announcement %}
-  <div class="announcement-bar" role="banner">
+  {% comment %}CHUMS, SM; added roles and other fixes for WCAG {% endcomment %}
+  <div class="announcement-bar" role="banner" data-sticky="{{ section.settings.sticky_on_scroll }}" data-sticky-mobile="{{ section.settings.sticky_on_mobile }}">
     <div class="page-width">
       <div class="slideshow-wrapper">
         <button type="button" class="visually-hidden slideshow__pause" data-id="{{ section.id }}" aria-live="polite">
           <span class="slideshow__pause-stop">
-            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pause" viewBox="0 0 10 13"><path d="M0 0h3v13H0zm7 0h3v13H7z" fill-rule="evenodd"/></svg>
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pause" viewBox="0 0 10 13"><g fill-rule="evenodd"><path d="M0 0h3v13H0z"/><path d="M7 0h3v13H7z"/></g></svg>
             <span class="icon__fallback-text">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
           </span>
           <span class="slideshow__pause-play">

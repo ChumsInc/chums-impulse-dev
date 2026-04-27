@@ -1,0 +1,143 @@
+{%- doc -%}
+  Text element with consistent typography.
+
+  @param {string} text - Text content to render
+  @param {string} [variant] - 'heading-xl' | 'heading-lg' | 'heading-md' | 'heading-sm' | 'body' | 'body-sm' | 'caption'. Default: 'body'
+  @param {string} [tag] - HTML element to render. Default: auto-detected from variant
+  @param {string} [align] - 'start' | 'center' | 'end'. Default: none (inherits)
+  @param {boolean} [balance] - Apply `text-wrap: balance`. Default: false
+  @param {string} [id] - HTML id attribute
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+
+  @example
+  {% render 'kit.text', text: 'Hello world', variant: 'heading-lg' %}
+  @example
+  {% render 'kit.text', text: 'Updated 2 hours ago', variant: 'caption' %}
+{%- enddoc -%}
+
+{%- render 'kit.tokens' -%}
+
+{%- liquid
+  assign variant = variant | default: 'body'
+  assign balance = balance | default: false, allow_false: true
+
+  case variant
+    when 'heading-xl'
+      assign default_tag = 'h1'
+    when 'heading-lg'
+      assign default_tag = 'h2'
+    when 'heading-md'
+      assign default_tag = 'h3'
+    when 'heading-sm'
+      assign default_tag = 'h4'
+    when 'caption'
+      assign default_tag = 'small'
+    else
+      assign default_tag = 'p'
+  endcase
+  assign tag = tag | default: default_tag
+
+  assign class_list = 'kit-text kit-text--' | append: variant
+
+  if align != blank
+    assign class_list = class_list | append: ' kit-text--align-' | append: align
+  endif
+
+  if balance
+    assign class_list = class_list | append: ' kit-text--balance'
+  endif
+
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+-%}
+
+<{{ tag }}
+  class="{{ class_list }}"
+  {%- if style != blank %}
+    style="{{ style | escape }}"
+  {% endif %}
+  {%- if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+>
+  {{- text -}}
+</{{ tag }}>
+
+{% stylesheet %}
+  .kit-text {
+    font-family: inherit;
+    font-size: var(--kit-font-size-base);
+    font-weight: var(--kit-font-weight-normal);
+    line-height: var(--kit-body-line-height);
+    letter-spacing: var(--kit-body-letter-spacing);
+    color: inherit;
+    margin: 0;
+  }
+
+  /* Heading variants */
+  .kit-text--heading-xl {
+    font-family: var(--kit-font-family-heading);
+    font-size: var(--kit-heading-font-size-xl);
+    font-weight: var(--kit-heading-font-weight);
+    line-height: var(--kit-heading-line-height);
+    letter-spacing: var(--kit-heading-letter-spacing);
+    text-transform: var(--kit-heading-text-transform);
+  }
+
+  .kit-text--heading-lg {
+    font-family: var(--kit-font-family-heading);
+    font-size: var(--kit-heading-font-size-lg);
+    font-weight: var(--kit-heading-font-weight);
+    line-height: var(--kit-heading-line-height);
+    letter-spacing: var(--kit-heading-letter-spacing);
+    text-transform: var(--kit-heading-text-transform);
+  }
+
+  .kit-text--heading-md {
+    font-family: var(--kit-font-family-heading);
+    font-size: var(--kit-heading-font-size-md);
+    font-weight: var(--kit-heading-font-weight);
+    line-height: var(--kit-heading-line-height);
+    letter-spacing: var(--kit-heading-letter-spacing);
+    text-transform: var(--kit-heading-text-transform);
+  }
+
+  .kit-text--heading-sm {
+    font-family: var(--kit-font-family-heading);
+    font-size: var(--kit-heading-font-size-sm);
+    font-weight: var(--kit-heading-font-weight);
+    line-height: var(--kit-heading-line-height);
+    letter-spacing: var(--kit-heading-letter-spacing);
+    text-transform: var(--kit-heading-text-transform);
+  }
+
+  /* Body variants */
+  .kit-text--body-sm {
+    font-size: var(--kit-font-size-sm);
+  }
+
+  .kit-text--caption {
+    font-size: var(--kit-font-size-xs);
+    color: color-mix(in srgb, var(--kit-color-primary) var(--kit-color-mix-text-subdued), var(--kit-color-secondary));
+  }
+
+  /* Alignment */
+  .kit-text--align-start {
+    text-align: start;
+  }
+
+  .kit-text--align-center {
+    text-align: center;
+  }
+
+  .kit-text--align-end {
+    text-align: end;
+  }
+
+  /* Utilities */
+  .kit-text--balance {
+    text-wrap: balance;
+  }
+{% endstylesheet %}

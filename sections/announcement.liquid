@@ -15,7 +15,21 @@
     {
       "type": "checkbox",
       "id": "announcement_compact",
-      "label": "t:sections.header.settings.announcement_compact.label"
+      "label": "t:sections.header.settings.announcement_compact.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_on_scroll",
+      "label": "t:sections.header.settings.announcement_sticky_on_scroll.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_on_mobile",
+      "label": "t:sections.header.settings.announcement_sticky_on_mobile.label",
+      "default": false,
+      "visible_if": "{{ section.settings.sticky_on_scroll == true }}"
     }
   ],
   "blocks": [
@@ -31,13 +45,13 @@
           "type": "text",
           "id": "text",
           "label": "t:sections.header.blocks.announcement.settings.text.label",
-          "default": "Hassle-free returns"
+          "default": "Easy returns"
         },
         {
           "type": "text",
           "id": "link_text",
           "label": "t:sections.header.blocks.announcement.settings.link_text.label",
-          "default": "30-day postage paid returns"
+          "default": "30-day returns on all orders"
         },
         {
           "type": "url",

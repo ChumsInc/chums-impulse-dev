@@ -41,8 +41,7 @@
         "parallax": false,
         "style": "bars",
         "autoplay": false,
-        "autoplay_speed": 7,
-        "lazyload_images": false
+        "autoplay_speed": 7
       }
     },
     "rich-text": {
@@ -220,8 +219,7 @@
         "parallax": false,
         "style": "bars",
         "autoplay": false,
-        "autoplay_speed": 5,
-        "lazyload_images": true
+        "autoplay_speed": 5
       }
     },
     "featured_collection_YjUiXQ": {

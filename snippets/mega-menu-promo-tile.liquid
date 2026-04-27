@@ -1,0 +1,78 @@
+{% doc %}
+  Renders a mega menu promotional tile.
+
+  @param {object} block - The mega_menu block
+  @param {string} promo_num - Promo tile number, '1' or '2'
+
+  @example
+  {% render 'mega-menu-promo-tile', block: block, promo_num: '1' %}
+{% enddoc %}
+
+{%- liquid
+  assign img_key = 'promo' | append: promo_num | append: '_image'
+  assign shape_key = 'promo' | append: promo_num | append: '_image_shape'
+  assign link_key = 'promo' | append: promo_num | append: '_link'
+  assign heading_key = 'promo' | append: promo_num | append: '_heading'
+  assign text_key = 'promo' | append: promo_num | append: '_text'
+  assign button_label_key = 'promo' | append: promo_num | append: '_button_label'
+
+  assign promo_image = block.settings[img_key]
+  assign promo_image_shape = block.settings[shape_key]
+  assign promo_link = block.settings[link_key]
+  assign promo_heading = block.settings[heading_key]
+  assign promo_text = block.settings[text_key]
+  assign promo_button_label = block.settings[button_label_key]
+
+  assign has_content = false
+  if promo_image
+    assign has_content = true
+  elsif promo_heading != blank
+    assign has_content = true
+  elsif promo_text != blank
+    assign has_content = true
+  endif
+
+  case block.settings.promo_heading_size
+    when 'small'
+      assign heading_class = 'h5'
+    when 'large'
+      assign heading_class = 'h3'
+    else
+      assign heading_class = 'h4'
+  endcase
+-%}
+
+{%- if has_content -%}
+  {%- if promo_link != blank -%}
+    <a href="{{ promo_link }}" class="megamenu__promo text-{{ block.settings.promo_text_alignment }}">
+  {%- else -%}
+    <div class="megamenu__promo text-{{ block.settings.promo_text_alignment }}">
+  {%- endif -%}
+    {%- if promo_image -%}
+      <div class="megamenu__promo-image svg-mask svg-mask--{{ promo_image_shape }}">
+        {%- render 'image-element',
+          img: promo_image,
+          widths: '300, 600',
+          sizeVariable: '250px',
+          classes: 'megamenu__promo-img',
+          loading: 'eager',
+        -%}
+      </div>
+    {%- endif -%}
+    <div class="megamenu__promo-content">
+      {%- if promo_heading != blank -%}
+        <p class="megamenu__promo-heading {{ heading_class }}">{{ promo_heading }}</p>
+      {%- endif -%}
+      {%- if promo_text != blank -%}
+        <p class="megamenu__promo-text">{{ promo_text }}</p>
+      {%- endif -%}
+      {%- if promo_button_label != blank -%}
+        <span class="btn btn--secondary">{{ promo_button_label }}</span>
+      {%- endif -%}
+    </div>
+  {%- if promo_link != blank -%}
+    </a>
+  {%- else -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

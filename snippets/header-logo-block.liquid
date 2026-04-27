@@ -1,176 +1,127 @@
-{%- for block in section.blocks -%}
-  {%- if block.type == 'logo' -%}
-    {%- liquid
-      assign has_logo = true
-    -%}
+{%- liquid
+  assign logo = section.settings.logo | default: shop.brand.logo
+  assign logo_inverted = section.settings.logo_inverted
+  assign desktop_logo_width = section.settings.desktop_logo_width
+  assign mobile_logo_width = section.settings.mobile_logo_width
+-%}
 
-    {%- style -%}
-    .header-item--logo,
-    .header-layout--left-center .header-item--logo,
-    .header-layout--left-center .header-item--icons {
-      -webkit-box-flex: 0 1 {{ block.settings.mobile_logo_width }}px;
-      -ms-flex: 0 1 {{ block.settings.mobile_logo_width }}px;
-      flex: 0 1 {{ block.settings.mobile_logo_width }}px;
-    }
+{%- style -%}
+.header-item--logo,
+.header-layout--left-center .header-item--logo,
+.header-layout--left-center .header-item--icons {
+  -webkit-box-flex: 0 1 {{ mobile_logo_width }}px;
+  -ms-flex: 0 1 {{ mobile_logo_width }}px;
+  flex: 0 1 {{ mobile_logo_width }}px;
+}
 
-    @media only screen and (min-width: 769px) {
-      .header-item--logo,
-      .header-layout--left-center .header-item--logo,
-      .header-layout--left-center .header-item--icons {
-        -webkit-box-flex: 0 0 {{ block.settings.desktop_logo_width }}px;
-        -ms-flex: 0 0 {{ block.settings.desktop_logo_width }}px;
-        flex: 0 0 {{ block.settings.desktop_logo_width }}px;
-      }
-    }
+@media only screen and (min-width: 769px) {
+  .header-item--logo,
+  .header-layout--left-center .header-item--logo,
+  .header-layout--left-center .header-item--icons {
+    -webkit-box-flex: 0 0 {{ desktop_logo_width }}px;
+    -ms-flex: 0 0 {{ desktop_logo_width }}px;
+    flex: 0 0 {{ desktop_logo_width }}px;
+  }
+}
 
-    .site-header__logo a {
-      width: {{ block.settings.mobile_logo_width }}px;
-    }
-    .is-light .site-header__logo .logo--inverted {
-      width: {{ block.settings.mobile_logo_width }}px;
-    }
-    @media only screen and (min-width: 769px) {
-      .site-header__logo a {
-        width: {{ block.settings.desktop_logo_width }}px;
-      }
+.site-header__logo a {
+  width: {{ mobile_logo_width }}px;
+}
+.is-light .site-header__logo .logo--inverted {
+  width: {{ mobile_logo_width }}px;
+}
+@media only screen and (min-width: 769px) {
+  .site-header__logo a {
+    width: {{ desktop_logo_width }}px;
+  }
 
-      .is-light .site-header__logo .logo--inverted {
-        width: {{ block.settings.desktop_logo_width }}px;
-      }
-    }
-    {%- endstyle -%}
+  .is-light .site-header__logo .logo--inverted {
+    width: {{ desktop_logo_width }}px;
+  }
+}
+{%- endstyle -%}
 
-    {%- if template == 'index' -%}
-      <h1 class="site-header__logo" itemscope itemtype="http://schema.org/Organization" {{ block.shopify_attributes }}>
-        <span class="visually-hidden">{{ shop.name }}</span>
-    {%- else -%}
-      <div class="h1 site-header__logo" itemscope itemtype="http://schema.org/Organization" {{ block.shopify_attributes }}>
-    {%- endif -%}
+{%- if template == 'index' -%}
+  <h1 class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
+    <span class="visually-hidden">{{ shop.name }}</span>
+{%- else -%}
+  <div class="h1 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+{%- endif -%}
 
-    {%- if block.settings.logo -%}
-      {% comment %}
-        .logo--has-inverted is only applied to the default logo if the inverted logo exists. That way it'll only be hidden on the slider when it has a backup.
-      {% endcomment %}
-      <a
-        href="{{ routes.root_url }}"
-        itemprop="url"
-        class="site-header__logo-link{% if block.settings.logo-inverted %} logo--has-inverted{% endif %}"
-        style="padding-top: {{ 100 | divided_by: block.settings.logo.aspect_ratio }}%">
+{%- if logo -%}
+  {% comment %}
+    .logo--has-inverted is only applied to the default logo if the inverted logo exists. That way it'll only be hidden on the slider when it has a backup.
+  {% endcomment %}
+  <a
+    href="{{ routes.root_url }}"
+    itemprop="url"
+    class="site-header__logo-link{% if logo_inverted %} logo--has-inverted{% endif %}"
+    style="padding-top: {{ 100 | divided_by: logo.aspect_ratio }}%">
 
-        {%- assign logo_alt = block.settings.logo.alt | default: shop.name -%}
+    {%- assign logo_alt = logo.alt | default: shop.name -%}
 
-        {% comment %} Desktop logo {% endcomment %}
-        {%- assign width = block.settings.desktop_logo_width | times: 2 -%}
-        {%- assign height = block.settings.desktop_logo_width | divided_by: block.settings.logo.aspect_ratio -%}
-        {%- capture sizes -%}{{ block.settings.desktop_logo_width }}px{%- endcapture -%}
-        {%- capture widths -%}{{ block.settings.desktop_logo_width }}, {{ block.settings.desktop_logo_width | times: 2 }}{%- endcapture -%}
+    {%- assign desktop_2x = desktop_logo_width | times: 2 -%}
+    {%- assign mobile_2x = mobile_logo_width | times: 2 -%}
+    {%- capture desktop_sizes -%}{{ desktop_logo_width }}px{%- endcapture -%}
+    {%- capture desktop_widths -%}{{ desktop_logo_width }}, {{ desktop_2x }}{%- endcapture -%}
 
-        {% comment %} Mobile logo {% endcomment %}
-        {%- assign mobile_width = block.settings.mobile_logo_width | times: 2 -%}
-        {%- assign mobile_height = block.settings.mobile_logo_width | divided_by: block.settings.logo.aspect_ratio -%}
-        {%- capture mobile_sizes -%}{{ block.settings.mobile_logo_width }}px{%- endcapture -%}
-        {%- capture mobile_widths -%}{{ block.settings.mobile_logo_width }}, {{ block.settings.mobile_logo_width | times: 2 }}{%- endcapture -%}
-
-        {%- render 'image-element',
-          img: block.settings.logo,
-          img_width: width,
-          img_height: height,
-          img_tag_width: block.settings.desktop_logo_width,
-          sizes: sizes,
-          widths: widths,
-          classes: 'small--hide',
+    <picture>
+      <source
+        media="(max-width: 768px)"
+        srcset="{{ logo | image_url: width: mobile_logo_width }} {{ mobile_logo_width }}w, {{ logo | image_url: width: mobile_2x }} {{ mobile_2x }}w"
+        sizes="{{ mobile_logo_width }}px"
+      >
+      {{- logo
+        | image_url: width: desktop_2x
+        | image_tag:
+          class: 'image-element',
           loading: 'eager',
           alt: logo_alt,
-          itemprop: 'logo',
-        -%}
-        {%- render 'image-element',
-          img: block.settings.logo,
-          img_width: mobile_width,
-          img_height: mobile_height,
-          img_tag_width: block.settings.mobile_logo_width,
-          sizes: mobile_sizes,
-          widths: mobile_widths,
-          classes: 'medium-up--hide',
-          loading: 'eager',
-          alt: logo_alt,
-        -%}
-      </a>
-      {%- if block.settings.logo-inverted -%}
-        <a
-          href="{{ routes.root_url }}"
-          itemprop="url"
-          class="site-header__logo-link logo--inverted"
-          style="padding-top: {{ 100 | divided_by: block.settings.logo-inverted.aspect_ratio }}%">
-
-          {%- assign logo_inverted_alt = block.settings.logo-inverted.alt | default: shop.name -%}
-
-          {% comment %} Desktop logo {% endcomment %}
-          {%- assign width = block.settings.desktop_logo_width | times: 2 -%}
-          {%- assign height = block.settings.desktop_logo_width | divided_by: block.settings.logo-inverted.aspect_ratio -%}
-          {%- capture sizes -%}{{ block.settings.desktop_logo_width }}px{%- endcapture -%}
-          {%- capture widths -%}{{ block.settings.desktop_logo_width }}, {{ block.settings.desktop_logo_width | times: 2 }}{%- endcapture -%}
-
-          {% comment %} Mobile logo {% endcomment %}
-          {%- assign mobile_width = block.settings.mobile_logo_width | times: 2 -%}
-          {%- assign mobile_height = block.settings.mobile_logo_width | divided_by: block.settings.logo-inverted.aspect_ratio -%}
-          {%- capture mobile_sizes -%}{{ block.settings.mobile_logo_width }}px{%- endcapture -%}
-          {%- capture mobile_widths -%}{{ block.settings.mobile_logo_width }}, {{ block.settings.mobile_logo_width | times: 2 }}{%- endcapture -%}
-
-          {%- render 'image-element',
-            img: block.settings.logo-inverted,
-            img_width: width,
-            img_height: height,
-            img_tag_width: block.settings.desktop_logo_width,
-            sizes: sizes,
-            widths: widths,
-            classes: 'small--hide',
-            loading: 'eager',
-            alt: logo_inverted_alt,
-            itemprop: 'logo',
-          -%}
-          {%- render 'image-element',
-            img: block.settings.logo-inverted,
-            img_width: mobile_width,
-            img_height: mobile_height,
-            img_tag_width: block.settings.mobile_logo_width,
-            sizes: mobile_sizes,
-            widths: mobile_widths,
-            classes: 'medium-up--hide',
-            loading: 'eager',
-            alt: logo_inverted_alt,
-          -%}
-        </a>
-      {%- endif -%}
-    {%- else -%}
-      <a href="{{ routes.root_url }}" itemprop="url">{{ shop.name }}</a>
-    {%- endif -%}
-    {%- if template == 'index' -%}
-      </h1>
-    {%- else -%}
-      </div>
-    {%- endif -%}
-
-  {%- endif -%}
-{%- endfor -%}
-
-{%- unless has_logo -%}
-  {%- style -%}
-    /* prevent text-only logo from breaking mobile nav */
-    .header-item--logo {
-      max-width: 60%;
-    }
-  {%- endstyle -%}
-  {%- if template == 'index' -%}
-    <h1 class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
-  {%- else -%}
-    <div class="h1 site-header__logo" itemscope itemtype="http://schema.org/Organization">
-  {%- endif -%}
-  <a href="{{ routes.root_url }}" itemprop="url" class="site-header__logo-link">
-    {{ shop.name }}
+          sizes: desktop_sizes,
+          widths: desktop_widths,
+          itemprop: 'logo'
+      -}}
+    </picture>
   </a>
-  {%- if template == 'index' -%}
-    </h1>
-  {%- else -%}
-    </div>
+  {%- if logo_inverted -%}
+    <a
+      href="{{ routes.root_url }}"
+      itemprop="url"
+      class="site-header__logo-link logo--inverted"
+      style="padding-top: {{ 100 | divided_by: logo_inverted.aspect_ratio }}%">
+
+      {%- assign logo_inverted_alt = logo_inverted.alt | default: shop.name -%}
+
+      {%- assign desktop_2x = desktop_logo_width | times: 2 -%}
+      {%- assign mobile_2x = mobile_logo_width | times: 2 -%}
+      {%- capture desktop_sizes -%}{{ desktop_logo_width }}px{%- endcapture -%}
+      {%- capture desktop_widths -%}{{ desktop_logo_width }}, {{ desktop_2x }}{%- endcapture -%}
+
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="{{ logo_inverted | image_url: width: mobile_logo_width }} {{ mobile_logo_width }}w, {{ logo_inverted | image_url: width: mobile_2x }} {{ mobile_2x }}w"
+          sizes="{{ mobile_logo_width }}px"
+        >
+        {{- logo_inverted
+          | image_url: width: desktop_2x
+          | image_tag:
+            class: 'image-element',
+            loading: 'eager',
+            alt: logo_inverted_alt,
+            sizes: desktop_sizes,
+            widths: desktop_widths,
+            itemprop: 'logo'
+        -}}
+      </picture>
+    </a>
   {%- endif -%}
-{%- endunless -%}
+{%- else -%}
+  <a href="{{ routes.root_url }}" itemprop="url">{{ shop.name }}</a>
+{%- endif -%}
+
+{%- if template == 'index' -%}
+  </h1>
+{%- else -%}
+  </div>
+{%- endif -%}

@@ -27,28 +27,19 @@
         "announcement-0"
       ],
       "settings": {
-        "announcement_compact": true
+        "announcement_compact": true,
+        "sticky_on_scroll": true,
+        "sticky_on_mobile": false
       }
     },
     "header": {
       "type": "header",
-      "blocks": {
-        "header-0": {
-          "type": "logo",
-          "settings": {
-            "logo": "shopify://shop_images/Chums_Logo_Badge_Red_RGB_87dfbad8-0a4e-49d4-bbe5-6a365d4c916e.png",
-            "desktop_logo_width": 140,
-            "mobile_logo_width": 110
-          }
-        }
-      },
-      "block_order": [
-        "header-0"
-      ],
       "settings": {
+        "logo": "shopify://shop_images/Chums_Logo_Badge_Red_RGB_87dfbad8-0a4e-49d4-bbe5-6a365d4c916e.png",
+        "desktop_logo_width": 140,
+        "mobile_logo_width": 110,
         "main_menu_link_list": "main-menu-2021",
         "hover_menu": false,
-        "mega_menu_images": true,
         "main_menu_alignment": "left",
         "header_style": "sticky",
         "sticky_index": false,

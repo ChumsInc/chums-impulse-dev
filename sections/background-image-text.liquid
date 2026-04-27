@@ -14,10 +14,14 @@
       {%- if section.settings.image != blank -%}
           {% assign classes = 'image-fit background-media-text__image background-media-text__image--' | append: section.id %}
           {% comment %} Full width image so don't need to adjust sizes attribute, fallback is 100vw {% endcomment %}
+          {%- assign loading = 'lazy' -%}
+          {%- if section.index <= 2 -%}
+            {%- assign loading = 'eager' -%}
+          {%- endif -%}
           {%- render 'image-element',
             img: section.settings.image,
             img_width: 2400,
-            loading: section.settings.lazyload_images,
+            loading: loading,
             classes: classes,
           -%}
       {%- else -%}
@@ -39,7 +43,7 @@
                 <p class="h5">{{ section.settings.subtitle }}</p>
               {%- endif -%}
               {%- if section.settings.title != blank -%}
-                <p class="h3">{{ section.settings.title | escape }}</p>
+                <p class="{{ section.settings.heading_size }}">{{ section.settings.title | escape }}</p>
               {%- endif -%}
               {%- if section.settings.text != blank -%}
                 <div class="rte background-media-text__subtext">{{ section.settings.text }}</div>
@@ -75,6 +79,26 @@
       "id": "title",
       "label": "t:sections.background-image-text.settings.title.label",
       "default": "Step into what’s next"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     },
     {
       "type": "richtext",
@@ -150,13 +174,6 @@
           "label": "t:sections.background-image-text.settings.parallax_direction.options.left.label"
         }
       ]
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
-      "default": true
     }
   ],
   "presets": [

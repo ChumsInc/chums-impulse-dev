@@ -136,8 +136,7 @@
         "parallax": false,
         "style": "bars",
         "autoplay": true,
-        "autoplay_speed": 5,
-        "lazyload_images": true
+        "autoplay_speed": 5
       }
     },
     "rich_text_9FfzNf": {

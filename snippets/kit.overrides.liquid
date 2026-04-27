@@ -1,0 +1,95 @@
+{%- doc -%}
+  Kit token overrides to match the Impulse theme.
+  Unlayered so they beat the `@layer kit` defaults in kit.tokens.liquid.
+{%- enddoc -%}
+
+{%- style -%}
+  :root {
+    /* Base colors */
+    --kit-color-primary: var(--colorTextBody);
+    --kit-color-secondary: var(--colorBody);
+    --kit-color-tint: var(--colorImageOverlay);
+
+    /* Absolute colors */
+    --kit-color-focus: var(--colorTextBody);
+
+    /* Color-mix percentages */
+    --kit-color-mix-tint-overlay: calc(var(--colorImageOverlayOpacity) * 100%);
+
+    /* Border radius */
+    {%- if settings.button_style == 'round-slight' -%}
+    --kit-radius-md: 3px;
+    {%- elsif settings.button_style != 'round' -%}
+    --kit-radius-md: 0;
+    {%- endif -%}
+
+    /* Transitions */
+    --kit-transition-normal: 300ms ease;
+
+    /* Focus */
+    --kit-focus-ring-offset: 2px;
+
+    /* Layout */
+    --kit-section-spacing: 40px;
+    --kit-section-gutter: 17px;
+
+    /* Typography */
+    --kit-font-family-heading: var(--typeHeaderPrimary), var(--typeHeaderFallback);
+    --kit-font-family-body: var(--typeBasePrimary), var(--typeBaseFallback);
+    --kit-font-weight-normal: var(--typeBaseWeight);
+    --kit-heading-font-weight: var(--typeHeaderWeight);
+    --kit-heading-line-height: var(--typeHeaderLineHeight);
+    --kit-body-line-height: var(--typeBaseLineHeight);
+    --kit-heading-letter-spacing: var(--typeHeaderSpacing);
+    --kit-body-letter-spacing: var(--typeBaseSpacing);
+    {%- if settings.type_header_capitalize -%}
+    --kit-heading-text-transform: uppercase;
+    {%- endif -%}
+
+    /* Body font sizes (mobile-first) */
+    --kit-font-size-xs: var(--typeBodyExtraSmallSize);
+    --kit-font-size-sm: var(--typeBodySmallSize);
+    --kit-font-size-base: var(--typeBodySizeMobile);
+    --kit-font-size-lg: var(--typeBaseSize);
+
+    /* Heading font sizes (mobile-first) */
+    --kit-heading-font-size-sm: var(--typeH3SizeMobile);
+    --kit-heading-font-size-md: var(--typeH2SizeMobile);
+    --kit-heading-font-size-lg: var(--typeH1SizeMobile);
+    --kit-heading-font-size-xl: var(--typeH1Size);
+
+    /* Buttons */
+    --kit-color-primary-button: var(--colorBtnPrimary);
+    --kit-color-on-primary-button: var(--colorBtnPrimaryText);
+    --kit-color-primary-button-border: var(--colorBtnPrimary);
+    --kit-color-secondary-button: var(--colorBody);
+    --kit-color-on-secondary-button: var(--colorTextBody);
+    --kit-color-secondary-button-border: var(--colorBorder);
+  }
+
+  @media (min-width: 700px) {
+    :root {
+      --kit-font-size-base: var(--typeBaseSize);
+
+      --kit-heading-font-size-sm: var(--typeH3Size);
+      --kit-heading-font-size-md: var(--typeH2Size);
+      --kit-heading-font-size-lg: var(--typeH1Size);
+      --kit-heading-font-size-xl: var(--typeH1SizeHero);
+    }
+  }
+
+  @media (min-width: 769px) {
+    :root {
+      --kit-section-spacing: 75px;
+      --kit-section-gutter: 40px;
+    }
+  }
+
+  /* typography */
+  body .kit-text--caption {
+    font-size: var(--kit-font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--typeUppercaseSpacing);
+    color: inherit;
+  }
+{%- endstyle -%}

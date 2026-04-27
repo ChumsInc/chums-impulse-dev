@@ -11,6 +11,12 @@
     assign overlap_images = true
     assign placeholder_images = true
   endif
+
+  if section.index <= 2
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
 -%}
 
 {% style %}
@@ -41,11 +47,6 @@
                     endif
 
                     assign imageWidth = section.settings.image_width | times: 1
-                    if imageWidth >= 50
-                      assign loading = section.settings.lazyload_images
-                    else
-                      assign loading = true
-                    endif
                   -%}
                   {%- render 'image-element',
                     img: section.settings.image,
@@ -75,6 +76,7 @@
                   {%- render 'image-element',
                     img: section.settings.image2,
                     widths: '180, 360, 540, 750, 900, 1080',
+                    loading: loading,
                     sizeVariable: sizeVariable,
                     fallback: fallback,
                     classes: 'feature-row__image',
@@ -108,7 +110,7 @@
           <div class="subheading appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.subtitle }}</div>
         {%- endif -%}
         {%- if section.settings.title != blank -%}
-          <h2 class="h1 appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.title | escape }}</h2>
+          <h2 class="{{ section.settings.heading_size }} appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.title | escape }}</h2>
         {%- endif -%}
         {%- if section.settings.text != blank -%}
           <div class="rte appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.text }}</div>
@@ -282,6 +284,26 @@
       "default": "Image with text"
     },
     {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
+    },
+    {
       "type": "richtext",
       "id": "text",
       "label": "t:sections.text-and-image.settings.text.label",
@@ -385,13 +407,6 @@
       "type": "checkbox",
       "id": "bottom_padding",
       "label": "t:sections.text-and-image.settings.bottom_padding.label",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "lazyload_images",
-      "label": "t:common.lazyload_images.label",
-      "info": "t:common.lazyload_images.info",
       "default": true
     }
   ],

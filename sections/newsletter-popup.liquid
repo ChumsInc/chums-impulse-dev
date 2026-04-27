@@ -34,7 +34,7 @@
 
           <div class="newsletter-popup__content">
             {%- if section.settings.popup_title != blank -%}
-              <h3>{{ section.settings.popup_title }}</h3>
+              <h3 class="{{ section.settings.heading_size }}">{{ section.settings.popup_title }}</h3>
             {%- endif -%}
 
             {%- if section.settings.popup_text != blank -%}
@@ -127,6 +127,26 @@
         "id": "popup_title",
         "label": "t:sections.newsletter-popup.settings.popup_title.label",
         "default": "Sign up and save"
+      },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "label": "t:common.heading_size.label",
+        "default": "h3",
+        "options": [
+          {
+            "value": "h3",
+            "label": "t:common.heading_size.options.small.label"
+          },
+          {
+            "value": "h2",
+            "label": "t:common.heading_size.options.medium.label"
+          },
+          {
+            "value": "h1",
+            "label": "t:common.heading_size.options.large.label"
+          }
+        ]
       },
       {
         "type": "richtext",

@@ -9,6 +9,10 @@
  */
 {
   "general": {
+    "404": {
+      "title": "404 - Page non trouvée",
+      "subtext_html": "Cette page n'est pas disponible. <a href='{{ url }}'>Retourner au magasinage</a>"
+    },
     "accessibility": {
       "skip_to_content": "Passer au contenu",
       "close_modal": "Fermer (Esc)",
@@ -18,10 +22,6 @@
     "meta": {
       "tags": "Mots clés \"{{ tags }}\"",
       "page": "Page {{ page }}"
-    },
-    "404": {
-      "title": "404 - Page non trouvée",
-      "subtext_html": "Cette page n'est pas disponible. <a href='{{ url }}'>Retourner au magasinage</a>"
     },
     "pagination": {
       "previous": "Précédent",
@@ -413,5 +413,10 @@
     "view_store_info": "Afficher les informations du magasin",
     "check_availability": "Vérifier la disponibilité dans d'autres magasins",
     "show_all_results": "Afficher tous les résultats pour \"{{ terms }}\""
+  },
+  "kit": {
+    "actions": {
+      "view_product": "Voir le produit"
+    }
   }
 }

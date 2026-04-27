@@ -1,0 +1,163 @@
+{%- doc -%}
+  Responsive image with optional aspect ratio constraint.
+
+  Uses Shopify's `image_tag` filter for Shopify image objects, with a fallback
+  path for external URL strings. The URL string path will trigger theme-check
+  ImgWidthAndHeight and RemoteAsset warnings by design.
+
+  @param {object} src - A Shopify image object, or a URL string
+  @param {string} [alt] - Alt text override. For Shopify image objects, `image_tag` uses the image's alt automatically if not provided.
+  @param {string} [aspect_ratio] - CSS `aspect-ratio` value (e.g. '3/4', '16/9', '1/1'). Default: none (natural ratio)
+  @param {string} [sizes] - Responsive sizes attribute. Default: '100vw'
+  @param {string} [widths] - Comma-separated widths for srcset. Default: '200,400,600,800,1000,1200,1400,1600'
+  @param {string} [fit] - `object-fit` value: 'cover' | 'contain'. With `aspect_ratio`, controls fit within the ratio box. Without `aspect_ratio`, fills the parent container. Default: 'cover' when `aspect_ratio` is set, otherwise none
+  @param {string} [loading] - 'lazy' | 'eager'. Default: 'lazy'
+  @param {boolean} [preload] - Enable preload link header and `fetchpriority` for above-fold images. Ignored when `mobile_src` is set (Shopify's preload lacks media query support, causing double-downloads). Default: false
+  @param {object} [mobile_src] - Shopify image object or URL for art direction below 700px. Wraps output in <picture>
+  @param {string} [mobile_sizes] - Sizes attribute for mobile source. Default: value of `sizes`
+  @param {string} [mobile_widths] - Comma-separated widths for mobile srcset. Default: value of `widths`
+  @param {string} [classes] - Additional CSS classes
+  @param {string} [style] - Inline style overrides
+  @param {string} [id] - HTML id attribute
+
+  @example
+  {% render 'kit.image', src: product.featured_image %}
+  @example
+  {% render 'kit.image', src: product.featured_image, aspect_ratio: '3/4', preload: true %}
+  @example
+  {% render 'kit.image', src: section.settings.image, fit: 'cover', sizes: '100vw' %}
+  @example
+  {% render 'kit.image', src: section.settings.image, mobile_src: section.settings.mobile_image, aspect_ratio: '16/9' %}
+{%- enddoc -%}
+
+{%- liquid
+  assign loading = loading | default: 'lazy'
+  assign sizes = sizes | default: '100vw'
+  assign widths = widths | default: '200,400,600,800,1000,1200,1400,1600'
+  assign preload = preload | default: false, allow_false: true
+  
+  if mobile_src != blank
+    assign preload = false
+    assign mobile_sizes = mobile_sizes | default: sizes
+    assign mobile_widths = mobile_widths | default: widths
+    
+    if mobile_src.src != blank
+      assign mobile_widths_array = mobile_widths | split: ','
+      assign mobile_srcset = ''
+      for w in mobile_widths_array
+        assign w_stripped = w | strip | times: 1
+        assign mobile_url = mobile_src | image_url: width: w_stripped
+        assign mobile_srcset = mobile_srcset | append: mobile_url | append: ' ' | append: w_stripped | append: 'w'
+        unless forloop.last
+          assign mobile_srcset = mobile_srcset | append: ', '
+        endunless
+      endfor
+    else
+      assign mobile_srcset = mobile_src
+    endif
+  endif
+
+  if preload
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  else
+    assign fetchpriority = 'auto'
+  endif
+
+  if alt == blank and src.alt != blank
+    assign alt = src.alt
+  endif
+
+  assign class_list = 'kit-image'
+  if aspect_ratio != blank
+    assign class_list = class_list | append: ' kit-image--ratio'
+  elsif fit != blank
+    assign class_list = class_list | append: ' kit-image--fill'
+  endif
+  if classes != blank
+    assign class_list = class_list | append: ' ' | append: classes
+  endif
+
+  assign inline_style = ''
+  if aspect_ratio != blank
+    assign resolved_fit = fit | default: 'cover'
+    assign inline_style = 'aspect-ratio: ' | append: aspect_ratio | append: '; object-fit: ' | append: resolved_fit
+  elsif fit != blank
+    assign inline_style = 'object-fit: ' | append: fit
+  endif
+  if style != blank
+    if inline_style != blank
+      assign inline_style = inline_style | append: '; ' | append: style
+    else
+      assign inline_style = style
+    endif
+  endif
+
+-%}
+
+{%- if src != blank -%}
+  {%- if mobile_src != blank -%}
+    <picture style="display: contents">
+      {%- comment -%}display:none prevents source from becoming a layout box when picture uses display:contents{%- endcomment -%}
+      <source
+        style="display: none"
+        media="(max-width: 699px)"
+        srcset="{{ mobile_srcset }}"
+        {%- if mobile_src.src != blank %}
+          sizes="{{ mobile_sizes }}"
+        {%- endif %}
+      >
+  {%- endif -%}
+
+  {%- if src.src != blank -%}
+    {{-
+      src
+      | image_url: width: src.width
+      | image_tag:
+        class: class_list,
+        sizes: sizes,
+        widths: widths,
+        loading: loading,
+        preload: preload,
+        fetchpriority: fetchpriority,
+        alt: alt,
+        style: inline_style,
+        id: id
+    -}}
+  {%- else -%}
+    <img
+      class="{{ class_list }}"
+      src="{{ src }}"
+      alt="{{ alt | default: '' | escape }}"
+      loading="{{ loading }}"
+      fetchpriority="{{ fetchpriority }}"
+      {%- if inline_style != blank %}
+        style="{{ inline_style | escape }}"
+      {% endif %}
+      {%- if id != blank %}
+        id="{{ id }}"
+      {% endif %}
+    >
+  {%- endif -%}
+
+  {%- if mobile_src != blank -%}
+    </picture>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .kit-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .kit-image--ratio {
+    width: 100%;
+  }
+
+  .kit-image--fill {
+    width: 100%;
+    height: 100%;
+  }
+{% endstylesheet %}

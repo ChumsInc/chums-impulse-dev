@@ -44,8 +44,7 @@
         "parallax": true,
         "style": "bars",
         "autoplay": true,
-        "autoplay_speed": 5,
-        "lazyload_images": true
+        "autoplay_speed": 5
       }
     },
     "f4ff5d0a-5fd8-4b72-8f45-018d478ffd54": {

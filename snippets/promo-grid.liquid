@@ -121,28 +121,14 @@
           }
         {% endif %}
 
-        {% if block.settings.text_size %}
-          .flex-grid__item--{{ block.id }} .promo-grid__text {
-            font-size: {{ block.settings.text_size | default: 100.0 | divided_by: 100.0 | times: 0.85 }}em;
-          }
-          .flex-grid__item--{{ block.id }}.flex-grid__item--50 .promo-grid__text {
-            font-size: {{ block.settings.text_size | default: 100.0 | divided_by: 100.0 }}em;
-          }
-
-          @media only screen and (min-width: 769px) {
-            .flex-grid__item--{{ block.id }} .promo-grid__text {
-              font-size: {{ block.settings.text_size | default: 100.0 | divided_by: 100.0 }}em;
-            }
-          }
-        {% endif %}
       {%- endstyle -%}
 
       {%- liquid
         assign blockWidth = block.settings.width | times: 1
-        if forloop.index == 1 and blockWidth >= 50
-          assign loading = section.settings.lazyload_images
+        if forloop.index == 1 and blockWidth >= 50 and section.index <= 2
+          assign loading = 'eager'
         else
-          assign loading = true
+          assign loading = 'lazy'
         endif
       -%}
 
@@ -192,7 +178,7 @@
                       </div>
                     {%- endif -%}
                     {%- if block.settings.heading != blank -%}
-                      <h2 class="rte--block rte--strong">
+                      <h2 class="rte--block rte--strong {{ block.settings.heading_size }}">
                         {{ block.settings.heading }}
                       </h2>
                     {%- endif -%}
@@ -338,7 +324,7 @@
 
               <div class="promo-grid__content">
                 <div class="promo-grid__text text-center">
-                  <p class="promo-grid__title h2">
+                  <p class="promo-grid__title {{ block.settings.text_size }}">
                     {%- if block_text != blank -%}
                       {{ block_text | newline_to_br }}
                     {%- else -%}
@@ -394,7 +380,7 @@
                   {%- endif -%}
                   <div class="type-banner__text">
                     {%- if block.settings.heading != blank -%}
-                      <h2 class="h3">{{ block.settings.heading }}</h2>
+                      <h2 class="{{ block.settings.heading_size }}">{{ block.settings.heading }}</h2>
                     {%- endif -%}
                     {%- if block.settings.text != blank -%}
                       <p>{{ block.settings.text }}</p>
@@ -424,7 +410,7 @@
                           </div>
                         {%- endif -%}
                         {%- if block.settings.heading != blank -%}
-                          <h2 class="rte--block rte--strong">
+                          <h2 class="rte--block rte--strong {{ block.settings.heading_size }}">
                             {{ block.settings.heading }}
                           </h2>
                         {%- endif -%}

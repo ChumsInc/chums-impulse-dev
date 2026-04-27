@@ -26,7 +26,7 @@
                 <p class="h5">{{ section.settings.subtitle }}</p>
               {%- endif -%}
               {%- if section.settings.title != blank -%}
-                <p class="h3 text-spacing">{{ section.settings.title | escape }}</p>
+                <p class="{{ section.settings.heading_size }} text-spacing">{{ section.settings.title | escape }}</p>
               {%- endif -%}
               {%- if section.settings.text != blank -%}
                 <div class="rte background-media-text__subtext">{{ section.settings.text }}</div>
@@ -73,6 +73,26 @@
       "id": "title",
       "label": "t:sections.background-video-text.settings.title.label",
       "default": "Watch what’s next"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:common.heading_size.label",
+      "default": "h3",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:common.heading_size.options.small.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:common.heading_size.options.medium.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:common.heading_size.options.large.label"
+        }
+      ]
     },
     {
       "type": "richtext",

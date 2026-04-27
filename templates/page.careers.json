@@ -31,8 +31,7 @@
         "layout": "left",
         "divider": false,
         "top_padding": true,
-        "bottom_padding": true,
-        "lazyload_images": true
+        "bottom_padding": true
       }
     },
     "c831532e-bb03-40d3-a910-6e25f2a71a47": {

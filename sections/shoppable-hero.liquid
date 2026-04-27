@@ -1,0 +1,615 @@
+{% comment %}
+  Showcases products on a lifestyle image with interactive hotspots that reveal product details.
+
+  On desktop the text content overlays the image with a configurable dark overlay for
+  readability. On mobile the text sits below the image. Each hotspot opens a popover
+  with the product's price and a link to the product page.
+{% endcomment %}
+
+{%- liquid
+  assign section_classes = 'kit-shoppable-hero'
+
+  assign heading_variant = 'heading-' | append: section.settings.heading_size
+
+  case section.settings.text_alignment
+    when 'left'
+      assign content_align = 'start'
+    when 'right'
+      assign content_align = 'end'
+    else
+      assign content_align = 'center'
+  endcase
+
+  assign show_overlay = false
+  if section.settings.text_protection > 0
+    assign show_overlay = true
+  endif
+
+  assign hotspot_brightness = section.settings.hotspot_color | brightness_difference: '#fff'
+
+  if hotspot_brightness < 125
+    assign hotspot_text_color = '#000'
+  else
+    assign hotspot_text_color = '#fff'
+  endif
+
+  assign view_product_button_text = 'kit.actions.view_product' | t
+-%}
+
+{%- capture hero_media -%}
+  {%- if section.settings.image != blank -%}
+    {%- render 'kit.image',
+      src: section.settings.image,
+      mobile_src: section.settings.mobile_image,
+      preload: true
+    -%}
+  {%- else -%}
+    {%- render 'kit.placeholder', name: 'lifestyle-1', style: 'opacity: 1; fill: #999;
+    background-color: #e1e1e1;' -%}
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="kit-shoppable-hero__hotspots">
+      {%- for block in section.blocks -%}
+        {%- assign popover_id = 'hotspot-' | append: section.id | append: '-' | append: block.id -%}
+        {%- assign hotspot_product = block.settings.product -%}
+        <div
+          class="kit-shoppable-hero__hotspot"
+          style="
+            --hotspot-top: {{ block.settings.vertical_position }}%;
+            --hotspot-left: {{ block.settings.horizontal_position }}%;
+            {%- if section.settings.mobile_image -%}
+              --hotspot-top-mobile: {{ block.settings.vertical_position_mobile }}%;
+              --hotspot-left-mobile: {{ block.settings.horizontal_position_mobile }}%;
+            {%- endif -%}
+          "
+          {{ block.shopify_attributes }}
+        >
+          <button popovertarget="{{ popover_id }}" type="button" class="shoppable-hero__btn" aria-label="{{ hotspot_product.title | escape }}">
+            {%- case section.settings.hotspot_style -%}
+              {%- when 'dot' -%}<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-dot" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill="currentColor"/></svg>
+              {%- when 'tag' -%}<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tag" viewBox="0 0 64 64"><path d="m46.69 10.34-10.55.07-25.8 25.8 17.45 17.45 25.8-25.8.07-10.55-6.97-6.97z"/><circle cx="43.95" cy="20.05" r="3.53"/><path d="M14.4 32.15 31.85 49.6"/></svg>
+              {%- when 'bag' -%}<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64"><g fill="none" stroke="#000" stroke-width="2"><path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/></g></svg>
+              {%- when 'plus' -%}<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-plus" viewBox="0 0 20 20"><path fill="#444" d="M17.409 8.929h-6.695V2.258c0-.566-.506-1.029-1.071-1.029s-1.071.463-1.071 1.029v6.671H1.967C1.401 8.929.938 9.435.938 10s.463 1.071 1.029 1.071h6.605V17.7c0 .566.506 1.029 1.071 1.029s1.071-.463 1.071-1.029v-6.629h6.695c.566 0 1.029-.506 1.029-1.071s-.463-1.071-1.029-1.071z"/></svg>
+            {%- endcase -%}
+          </button>
+
+          {%- if hotspot_product != blank -%}
+            {%- liquid
+              assign hotspot_on_sale = false
+              if hotspot_product.compare_at_price > hotspot_product.price
+                assign hotspot_on_sale = true
+              endif
+            -%}
+            {%- capture popover_content -%}
+              <div class="shoppable-hero__popover-body">
+                <p class="shoppable-hero__popover-title">{{ hotspot_product.title }}</p>
+                <div class="grid-product__price">
+                  {%- if hotspot_on_sale -%}
+                    <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                    <span class="grid-product__price--original">{{ hotspot_product.compare_at_price | money }}</span>
+                  {%- endif -%}
+
+                  {%- if hotspot_product.price_varies -%}
+                    {%- assign hotspot_price = hotspot_product.price_min | money -%}
+                    {{- 'products.general.from_text_html' | t: price: hotspot_price -}}
+                  {%- else -%}
+                    {%- if hotspot_on_sale -%}
+                      <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                    {%- endif -%}
+                    {{ hotspot_product.price | money }}
+                  {%- endif -%}
+
+                  {%- if hotspot_on_sale and settings.product_save_amount -%}
+                    {%- capture hotspot_saved_amount -%}
+                      {%- if settings.product_save_type == 'dollar' -%}
+                        {{ hotspot_product.compare_at_price | minus: hotspot_product.price | money }}
+                      {%- else -%}
+                        {{ hotspot_product.compare_at_price | minus: hotspot_product.price | times: 100.0 | divided_by: hotspot_product.compare_at_price | round }}%
+                      {%- endif -%}
+                    {%- endcapture -%}
+                    <span class="grid-product__price--savings">
+                      {{- 'products.general.save_html' | t: saved_amount: hotspot_saved_amount -}}
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+              <div class="shoppable-hero__popover-footer">
+                <a href="{{ hotspot_product.url }}" class="shoppable-hero__popover-link" data-product-handle="{{ hotspot_product.handle }}" data-product-id="{{ hotspot_product.id }}">{{ view_product_button_text }} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-chevron-right" viewBox="0 0 284.49 498.98"><title>icon-chevron</title><path d="M35 498.98a35 35 0 0 1-24.75-59.75l189.74-189.74L10.25 59.75a35.002 35.002 0 0 1 49.5-49.5l214.49 214.49a35 35 0 0 1 0 49.5L59.75 488.73A34.89 34.89 0 0 1 35 498.98Z"/></svg></a>
+              </div>
+            {%- endcapture -%}
+
+            {%- render 'kit.popover',
+              id: popover_id,
+              placement: 'bottom-center',
+              gap: 8,
+              content: popover_content
+            -%}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture stack_content -%}
+  {%- if section.settings.preheading != blank -%}
+    {%- render 'kit.text',
+      variant: 'caption',
+      text: section.settings.preheading,
+      tag: 'p',
+      align: content_align
+    -%}
+  {%- endif -%}
+  {%- if section.settings.heading != blank -%}
+    {%- render 'kit.text',
+      variant: heading_variant,
+      text: section.settings.heading,
+      tag: 'h2',
+      align: content_align,
+      style: 'margin-top: calc(var(--kit-space-xs) + (var(--kit-space-sm) * -1));'
+    -%}
+  {%- endif -%}
+  {%- if section.settings.text != blank -%}
+    {%- render 'kit.text',
+      variant: 'body',
+      text: section.settings.text,
+      align: content_align
+    -%}
+  {%- endif -%}
+  {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+    <div class="hero__link">
+      <a href="{{ section.settings.button_link }}" class="btn">{{ section.settings.button_label | escape }}</a>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if stack_content != blank -%}
+  {%- capture hero_content -%}
+    {%- render 'kit.stack', classes: 'kit-shoppable-hero__content', gap: 'sm', content: stack_content, align: content_align -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- capture section_content -%}
+  {%- render 'kit.content-over-media',
+    media: hero_media,
+    content: hero_content,
+    position: section.settings.text_position,
+    overlay: show_overlay,
+    layout: 'stack-below',
+    layout_md: 'overlay'
+  -%}
+{%- endcapture -%}
+
+<kit-shoppable-hero>
+  {%- render 'kit.section',
+    content: section_content,
+    full_width: true,
+    padding: 'none',
+    classes: section_classes
+  -%}
+</kit-shoppable-hero>
+
+{%- if section.blocks.size > 0 -%}
+  {%- assign rendered_modal_handles = ',' -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.product != blank and block.settings.product.variants_count <= 250 -%}
+      {%- assign handle_check = ',' | append: block.settings.product.handle | append: ',' -%}
+      {%- unless rendered_modal_handles contains handle_check -%}
+        {%- render 'quick-shop-modal', product: block.settings.product -%}
+        {%- assign rendered_modal_handles = rendered_modal_handles | append: block.settings.product.handle | append: ',' -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --kit-color-mix-tint-overlay: {{ section.settings.text_protection }}%;
+    --hotspot-color: {{ section.settings.hotspot_color }};
+    --hotspot-text-color: {{ hotspot_text_color }};
+  }
+
+  {%- if section.settings.image != blank -%}
+    /*
+     * Establish a deterministic minimum height for the media cell using an
+     * empty grid-area spacer with `aspect-ratio`. The spacer has no content
+     * competing with the ratio, so it sizes purely from cell_width / ratio
+     * and contributes that as a min height to the row. Safari recomputes it
+     * on every resize, fixing the cached-row-height bug. When sibling
+     * content is taller, the row grows naturally and `object-fit: cover`
+     * on the img crops to fill.
+     */
+    #shopify-section-{{ section.id }} .kit-content-over-media__media::before {
+      content: '';
+      grid-area: 1 / 1;
+      aspect-ratio: {{ section.settings.image.width }} / {{ section.settings.image.height }};
+      pointer-events: none;
+    }
+    {%- if section.settings.mobile_image != blank -%}
+      @media (max-width: 699px) {
+        #shopify-section-{{ section.id }} .kit-content-over-media__media::before {
+          aspect-ratio: {{ section.settings.mobile_image.width }} / {{ section.settings.mobile_image.height }};
+        }
+      }
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- assign button_alpha = section.settings.color_accent | color_extract: 'alpha' -%}
+  {%- unless button_alpha == 0.0 -%}
+    #shopify-section-{{ section.id }} .hero__link .btn {
+      background: {{ section.settings.color_accent }} !important;
+      border-color: {{ section.settings.color_accent }} !important;
+
+      {%- assign accent_brightness = section.settings.color_accent | color_extract: 'lightness' -%}
+      {%- if accent_brightness > 40 -%}
+        color: #000 !important;
+      {%- endif -%}
+    }
+  {%- endunless -%}
+{% endstyle %}
+
+{% stylesheet %}
+  .kit-shoppable-hero__hotspots {
+    position: relative;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .kit-shoppable-hero__hotspot {
+    position: absolute;
+    top: var(--hotspot-top-mobile, var(--hotspot-top));
+    left: var(--hotspot-left-mobile, var(--hotspot-left));
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+  }
+
+  .kit-shoppable-hero__product-card {
+    color: inherit;
+    text-decoration: inherit;
+    display: block;
+    min-width: calc(2rem * 4.2360679775); /* 4.2360679775 = φ^3 */
+  }
+
+  @media (min-width: 700px) {
+    .kit-shoppable-hero__hotspot {
+      top: var(--hotspot-top);
+      left: var(--hotspot-left);
+    }
+
+    .kit-content-over-media__content {
+      max-width: calc(61.803% + (var(--kit-section-gutter) * 2)); /* 61.803% = 100% - 1/φ, compensate for padding */
+    }
+
+    .kit-shoppable-hero__content .kit-text {
+      color: var(--colorHeroText);
+      pointer-events: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .kit-content-over-media__content {
+      max-width: calc(50% + (var(--kit-section-gutter) * 2));
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class KitShoppableHero extends HTMLElement {
+    connectedCallback() {
+      this.abortController = new AbortController();
+      const signal = this.abortController.signal;
+
+      if (window.theme && window.theme.sections) {
+        this.initQuickShop();
+      } else {
+        document.addEventListener('page:loaded', () => this.initQuickShop(), { once: true, signal });
+      }
+
+      if (this.querySelector('kit-popover')) {
+        window.addEventListener('scroll', () => {
+          this.querySelectorAll('kit-popover:popover-open').forEach(p => p.hidePopover());
+        }, { passive: true, signal });
+      }
+
+      if (!Shopify.designMode) return;
+
+      document.addEventListener('shopify:section:load', (event) => {
+        if (event.target.contains(this)) {
+          this.initQuickShop();
+        }
+      }, { signal });
+
+      this.addEventListener('shopify:block:select', (event) => {
+        this.initQuickShop();
+        const btn = event.target.querySelector('button');
+        if (btn) btn.click();
+      }, { signal });
+
+      this.addEventListener('shopify:block:deselect', (event) => {
+        const popover = event.target.querySelector('kit-popover');
+        if (popover) popover.hidePopover?.();
+      }, { signal });
+    }
+
+    disconnectedCallback() {
+      this.abortController?.abort();
+    }
+
+    initQuickShop() {
+      if (!theme.settings.quickView) return;
+
+      var sectionEl = this.closest('[id^="shopify-section-"]');
+      var links = this.querySelectorAll('.shoppable-hero__popover-link[data-product-handle]');
+      if (!links.length) return;
+
+      links.forEach(link => {
+        if (link.dataset.shoppableHeroBound === 'true') return;
+        link.dataset.shoppableHeroBound = 'true';
+
+        var handle = link.dataset.productHandle;
+        var productId = link.dataset.productId;
+
+        if (!document.getElementById('QuickShopModal-' + productId)) return;
+
+        // Capture-phase interceptor registered before modal binds its handler.
+        // On mobile, blocks the modal handler so the link navigates normally.
+        link.addEventListener('click', (event) => {
+          if (theme.config.bpSmall) {
+            event.stopImmediatePropagation();
+            return;
+          }
+          const popover = event.target.closest('kit-popover');
+          if (popover) popover.hidePopover?.();
+        }, true);
+
+        var hotspot = link.closest('.kit-shoppable-hero__hotspot');
+        if (!hotspot) return;
+
+        var preloadOnce = function() {
+          if (link.dataset.shoppableHeroPreloaded === 'true') return;
+          if (theme.config.bpSmall) return;
+
+          // If a holder already exists from another section (e.g. product grid),
+          // remove our duplicate modal shell to avoid duplicate IDs
+          var holder = document.getElementById('QuickShopHolder-' + handle);
+          if (holder && sectionEl) {
+            var holderSection = holder.closest('[id^="shopify-section-"]');
+            if (holderSection && holderSection !== sectionEl) {
+              var duplicate = sectionEl.querySelector('#QuickShopModal-' + productId);
+              if (duplicate) duplicate.remove();
+            }
+          }
+
+          link.dataset.shoppableHeroPreloaded = 'true';
+          link.classList.add('js-modal-open-quick-modal-' + productId);
+          theme.preloadProductModal(handle, productId, link);
+
+          hotspot.removeEventListener('mouseover', preloadOnce);
+          hotspot.removeEventListener('focusin', preloadOnce);
+        };
+
+        hotspot.addEventListener('mouseover', preloadOnce);
+        hotspot.addEventListener('focusin', preloadOnce);
+      });
+    }
+  }
+
+  customElements.define('kit-shoppable-hero', KitShoppableHero);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:kit.labels.shoppable_hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:kit.labels.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:kit.labels.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:kit.labels.mobile_image",
+      "info": "t:kit.labels.optional",
+      "visible_if": "{{ section.settings.image }}"
+    },
+    {
+      "type": "range",
+      "id": "text_protection",
+      "label": "t:kit.labels.text_protection_desktop",
+      "info": "t:kit.info.darkens_your_image",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "t:kit.labels.content"
+    },
+    {
+      "type": "text",
+      "id": "preheading",
+      "label": "t:kit.labels.preheading",
+      "default": "Shop the look"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:kit.labels.heading",
+      "default": "Made to go together"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:kit.labels.heading_size",
+      "default": "lg",
+      "options": [
+        { "value": "sm", "label": "t:kit.labels.sizes.small" },
+        { "value": "md", "label": "t:kit.labels.sizes.medium" },
+        { "value": "lg", "label": "t:kit.labels.sizes.large" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:kit.labels.text",
+      "default": "Pieces that elevate each other, no matter how you style them. Designed to feel effortless every time."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:kit.labels.button_label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:kit.labels.button_link",
+      "visible_if": "{{ section.settings.button_label }}"
+    },
+    {
+      "type": "color",
+      "id": "color_accent",
+      "label": "t:sections.shoppable-hero.settings.color_accent.label",
+      "default": "transparent"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "t:kit.labels.text_alignment",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "t:kit.labels.text_position",
+      "default": "bottom-left",
+      "options": [
+        { "value": "top-left", "label": "t:kit.labels.alignments.top_left" },
+        { "value": "top-center", "label": "t:kit.labels.alignments.top_center" },
+        { "value": "top-right", "label": "t:kit.labels.alignments.top_right" },
+        { "value": "center-left", "label": "t:kit.labels.alignments.center_left" },
+        { "value": "center", "label": "t:kit.labels.alignments.center" },
+        { "value": "center-right", "label": "t:kit.labels.alignments.center_right" },
+        { "value": "bottom-left", "label": "t:kit.labels.alignments.bottom_left" },
+        { "value": "bottom-center", "label": "t:kit.labels.alignments.bottom_center" },
+        { "value": "bottom-right", "label": "t:kit.labels.alignments.bottom_right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:kit.labels.hotspots"
+    },
+    {
+      "type": "select",
+      "id": "hotspot_style",
+      "label": "t:sections.hotspots.settings.hotspot_style.label",
+      "default": "plus",
+      "options": [
+        { "value": "dot", "label": "t:sections.hotspots.settings.hotspot_style.options.dot.label" },
+        { "value": "plus", "label": "t:sections.hotspots.settings.hotspot_style.options.plus.label" },
+        { "value": "tag", "label": "t:sections.hotspots.settings.hotspot_style.options.tag.label" },
+        { "value": "bag", "label": "t:sections.hotspots.settings.hotspot_style.options.bag.label" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "hotspot_color",
+      "label": "t:kit.labels.hotspot_color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "t:kit.labels.hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:kit.labels.product"
+        },
+        {
+          "type": "range",
+          "id": "vertical_position",
+          "label": "t:kit.labels.vertical_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "horizontal_position",
+          "label": "t:kit.labels.horizontal_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vertical_position_mobile",
+          "label": "t:kit.labels.vertical_position_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ section.settings.mobile_image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_position_mobile",
+          "label": "t:kit.labels.horizontal_position_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ section.settings.mobile_image != blank }}"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "t:kit.labels.shoppable_hero",
+      "category": "t:sections.categories.banners",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "vertical_position": 35,
+            "horizontal_position": 55,
+            "vertical_position_mobile": 35,
+            "horizontal_position_mobile": 55
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "vertical_position": 55,
+            "horizontal_position": 75,
+            "vertical_position_mobile": 55,
+            "horizontal_position_mobile": 75
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

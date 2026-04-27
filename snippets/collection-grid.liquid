@@ -40,7 +40,7 @@ Snippet Arguments
         type="button"
         class="js-drawer-open-collection-filters btn btn--tertiary{% unless current_filter_size == 0 %} btn--tertiary-active{% endunless %}"
         aria-controls="FilterDrawer">
-          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-filter" viewBox="0 0 64 64"><title>icon-filter</title><path d="M48 42h10m-10 0a5 5 0 1 1-5-5 5 5 0 0 1 5 5ZM7 42h31M16 22H6m10 0a5 5 0 1 1 5 5 5 5 0 0 1-5-5Zm41 0H26"/></svg>
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-filter" viewBox="0 0 64 64"><title>icon-filter</title><path d="M48 42h10"/><path d="M48 42a5 5 0 1 1-5-5 5 5 0 0 1 5 5Z"/><path d="M7 42h31"/><path d="M16 22H6"/><path d="M16 22a5 5 0 1 1 5 5 5 5 0 0 1-5-5Z"/><path d="M57 22H26"/></svg>
           {{ 'collections.filters.title_tags' | t }}
           {%- if current_filter_size > 0 -%}
               ({{ current_filter_size }})
