@@ -180,7 +180,25 @@
       "message": "Message",
       "send": "Send",
       "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    },
+    "pro-form": {
+      "name": "Name",
+      "email": "Email",
+      "address": "Address",
+      "city": "City",
+      "province": "State/Province",
+      "zip": "Postal/Zip code",
+      "phone": "Phone number",
+      "message": "Message",
+      "reason": "Why do you want to be a Chums Pro?",
+      "company": "Company",
+      "website": "Website",
+      "title": "Title",
+      "explain": "Explain Here",
+      "send": "Send",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
     }
+
   },
   "customer": {
     "account": {
